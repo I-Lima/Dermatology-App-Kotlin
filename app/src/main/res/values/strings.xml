@@ -2,4 +2,7 @@
     <string name="app_name">Dermatology App</string>
     <string name="desc_app_logo">app logo</string>
     <string name="dermatology_center">Dermatology Center</string>
+    <string name="log_in">Log in</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="description_launch">Introducing our Dermatology Clinic app. Schedule appointments, access exam results, and receive skincare tips—all quickly and easily.</string>
 </resources>

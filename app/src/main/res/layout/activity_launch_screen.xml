@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.LaunchScreenActivity">
+
+    <TextView
+        android:id="@+id/appLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/league_spartan_semibold"
+        android:gravity="center"
+        android:text="@string/dermatology_center"
+        android:textColor="@color/primary"
+        android:textSize="14sp"
+        android:layout_marginBottom="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:drawableTopCompat="@drawable/img_app_logo_2" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/league_spartan_light"
+        android:text="@string/description_launch"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_log_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_log_in"
+        android:layout_width="260dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="539dp"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="@font/league_spartan_medium"
+        android:gravity="center"
+        android:text="@string/log_in"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_sign_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_sign_in"
+        android:layout_width="260dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="72dp"
+        android:backgroundTint="@color/blue_light"
+        android:fontFamily="@font/league_spartan_medium"
+        android:gravity="center"
+        android:text="@string/sign_up"
+        android:textColor="@color/primary"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
