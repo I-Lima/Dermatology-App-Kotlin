@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dermatology App</string>
+    <string name="desc_app_logo">app logo</string>
+    <string name="dermatology_center">Dermatology Center</string>
 </resources>
