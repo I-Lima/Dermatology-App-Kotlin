@@ -2,7 +2,19 @@
     <string name="app_name">Dermatology App</string>
     <string name="desc_app_logo">app logo</string>
     <string name="dermatology_center">Dermatology Center</string>
-    <string name="log_in">Log in</string>
+    <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="description_launch">Introducing our Dermatology Clinic app. Schedule appointments, access exam results, and receive skincare tips—all quickly and easily.</string>
+    <string name="back_icon">back icon</string>
+    <string name="welcome">Welcome</string>
+    <string name="log_in_desc">Please log in to access your account. If you don\'t have an account yet, click Sign Up to get started.</string>
+    <string name="email">Email</string>
+    <string name="example_example_com">example@example.com</string>
+    <string name="password">Password</string>
+    <string name="pass_login">*************</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="don_t_have_an_account">Don`t have an account?</string>
+    <string name="invalid_email_mobile_number_or_password">Invalid email or password</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="show_hidden_password">show/hidden password</string>
 </resources>
