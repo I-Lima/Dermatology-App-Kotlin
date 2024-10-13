@@ -50,7 +50,7 @@ class LogInActivity : AppCompatActivity() {
         }
 
         binding.buttonSignUp.setOnClickListener {
-
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
     }
