@@ -33,7 +33,7 @@ object Validators {
      */
     fun isValidPassword(pass: String): Boolean {
         val regex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%^&*(),.?\":{}|<>]).+$")
-        if(pass.length < 8 && regex.matches(pass)) return false
+        if(pass.length < 8 || regex.matches(pass)) return false
 
         return true
     }
