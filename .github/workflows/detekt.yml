@@ -1,0 +1,16 @@
+name: detekt
+
+on: [pull_request]
+
+jobs:
+  detekt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run detekt
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: detekt
