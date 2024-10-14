@@ -50,18 +50,18 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.buttonSignIn2.setOnClickListener {
             if (!isValidEmail(email)) {
-                binding.editEmail.error = getString(R.string.invalid_email)
+               binding.editEmail.error = getString(R.string.invalid_email)
             }
 
             val validDate = isValidDate(birth)
-            if(validDate === "minor") {
-                binding.editEmail.error = "To register you must be 18 years old. Come back later."
+            if(validDate === "Minor") {
+                binding.editBirth.error = "To register you must be 18 years old. Come back later."
             }
-            if (validDate === "invalid") {
-                binding.editEmail.error = "Enter a valid date."
+            if (validDate === "Invalid") {
+                binding.editBirth.error = "Enter a valid date."
             }
             if (validDate === "error") {
-                binding.editEmail.error = "We have an error. Please check the date."
+                binding.editBirth.error = "We have an error. Please check the date."
             }
 
             if(!isValidPassword(pass)){
@@ -202,18 +202,18 @@ class SignUpActivity : AppCompatActivity() {
     private fun isValidDate(dateStg: String): String {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-        return try {
+        try {
             val date = LocalDate.parse(dateStg, formatter)
             val today = LocalDate.now()
 
-            if (date.isAfter(today)) "Invalid"
+            if (date.isAfter(today)) return "Invalid"
 
             val age = Period.between(date, today).years
-            if (age >= 18) "Valid"
+            if (age < 18) return "Minor"
 
-            "Minor"
+            return "Valid"
         } catch (e: DateTimeParseException) {
-            "error"
+            return "error"
         }
     }
 }
