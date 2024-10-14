@@ -8,8 +8,10 @@ import android.text.InputType
 import android.text.TextWatcher
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.databinding.ActivitySignUpBinding
+import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
+import br.com.ilstudio.dermatologyapp.utils.Validators.isValidPassword
 import java.time.LocalDate
-import java.time.Duration
+import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
@@ -34,8 +36,8 @@ class SignUpActivity : AppCompatActivity() {
         binding.editName.addTextChangedListener(loginTextWatcher)
         binding.editPass.addTextChangedListener(loginTextWatcher)
         binding.editEmail.addTextChangedListener(loginTextWatcher)
-        binding.editNumber.addTextChangedListener(loginTextWatcher)
-        binding.editBirth.addTextChangedListener(loginTextWatcher)
+        binding.editNumber.addTextChangedListener(numberTextWatcher)
+        binding.editBirth.addTextChangedListener(dateTextWatcher)
 
         binding.buttonHidden.setOnClickListener {
             val isHidden = binding.editPass.inputType == 129
@@ -59,11 +61,12 @@ class SignUpActivity : AppCompatActivity() {
                 binding.editEmail.error = "Enter a valid date."
             }
             if (validDate === "error") {
-                binding.editEmail.error = "We has a error. Come back later."
+                binding.editEmail.error = "We have an error. Please check the date."
             }
 
-
-
+            if(!isValidPassword(pass)){
+                binding.editPass.error = "The password must have 8 digits, upper and lower case letters and special characters."
+            }
         }
 
         binding.buttonLogIn.setOnClickListener {
@@ -87,24 +90,130 @@ class SignUpActivity : AppCompatActivity() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
-    private fun isValidEmail(email: String): Boolean {
-        val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-        return emailRegex.matches(email)
+    private val numberTextWatcher = object : TextWatcher {
+        private var isUpdating: Boolean = false
+        private val mask = "(##) #####-####"
+
+        override fun afterTextChanged(s: Editable?) {
+            name = binding.editName.text.toString()
+            pass = binding.editPass.text.toString()
+            email = binding.editEmail.text.toString()
+            number = binding.editNumber.text.toString()
+            birth = binding.editBirth.text.toString()
+
+            binding.buttonSignIn2.isEnabled = (name.isNotEmpty() && pass.isNotEmpty() &&
+                    email.isNotEmpty() && number.isNotEmpty() && birth.isNotEmpty())
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (isUpdating) {
+                isUpdating = false
+                return
+            }
+
+            var str = s.toString().replace(Regex("[^\\d]"), "")
+
+            if (str.length > 11) {
+                str = str.substring(0, 11)
+            }
+
+            var formatted = ""
+            var i = 0
+            for (m in mask.toCharArray()) {
+                if (m != '#' && i < str.length) {
+                    formatted += m
+                } else {
+                    if (i < str.length) {
+                        formatted += str[i]
+                        i++
+                    }
+                }
+            }
+
+            isUpdating = true
+            binding.editNumber.setText(formatted)
+            binding.editNumber.setSelection(formatted.length)
+        }
     }
 
-    private fun isValidDate(date: String): String {
-        try {
+    private val dateTextWatcher = object : TextWatcher {
+        private var isUpdating: Boolean = false
+        private val mask = "##/##/####"
+
+        override fun afterTextChanged(s: Editable?) {
+            name = binding.editName.text.toString()
+            pass = binding.editPass.text.toString()
+            email = binding.editEmail.text.toString()
+            number = binding.editNumber.text.toString()
+            birth = binding.editBirth.text.toString()
+
+            binding.buttonSignIn2.isEnabled = (name.isNotEmpty() && pass.isNotEmpty() &&
+                    email.isNotEmpty() && number.isNotEmpty() && birth.isNotEmpty())
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (isUpdating) {
+                isUpdating = false
+                return
+            }
+
+            var str = s.toString().replace(Regex("[^\\d]"), "")
+
+            if (str.length > 8) {
+                str = str.substring(0, 8)
+            }
+
+            var formatted = ""
+            var i = 0
+            for (m in mask.toCharArray()) {
+                if (m != '#') {
+                    formatted += m
+                } else {
+                    if (i < str.length) {
+                        formatted += str[i]
+                        i++
+                    }
+                }
+            }
+
+            isUpdating = true
+            binding.editBirth.setText(formatted)
+            binding.editBirth.setSelection(formatted.length)
+        }
+    }
+
+    /**
+     * Validates the given date string and checks if it represents a valid date,
+     * if the user is at least 18 years old, or if the date is invalid or a minor.
+     *
+     * This function:
+     * - Parses the input date string in the format "dd/MM/yyyy".
+     * - Compares the date to the current date.
+     * - Returns "Valid" if the date corresponds to someone who is 18 years or older.
+     * - Returns "Minor" if the age is less than 18 years.
+     * - Returns "Invalid" if the date is in the future.
+     * - Returns "error" if the date format is incorrect or parsing fails.
+     *
+     * @param dateStg The date string to validate, expected in the format "dd/MM/yyyy".
+     * @return A string indicating the result: "Valid", "Minor", "Invalid", or "error".
+     */
+    private fun isValidDate(dateStg: String): String {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+        return try {
+            val date = LocalDate.parse(dateStg, formatter)
             val today = LocalDate.now()
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            val userDate: LocalDate = LocalDate.parse(date, formatter)
-            val period: Duration = Duration.between(today, userDate)
 
-            if (period < 18) return "minor"
-            if (period <= 0) return "invalid"
+            if (date.isAfter(today)) "Invalid"
 
-            return "valid"
+            val age = Period.between(date, today).years
+            if (age >= 18) "Valid"
+
+            "Minor"
         } catch (e: DateTimeParseException) {
-            return "error"
+            "error"
         }
     }
 }
