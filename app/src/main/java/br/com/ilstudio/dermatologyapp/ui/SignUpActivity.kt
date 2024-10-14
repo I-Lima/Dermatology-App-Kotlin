@@ -65,7 +65,8 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             if(!isValidPassword(pass)){
-                binding.editPass.error = "The password must have 8 digits, upper and lower case letters and special characters."
+                binding.editPass.error = "The password must have 8 digits, upper and lower case " +
+                        "letters and special characters."
             }
         }
 
