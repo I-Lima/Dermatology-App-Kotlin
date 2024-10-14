@@ -39,7 +39,8 @@ O projeto foi desenvolvido com base no design do [Template Castle](https://www.f
 - Kotlin
 - Android Studio
 - Figma
--
+- Github Actions
+- Detekt
 
 <br/>
 
