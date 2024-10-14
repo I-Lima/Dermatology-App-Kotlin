@@ -15,5 +15,9 @@ class LaunchScreenActivity : AppCompatActivity() {
         binding.buttonLogIn.setOnClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
         }
+
+        binding.buttonSignIn.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
+        }
     }
 }

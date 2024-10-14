@@ -8,6 +8,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.databinding.ActivityLogInBinding
+import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
@@ -50,7 +51,7 @@ class LogInActivity : AppCompatActivity() {
         }
 
         binding.buttonSignUp.setOnClickListener {
-
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
     }
@@ -65,10 +66,5 @@ class LogInActivity : AppCompatActivity() {
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-    }
-
-    private fun isValidEmail(email: String): Boolean {
-        val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-        return emailRegex.matches(email)
     }
 }

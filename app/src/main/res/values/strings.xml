@@ -17,4 +17,16 @@
     <string name="invalid_email_mobile_number_or_password">Invalid email or password</string>
     <string name="invalid_email">Invalid email</string>
     <string name="show_hidden_password">show/hidden password</string>
+    <string name="new_account">New Account</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="dd_mm_yyyy">DD/MM/YYYY</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="xx_xxxxx_xxxx">(XX) XXXXX-XXXX</string>
+    <string name="by_continuing_you_agree_to">By continuing, you agree to</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="and">and</string>
+    <string name="privacy_policy">Privacy Policy.</string>
+    <string name="full_name">Full name</string>
+    <string name="john_doe">John Doe</string>
+    <string name="already_have_an_account">already have an account?</string>
 </resources>
