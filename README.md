@@ -22,7 +22,7 @@
 
 O projeto foi desenvolvido com base no design do [Template Castle](https://www.figma.com/@templatecastle)
 
-<img src="./public/prototype_01.png" width="90%" />
+<img src="./public/prototype_01.png" width="70%" />
 
 <br/>
 
