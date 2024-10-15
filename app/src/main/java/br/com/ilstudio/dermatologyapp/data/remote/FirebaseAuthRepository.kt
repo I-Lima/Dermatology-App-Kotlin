@@ -82,6 +82,7 @@ class FirebaseAuthRepository(private var context: Activity) {
                 }
             } catch (e: ApiException) {
                 onFailure()
+                throw e
             }
         }
     }
@@ -123,7 +124,8 @@ class FirebaseAuthRepository(private var context: Activity) {
      * @param password The password of the user. It must be at least 6 characters long.
      * @return Returns `true` if the user registration is successful; otherwise, returns `false`.
      *
-     * @throws FirebaseAuthException If an error occurs during authentication, such as an email already in use or a weak password.
+     * @throws FirebaseAuthException If an error occurs during authentication, such as an email
+     * already in use or a weak password.
      */
     suspend fun createUserWithEmailAndPassword(email: String, password: String): Boolean {
         var value = false
@@ -149,7 +151,8 @@ class FirebaseAuthRepository(private var context: Activity) {
      * @param password The password of the user. It must match the password used during registration.
      * @return Returns `true` if the sign-in is successful; otherwise, returns `false`.
      *
-     * @throws FirebaseAuthException If an error occurs during authentication, such as an incorrect password or a non-existing email.
+     * @throws FirebaseAuthException If an error occurs during authentication, such as an incorrect
+     * password or a non-existing email.
      */
     suspend fun signInWithEmailAndPassword(email: String, password: String): Boolean {
         var value = false
@@ -171,6 +174,5 @@ class FirebaseAuthRepository(private var context: Activity) {
 
     companion object {
         private const val RC_SIGN_IN = 9001
-        private const val TAG = "GoogleSignIn"
     }
 }
