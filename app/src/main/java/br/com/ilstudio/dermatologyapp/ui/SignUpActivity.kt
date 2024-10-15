@@ -6,10 +6,15 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.widget.Toast
 import br.com.ilstudio.dermatologyapp.R
+import br.com.ilstudio.dermatologyapp.data.remote.FirebaseAuthRepository
 import br.com.ilstudio.dermatologyapp.databinding.ActivitySignUpBinding
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidPassword
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -22,11 +27,14 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var email: String
     private lateinit var number: String
     private lateinit var birth: String
+    private lateinit var firebaseAuthRepository: FirebaseAuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        firebaseAuthRepository = FirebaseAuthRepository(this)
+        firebaseAuthRepository.configureGoogleSignIn()
 
         binding.buttonBack.setOnClickListener {
             startActivity(Intent(this, LaunchScreenActivity::class.java))
@@ -49,29 +57,73 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.buttonSignIn2.setOnClickListener {
-            if (!isValidEmail(email)) {
-               binding.editEmail.error = getString(R.string.invalid_email)
-            }
+            signIn()
+        }
 
-            val validDate = isValidDate(birth)
-            if(validDate === "Minor") {
-                binding.editBirth.error = "To register you must be 18 years old. Come back later."
-            }
-            if (validDate === "Invalid") {
-                binding.editBirth.error = "Enter a valid date."
-            }
-            if (validDate === "error") {
-                binding.editBirth.error = "We have an error. Please check the date."
-            }
-
-            if(!isValidPassword(pass)){
-                binding.editPass.error = "The password must have 8 digits, upper and lower case " +
-                        "letters and special characters."
-            }
+        binding.buttonGoogle.setOnClickListener {
+            firebaseAuthRepository.signInWithGoogle()
         }
 
         binding.buttonLogIn.setOnClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        firebaseAuthRepository.handleGoogleSignInResult(requestCode, data, {
+            Toast
+                .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
+                .show()
+
+            startActivity(Intent(this, MainActivity::class.java))
+        }, {
+
+            binding.textError.text = "An error occurred while registering. Please try again later."
+        })
+    }
+
+    private fun signIn() {
+        if (!isValidEmail(email)) {
+            binding.editEmail.error = getString(R.string.invalid_email)
+        }
+
+        val validDate = isValidDate(birth)
+        if (validDate === "Minor") {
+            binding.editBirth.error = "To register you must be 18 years old. Come back later."
+        }
+        if (validDate === "Invalid") {
+            binding.editBirth.error = "Enter a valid date."
+        }
+        if (validDate === "error") {
+            binding.editBirth.error = "We have an error. Please check the date."
+        }
+
+        if(!isValidPassword(pass)){
+            binding.editPass.error = "The password must have 8 digits, upper and lower case " +
+                    "letters and special characters."
+        }
+
+        val emailError = binding.editEmail.error
+        val dateError = binding.editBirth.error
+        val passError = binding.editPass.error
+
+        if(emailError.isNullOrEmpty() && dateError.isNullOrEmpty() && passError.isNullOrEmpty()) {
+            var result = false
+            CoroutineScope(Dispatchers.Main).launch {
+                result = firebaseAuthRepository.createUserWithEmailAndPassword(email, pass)
+
+                if (!result) {
+                    binding.textError.text = "An error occurred while registering. Please try again later."
+                }
+
+                Toast
+                    .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
+                    .show()
+
+                startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+            }
         }
     }
 
