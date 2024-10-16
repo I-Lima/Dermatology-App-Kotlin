@@ -32,4 +32,14 @@
     <string name="or_sign_up_with">or sign up with</string>
     <string name="google_sign_up">Google sign up</string>
     <string name="web_client_id">3415260252-l9m5mqstl7qbul635ng5aruok6poa24f.apps.googleusercontent.com</string>
+    <string name="profile">Profile</string>
+    <string name="icon">icon</string>
+    <string name="my_profile">My Profile</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
+    <string name="profile_icon">profile icon</string>
+    <string name="calendar_icon">calendar icon</string>
+    <string name="home_icon">home icon</string>
+    <string name="user_picture">user picture</string>
 </resources>
