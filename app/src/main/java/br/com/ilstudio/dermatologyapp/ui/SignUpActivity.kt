@@ -57,7 +57,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.buttonSignIn2.setOnClickListener {
-            signIn()
+            signUp()
         }
 
         binding.buttonGoogle.setOnClickListener {
@@ -84,7 +84,7 @@ class SignUpActivity : AppCompatActivity() {
         })
     }
 
-    private fun signIn() {
+    private fun signUp() {
         if (!isValidEmail(email)) {
             binding.editEmail.error = getString(R.string.invalid_email)
         }
