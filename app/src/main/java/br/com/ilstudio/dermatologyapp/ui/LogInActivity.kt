@@ -19,7 +19,7 @@ class LogInActivity : AppCompatActivity() {
         binding = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonBack.setOnClickListener {
+        binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, LaunchScreenActivity::class.java))
             finish()
         }

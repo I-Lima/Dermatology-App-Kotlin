@@ -36,7 +36,7 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuthRepository = FirebaseAuthRepository(this)
         firebaseAuthRepository.configureGoogleSignIn()
 
-        binding.buttonBack.setOnClickListener {
+        binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, LaunchScreenActivity::class.java))
             finish()
         }
@@ -110,9 +110,8 @@ class SignUpActivity : AppCompatActivity() {
         val passError = binding.editPass.error
 
         if(emailError.isNullOrEmpty() && dateError.isNullOrEmpty() && passError.isNullOrEmpty()) {
-            var result = false
             CoroutineScope(Dispatchers.Main).launch {
-                result = firebaseAuthRepository.createUserWithEmailAndPassword(email, pass)
+                val result = firebaseAuthRepository.createUserWithEmailAndPassword(email, pass)
 
                 if (!result) {
                     binding.textError.text = "An error occurred while registering. Please try again later."
