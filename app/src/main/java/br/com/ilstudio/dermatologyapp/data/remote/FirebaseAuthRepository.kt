@@ -129,18 +129,13 @@ class FirebaseAuthRepository(private var context: Activity) {
      * @throws FirebaseAuthException If an error occurs during authentication, such as an email
      * already in use or a weak password.
      */
-    suspend fun createUserWithEmailAndPassword(email: String, password: String): Boolean {
-        var value = false
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(context) { task ->
-                println(task)
-                if (task.isSuccessful) {
-                    value = true
-                }
-            }.await()
-
-        return value
+    suspend fun createUserWithEmailAndPassword(email: String, password: String): Result<Boolean> {
+        return try {
+            val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+            Result.success(authResult.user != null)
+        } catch (e: Exception) {
+            Result.failure(Exception("An error occurred in log in. Please try again later."))
+        }
     }
 
     /**
@@ -169,6 +164,16 @@ class FirebaseAuthRepository(private var context: Activity) {
         }
     }
 
+    /**
+     * Signs the user out from both Firebase authentication and Google Sign-In.
+     *
+     * This method will:
+     * - Sign out the current user from Firebase Authentication using the Firebase Auth instance.
+     * - Sign out the current user from Google Sign-In using the `GoogleSignInClient`.
+     *
+     * It's important to call this method when the user explicitly wants to log out of the application.
+     * After signing out, the user will need to authenticate again to access protected resources.
+     */
     fun signOut() {
         auth.signOut()
         googleSignInClient.signOut()

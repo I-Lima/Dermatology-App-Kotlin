@@ -7,13 +7,12 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.data.remote.FirebaseAuthRepository
 import br.com.ilstudio.dermatologyapp.databinding.ActivitySignUpBinding
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidPassword
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
@@ -110,18 +109,17 @@ class SignUpActivity : AppCompatActivity() {
         val passError = binding.editPass.error
 
         if(emailError.isNullOrEmpty() && dateError.isNullOrEmpty() && passError.isNullOrEmpty()) {
-            CoroutineScope(Dispatchers.Main).launch {
+            lifecycleScope.launch {
                 val result = firebaseAuthRepository.createUserWithEmailAndPassword(email, pass)
+                result.fold({
+                    Toast
+                        .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
+                        .show()
 
-                if (!result) {
+                    startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                }, {
                     binding.textError.text = "An error occurred while registering. Please try again later."
-                }
-
-                Toast
-                    .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
-                    .show()
-
-                startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                })
             }
         }
     }
