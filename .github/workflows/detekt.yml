@@ -14,3 +14,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: detekt
+          java-version: 17
