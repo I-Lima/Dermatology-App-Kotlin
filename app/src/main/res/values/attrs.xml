@@ -15,4 +15,8 @@
             <enum name="calendar" value="2" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="LargeCustomButtonView">
+        <attr name="labelTextButton" format="string" />
+        <attr name="active" format="boolean" />
+    </declare-styleable>
 </resources>
