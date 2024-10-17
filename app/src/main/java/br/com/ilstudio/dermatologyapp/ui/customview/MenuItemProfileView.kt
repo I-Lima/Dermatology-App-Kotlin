@@ -3,6 +3,7 @@ package br.com.ilstudio.dermatologyapp.ui.customview
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -13,12 +14,14 @@ class MenuItemProfileView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ): LinearLayout(context, attrs,defStyleAttr) {
+    private var buttonItem: LinearLayout
     private var imageView: ImageView
     private var textView: TextView
     private var button: ImageView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_menu_item_profile, this, true)
+        buttonItem = findViewById(R.id.button_item)
         imageView = findViewById(R.id.img)
         textView = findViewById(R.id.text)
         button = findViewById(R.id.button)
@@ -43,4 +46,7 @@ class MenuItemProfileView @JvmOverloads constructor(
 
     }
 
+    fun setOnButtonClickListener(listener: (View) -> Unit) {
+        buttonItem.setOnClickListener(listener)
+    }
 }
