@@ -47,7 +47,7 @@
             android:id="@+id/contentUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="46dp"
             android:gravity="start"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,7 +153,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/contentPass"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/error"
             android:fontFamily="@font/league_spartan"
             android:textAlignment="center"/>
@@ -162,7 +162,7 @@
             android:id="@+id/button_log_in_2"
             android:layout_width="260dp"
             android:layout_height="64dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/league_spartan_medium"
             android:gravity="center"
             android:text="@string/log_in"
@@ -172,6 +172,37 @@
             app:layout_constraintTop_toBottomOf="@+id/textError"
             android:enabled="false"/>
 
+        <TextView
+            android:id="@+id/textWith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/league_spartan"
+            android:text="@string/or_sign_up_with"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_log_in_2" />
+
+        <LinearLayout
+            android:id="@+id/iconsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textWith"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/button_google"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/icon_google"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/google_sign_up"/>
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/buttonSignUp"
             android:layout_width="wrap_content"
@@ -180,7 +211,7 @@
             android:layout_marginTop="46dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_log_in_2"
+            app:layout_constraintTop_toBottomOf="@id/iconsContainer"
             android:clickable="true"
             android:focusable="true">
 
