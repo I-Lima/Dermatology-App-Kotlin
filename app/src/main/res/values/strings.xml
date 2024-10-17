@@ -42,4 +42,8 @@
     <string name="calendar_icon">calendar icon</string>
     <string name="home_icon">home icon</string>
     <string name="user_picture">user picture</string>
+    <string name="yes_logout">Yes, Logout</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout_description">are you sure you want to log out?</string>
+    <string name="or_sign_in_with">or sign in with</string>
 </resources>
