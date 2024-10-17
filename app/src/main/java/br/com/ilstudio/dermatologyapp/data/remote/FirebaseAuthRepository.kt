@@ -11,6 +11,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
 
@@ -154,17 +156,17 @@ class FirebaseAuthRepository(private var context: Activity) {
      * @throws FirebaseAuthException If an error occurs during authentication, such as an incorrect
      * password or a non-existing email.
      */
-    suspend fun signInWithEmailAndPassword(email: String, password: String): Boolean {
-        var value = false
-
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            println(task.isSuccessful)
-            if (task.isSuccessful) {
-                value = true
-            }
-        }.await()
-
-        return value
+    suspend fun signInWithEmailAndPassword(email: String, password: String): Result<Boolean> {
+        return try {
+            val authResult = auth.signInWithEmailAndPassword(email, password).await()
+            Result.success(authResult.user != null)
+        } catch (e: FirebaseAuthInvalidUserException) {
+            Result.failure(Exception("User not found."))
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            Result.failure(Exception("Invalid email or password"))
+        } catch (e: Exception) {
+            Result.failure(Exception("An error occurred in log in. Please try again later."))
+        }
     }
 
     fun signOut() {
