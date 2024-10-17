@@ -35,31 +35,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
         android:id="@+id/button_log_in"
-        android:layout_width="260dp"
-        android:layout_height="64dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="539dp"
         android:layout_marginBottom="6dp"
-        android:fontFamily="@font/league_spartan_medium"
-        android:gravity="center"
-        android:text="@string/log_in"
-        android:textSize="28sp"
+        app:labelTextButton="@string/log_in"
         app:layout_constraintBottom_toTopOf="@+id/button_sign_in"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"  />
 
     <Button
         android:id="@+id/button_sign_in"
-        android:layout_width="260dp"
-        android:layout_height="64dp"
+        android:layout_width="230dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="72dp"
         android:backgroundTint="@color/blue_light"
         android:fontFamily="@font/league_spartan_medium"
         android:gravity="center"
         android:text="@string/sign_up"
         android:textColor="@color/primary"
-        android:textSize="28sp"
+        android:textSize="27sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
