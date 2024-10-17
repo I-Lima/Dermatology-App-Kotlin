@@ -29,7 +29,7 @@
             android:fontFamily="@font/league_spartan_semibold"
             android:text="@string/welcome"
             android:textColor="@color/primary"
-            android:textSize="24sp"
+            android:textSize="26sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header" />
 
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/league_spartan"
             android:text="@string/log_in_desc"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/title"
             tools:layout_editor_absoluteX="24dp" />
 
@@ -59,12 +59,12 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/email"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
 
             <EditText
                 android:id="@+id/editUser"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="56dp"
                 android:layout_marginTop="8dp"
                 android:autofillHints="username"
                 android:background="@drawable/shape_view_edit_text"
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/password"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                 <EditText
                     android:id="@+id/editPass"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="58dp"
                     android:layout_marginTop="8dp"
                     android:autofillHints="none"
                     android:background="@drawable/shape_view_edit_text"
@@ -122,8 +122,8 @@
 
                 <ImageView
                     android:id="@+id/buttonHidden"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:clickable="true"
                     android:contentDescription="@string/show_hidden_password"
                     android:focusable="true"
@@ -143,7 +143,7 @@
                 android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/forget_password"
                 android:textColor="@color/primary"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:clickable="true"
                 android:focusable="true"/>
         </LinearLayout>
@@ -178,7 +178,8 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_log_in_2" />
+            app:layout_constraintTop_toBottomOf="@+id/button_log_in_2"
+            android:textSize="16sp"/>
 
         <LinearLayout
             android:id="@+id/iconsContainer"
@@ -218,7 +219,7 @@
                 android:fontFamily="@font/league_spartan"
                 android:text="@string/don_t_have_an_account"
                 android:layout_marginEnd="2dp"
-                android:textSize="14sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -226,7 +227,7 @@
                 android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/sign_up"
                 android:textColor="@color/primary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
