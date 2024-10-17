@@ -283,20 +283,17 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/buttonSignIn2"
-            android:layout_width="260dp"
-            android:layout_height="64dp"
+        <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
+            android:id="@+id/button_sign_in_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:enabled="false"
-            android:fontFamily="@font/league_spartan_medium"
-            android:gravity="center"
-            android:text="@string/sign_up"
-            android:textSize="28sp"
+            app:active="false"
+            app:labelTextButton="@string/sign_up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textTerm" />
+            app:layout_constraintTop_toBottomOf="@+id/textTerm"/>
 
         <TextView
             android:id="@+id/textWith"
@@ -307,7 +304,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSignIn2" />
+            app:layout_constraintTop_toBottomOf="@+id/button_sign_in_2" />
 
         <LinearLayout
             android:id="@+id/iconsContainer"
@@ -335,6 +332,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iconsContainer"

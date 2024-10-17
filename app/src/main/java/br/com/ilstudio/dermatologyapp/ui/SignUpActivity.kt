@@ -55,7 +55,7 @@ class SignUpActivity : AppCompatActivity() {
             binding.editPass.inputType= type
         }
 
-        binding.buttonSignIn2.setOnClickListener {
+        binding.buttonSignIn2.setOnButtonClickListener {
             signUp()
         }
 
@@ -132,7 +132,7 @@ class SignUpActivity : AppCompatActivity() {
             number = binding.editNumber.text.toString()
             birth = binding.editBirth.text.toString()
 
-            binding.buttonSignIn2.isEnabled = (name.isNotEmpty() && pass.isNotEmpty() &&
+            binding.buttonSignIn2.setActive(name.isNotEmpty() && pass.isNotEmpty() &&
                     email.isNotEmpty() && number.isNotEmpty() && birth.isNotEmpty())
         }
 
@@ -151,7 +151,7 @@ class SignUpActivity : AppCompatActivity() {
             number = binding.editNumber.text.toString()
             birth = binding.editBirth.text.toString()
 
-            binding.buttonSignIn2.isEnabled = (name.isNotEmpty() && pass.isNotEmpty() &&
+            binding.buttonSignIn2.setActive(name.isNotEmpty() && pass.isNotEmpty() &&
                     email.isNotEmpty() && number.isNotEmpty() && birth.isNotEmpty())
         }
 
@@ -198,7 +198,7 @@ class SignUpActivity : AppCompatActivity() {
             number = binding.editNumber.text.toString()
             birth = binding.editBirth.text.toString()
 
-            binding.buttonSignIn2.isEnabled = (name.isNotEmpty() && pass.isNotEmpty() &&
+            binding.buttonSignIn2.setActive(name.isNotEmpty() && pass.isNotEmpty() &&
                     email.isNotEmpty() && number.isNotEmpty() && birth.isNotEmpty())
         }
 

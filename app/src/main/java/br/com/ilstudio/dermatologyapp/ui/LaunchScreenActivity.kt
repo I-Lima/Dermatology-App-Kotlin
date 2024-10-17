@@ -12,7 +12,7 @@ class LaunchScreenActivity : AppCompatActivity() {
         binding = ActivityLaunchScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonLogIn.setOnClickListener {
+        binding.buttonLogIn.setOnButtonClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
         }
 

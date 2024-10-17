@@ -158,19 +158,16 @@
             android:fontFamily="@font/league_spartan"
             android:textAlignment="center"/>
 
-        <Button
+        <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
             android:id="@+id/button_log_in_2"
-            android:layout_width="260dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/league_spartan_medium"
-            android:gravity="center"
-            android:text="@string/log_in"
-            android:textSize="28sp"
+            app:labelTextButton="@string/log_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textError"
-            android:enabled="false"/>
+            app:active="false"/>
 
         <TextView
             android:id="@+id/textWith"

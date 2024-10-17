@@ -43,9 +43,10 @@ class LogInActivity : AppCompatActivity() {
             binding.editPass.inputType= type
         }
 
-        binding.buttonLogIn2.setOnClickListener {
+        binding.buttonLogIn2.setOnButtonClickListener {
             if(!isValidEmail(user)) {
                 binding.editUser.error = getString(R.string.invalid_email)
+                return@setOnButtonClickListener
             }
 
             lifecycleScope.launch {
@@ -83,7 +84,6 @@ class LogInActivity : AppCompatActivity() {
         firebaseAuthRepository.handleGoogleSignInResult(requestCode, data, {
             startActivity(Intent(this, MainActivity::class.java))
         }, {
-
             binding.textError.text = "An error occurred in log in. Please try again later."
         })
     }
@@ -93,7 +93,7 @@ class LogInActivity : AppCompatActivity() {
             user = binding.editUser.text.toString()
             pass = binding.editPass.text.toString()
 
-            binding.buttonLogIn2.isEnabled = user.isNotEmpty() && pass.isNotEmpty()
+            binding.buttonLogIn2.setActive(user.isNotEmpty() && pass.isNotEmpty())
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
