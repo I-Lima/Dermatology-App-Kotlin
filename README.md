@@ -38,6 +38,7 @@ O projeto foi desenvolvido com base no design do [Template Castle](https://www.f
 
 - Kotlin
 - Android Studio
+- Firebase Authentication
 - Figma
 - Github Actions
 - Detekt
@@ -46,4 +47,4 @@ O projeto foi desenvolvido com base no design do [Template Castle](https://www.f
 
 ## Créditos
 
-O aplicativo foi desenvolvido por mim e o design pelo [Template Castle](https://www.figma.com/@templatecastle).
+O aplicativo foi desenvolvido por mim e o design foi baseado no projeto do [Template Castle](https://www.figma.com/@templatecastle).
