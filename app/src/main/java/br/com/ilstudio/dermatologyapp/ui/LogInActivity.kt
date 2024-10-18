@@ -8,7 +8,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
-import br.com.ilstudio.dermatologyapp.data.remote.FirebaseAuthRepository
+import br.com.ilstudio.dermatologyapp.data.service.FirebaseAuthService
 import br.com.ilstudio.dermatologyapp.databinding.ActivityLogInBinding
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import kotlinx.coroutines.launch
@@ -17,14 +17,14 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
     private lateinit var user: String
     private lateinit var pass: String
-    private lateinit var firebaseAuthRepository: FirebaseAuthRepository
+    private lateinit var firebaseAuthService: FirebaseAuthService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        firebaseAuthRepository = FirebaseAuthRepository(this)
-        firebaseAuthRepository.configureGoogleSignIn()
+        firebaseAuthService = FirebaseAuthService(this)
+        firebaseAuthService.configureGoogleSignIn()
 
         binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, LaunchScreenActivity::class.java))
@@ -50,7 +50,7 @@ class LogInActivity : AppCompatActivity() {
             }
 
             lifecycleScope.launch {
-                val result = firebaseAuthRepository.signInWithEmailAndPassword(user, pass)
+                val result = firebaseAuthService.signInWithEmailAndPassword(user, pass)
                 result.fold({
                         startActivity(Intent(this@LogInActivity, MainActivity::class.java))
                     },
@@ -65,7 +65,7 @@ class LogInActivity : AppCompatActivity() {
         }
 
         binding.buttonGoogle.setOnClickListener {
-            firebaseAuthRepository.signInWithGoogle()
+            firebaseAuthService.signInWithGoogle()
         }
 
         binding.buttonForget.setOnClickListener {
@@ -81,7 +81,7 @@ class LogInActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        firebaseAuthRepository.handleGoogleSignInResult(requestCode, data, {
+        firebaseAuthService.handleGoogleSignInResult(requestCode, data, {
             startActivity(Intent(this, MainActivity::class.java))
         }, {
             binding.textError.text = "An error occurred in log in. Please try again later."

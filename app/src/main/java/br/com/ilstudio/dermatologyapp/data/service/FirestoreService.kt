@@ -1,14 +1,14 @@
-package br.com.ilstudio.dermatologyapp.data.remote
+package br.com.ilstudio.dermatologyapp.data.service
 
-import br.com.ilstudio.dermatologyapp.data.model.user.UserModel
+import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FirestoreRepository {
+class FirestoreService {
     private val db = FirebaseFirestore.getInstance()
 
-    suspend fun saveUser(uid: String, user: UserModel): Void? {
+    suspend fun saveUser(uid: String, user: UserData): Void? {
         return db.collection("users").document(uid)
             .set(user)
             .await()
