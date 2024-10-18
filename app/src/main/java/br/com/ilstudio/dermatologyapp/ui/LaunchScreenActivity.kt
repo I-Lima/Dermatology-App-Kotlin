@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import br.com.ilstudio.dermatologyapp.data.model.user.UserModel
+import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import br.com.ilstudio.dermatologyapp.databinding.ActivityLaunchScreenBinding
-import br.com.ilstudio.dermatologyapp.services.FirestoreService
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
 
@@ -18,11 +18,11 @@ class LaunchScreenActivity : AppCompatActivity() {
         binding = ActivityLaunchScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val firestoreService = FirestoreService()
+        val firestoreService = FirestoreRepository()
 
         binding.buttonLogIn.setOnButtonClickListener {
 //            startActivity(Intent(this, LogInActivity::class.java))
-            val user = UserModel(
+            val user = UserData(
                 "123414141414141",
                 "User teste",
                 "test@test.com",

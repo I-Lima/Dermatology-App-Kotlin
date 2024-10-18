@@ -1,34 +1,33 @@
-package br.com.ilstudio.dermatologyapp.services
+package br.com.ilstudio.dermatologyapp.data.repository
 
-import br.com.ilstudio.dermatologyapp.data.model.user.UserModel
+import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import br.com.ilstudio.dermatologyapp.data.model.user.UserResponse
-import br.com.ilstudio.dermatologyapp.data.remote.FirestoreRepository
+import br.com.ilstudio.dermatologyapp.data.service.FirestoreService
 import java.sql.Timestamp
-import java.util.Base64
 
-class FirestoreService {
-    private val firestoreRepository = FirestoreRepository()
+class FirestoreRepository {
+    private val firestoreService = FirestoreService()
 
-    suspend fun registerUser(user: UserModel): UserResponse {
+    suspend fun saveUser(user: UserData): UserResponse {
         return try {
-            firestoreRepository.saveUser(user.uid, user)
+            firestoreService.saveUser(user.uid, user)
 
-            return UserResponse(true)
+            UserResponse(true)
         } catch (e: Exception) {
-            return UserResponse(false, null, "Register error")
+            UserResponse(false, null, "Register error")
         }
     }
 
     suspend fun getUser(uid: String): UserResponse {
          return try {
-             val result = firestoreRepository.getUser(uid)
+             val result = firestoreService.getUser(uid)
              val data = result?.data ?: null
 
              if(data.isNullOrEmpty()) {
                 return UserResponse(false, null, "Data not found")
              }
 
-             return UserResponse(true, UserModel(
+             UserResponse(true, UserData(
                  data["uid"] as? String ?: "",
                  data["fullName"] as? String ?: "",
                  data["email"] as? String ?: "",
@@ -39,7 +38,7 @@ class FirestoreService {
                  data["updatedAt"] as? String ?: "",
              ))
          } catch (e: Exception) {
-             return UserResponse(false, null, "Get user error")
+             UserResponse(false, null, "Get user error")
          }
     }
 }
