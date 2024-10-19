@@ -3,15 +3,15 @@ package br.com.ilstudio.dermatologyapp.data.repository
 import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import br.com.ilstudio.dermatologyapp.data.model.user.UserResponse
 import br.com.ilstudio.dermatologyapp.data.service.FirestoreService
+import br.com.ilstudio.dermatologyapp.domain.model.User
 import java.sql.Timestamp
 
 class FirestoreRepository {
     private val firestoreService = FirestoreService()
 
-    suspend fun saveUser(user: UserData): UserResponse {
+    suspend fun saveUser(user: User): UserResponse {
         return try {
-            firestoreService.saveUser(user.uid, user)
-
+            firestoreService.saveUser(user.id, user.toUserDataCreate())
             UserResponse(true)
         } catch (e: Exception) {
             UserResponse(false, null, "Register error")
