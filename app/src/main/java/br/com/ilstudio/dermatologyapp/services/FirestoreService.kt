@@ -4,7 +4,6 @@ import br.com.ilstudio.dermatologyapp.data.model.user.UserModel
 import br.com.ilstudio.dermatologyapp.data.model.user.UserResponse
 import br.com.ilstudio.dermatologyapp.data.remote.FirestoreRepository
 import java.sql.Timestamp
-import java.util.Base64
 
 class FirestoreService {
     private val firestoreRepository = FirestoreRepository()
