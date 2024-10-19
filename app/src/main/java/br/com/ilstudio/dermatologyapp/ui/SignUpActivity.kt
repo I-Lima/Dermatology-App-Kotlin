@@ -9,10 +9,13 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
 import br.com.ilstudio.dermatologyapp.data.service.FirebaseAuthService
 import br.com.ilstudio.dermatologyapp.databinding.ActivitySignUpBinding
+import br.com.ilstudio.dermatologyapp.domain.model.User
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidPassword
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
@@ -27,6 +30,8 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var number: String
     private lateinit var birth: String
     private lateinit var firebaseAuthService: FirebaseAuthService
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestoreRepository: FirestoreRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +39,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
         firebaseAuthService = FirebaseAuthService(this)
         firebaseAuthService.configureGoogleSignIn()
+        firestoreRepository = FirestoreRepository()
 
         binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, LaunchScreenActivity::class.java))
@@ -113,14 +119,34 @@ class SignUpActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val result = firebaseAuthService.createUserWithEmailAndPassword(email, pass)
                 result.fold({
-                    Toast
-                        .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
-                        .show()
+                    auth = FirebaseAuth.getInstance()
+                    val user = auth.currentUser
+                    var registeredUser: User
 
-                    startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                    user?.let {
+                        registeredUser = User(
+                            user.uid,
+                            name,
+                            email,
+                            number,
+                            birth,
+                            null
+                        )
+
+                        val resultStore = firestoreRepository.saveUser(registeredUser)
+                        if(!resultStore.success) {
+                            binding.textError.text =
+                                getString(R.string.an_error_occurred_while_registering_please_try_again_later)
+                        }
+
+                        Toast
+                            .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
+                            .show()
+
+                        startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                    }
                 }, {
-                    binding.textError.text =
-                        getString(R.string.an_error_occurred_while_registering_please_try_again_later)
+                    binding.textError.text = it.message
                 })
             }
         }
