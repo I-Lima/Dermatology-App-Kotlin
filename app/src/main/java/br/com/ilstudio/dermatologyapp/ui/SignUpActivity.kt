@@ -9,13 +9,12 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
+import br.com.ilstudio.dermatologyapp.data.repository.FirebaseAuthRepository
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
-import br.com.ilstudio.dermatologyapp.data.service.FirebaseAuthService
 import br.com.ilstudio.dermatologyapp.databinding.ActivitySignUpBinding
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidPassword
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
@@ -29,16 +28,15 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var email: String
     private lateinit var number: String
     private lateinit var birth: String
-    private lateinit var firebaseAuthService: FirebaseAuthService
-    private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseAuthRepository: FirebaseAuthRepository
     private lateinit var firestoreRepository: FirestoreRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        firebaseAuthService = FirebaseAuthService(this)
-        firebaseAuthService.configureGoogleSignIn()
+        firebaseAuthRepository = FirebaseAuthRepository(this)
+        firebaseAuthRepository.configureGoogleSignIn()
         firestoreRepository = FirestoreRepository()
 
         binding.header.setOnBackButtonClickListener {
@@ -66,7 +64,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.buttonGoogle.setOnClickListener {
-            firebaseAuthService.signInWithGoogle()
+            firebaseAuthRepository.signInWithGoogle()
         }
 
         binding.buttonLogIn.setOnClickListener {
@@ -78,7 +76,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        firebaseAuthService.handleGoogleSignInResult(requestCode, data, {
+        firebaseAuthRepository.handleGoogleSignInResult(requestCode, data, {
             Toast
                 .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
                 .show()
@@ -117,10 +115,9 @@ class SignUpActivity : AppCompatActivity() {
 
         if(emailError.isNullOrEmpty() && dateError.isNullOrEmpty() && passError.isNullOrEmpty()) {
             lifecycleScope.launch {
-                val result = firebaseAuthService.createUserWithEmailAndPassword(email, pass)
+                val result = firebaseAuthRepository.createUser(email, pass)
                 result.fold({
-                    auth = FirebaseAuth.getInstance()
-                    val user = auth.currentUser
+                    val user = firebaseAuthRepository.getCurrentUser()
                     var registeredUser: User
 
                     user?.let {

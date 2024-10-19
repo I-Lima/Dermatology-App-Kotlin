@@ -8,6 +8,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
+import br.com.ilstudio.dermatologyapp.data.repository.FirebaseAuthRepository
 import br.com.ilstudio.dermatologyapp.data.service.FirebaseAuthService
 import br.com.ilstudio.dermatologyapp.databinding.ActivityLogInBinding
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
@@ -18,6 +19,7 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var user: String
     private lateinit var pass: String
     private lateinit var firebaseAuthService: FirebaseAuthService
+    private lateinit var firebaseAuthRepository: FirebaseAuthRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLogInBinding.inflate(layoutInflater)
@@ -25,6 +27,7 @@ class LogInActivity : AppCompatActivity() {
 
         firebaseAuthService = FirebaseAuthService(this)
         firebaseAuthService.configureGoogleSignIn()
+        firebaseAuthRepository = FirebaseAuthRepository(this)
 
         binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, LaunchScreenActivity::class.java))
@@ -50,7 +53,7 @@ class LogInActivity : AppCompatActivity() {
             }
 
             lifecycleScope.launch {
-                val result = firebaseAuthService.signInWithEmailAndPassword(user, pass)
+                val result = firebaseAuthRepository.signIn(user, pass)
                 result.fold({
                         startActivity(Intent(this@LogInActivity, MainActivity::class.java))
                     },
