@@ -1,4 +1,4 @@
-package br.com.ilstudio.dermatologyapp.data.remote
+package br.com.ilstudio.dermatologyapp.data.service
 
 
 import android.app.Activity
@@ -17,7 +17,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
 
 
-class FirebaseAuthRepository(private var context: Activity) {
+class FirebaseAuthService(private var context: Activity) {
     private val auth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
 

@@ -7,6 +7,7 @@ import br.com.ilstudio.dermatologyapp.databinding.ActivityLaunchScreenBinding
 
 class LaunchScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLaunchScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLaunchScreenBinding.inflate(layoutInflater)

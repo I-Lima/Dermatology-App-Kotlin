@@ -46,4 +46,5 @@
     <string name="cancel">Cancel</string>
     <string name="logout_description">are you sure you want to log out?</string>
     <string name="or_sign_in_with">or sign in with</string>
+    <string name="an_error_occurred_while_registering_please_try_again_later">An error occurred while registering. Please try again later.</string>
 </resources>

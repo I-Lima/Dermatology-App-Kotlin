@@ -6,20 +6,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import br.com.ilstudio.dermatologyapp.R
-import br.com.ilstudio.dermatologyapp.data.remote.FirebaseAuthRepository
+import br.com.ilstudio.dermatologyapp.data.service.FirebaseAuthService
 import br.com.ilstudio.dermatologyapp.databinding.ActivityProfileBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
-    private lateinit var firebaseAuthRepository: FirebaseAuthRepository
+    private lateinit var firebaseAuthService: FirebaseAuthService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        firebaseAuthRepository = FirebaseAuthRepository(this)
-        firebaseAuthRepository.configureGoogleSignIn()
+        firebaseAuthService = FirebaseAuthService(this)
+        firebaseAuthService.configureGoogleSignIn()
 
         binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, MainActivity::class.java))
@@ -51,7 +51,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        firebaseAuthRepository.signOut()
+        firebaseAuthService.signOut()
         startActivity(Intent(this, LaunchScreenActivity::class.java))
         finish()
     }
