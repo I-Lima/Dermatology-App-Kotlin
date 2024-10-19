@@ -31,7 +31,6 @@ class FirebaseAuthService(private var context: Activity) {
      * The web client ID is retrieved from the app's string resources, which should match
      * the client ID of the Google project configured in the Google Cloud Console.
      *
-     * @throws Resources.NotFoundException if the web client ID resource is not found.
      */
     fun configureGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -50,8 +49,6 @@ class FirebaseAuthService(private var context: Activity) {
      * the intent for a result. The result will be handled in the activity's `onActivityResult`
      * method, using the request code `RC_SIGN_IN`.
      *
-     * @throws IllegalStateException if the `googleSignInClient` is not properly initialized
-     * before calling this method.
      */
     fun signInWithGoogle() {
         val signInIntent = googleSignInClient.signInIntent
@@ -71,7 +68,6 @@ class FirebaseAuthService(private var context: Activity) {
      * @param onSuccess A callback function to be executed if the Google Sign-In and Firebase authentication succeed.
      * @param onFailure A callback function to be executed if the sign-in or Firebase authentication fails.
      *
-     * @throws ApiException if there is an issue with retrieving the Google account from the intent.
      */
     fun handleGoogleSignInResult(requestCode: Int, data: Intent?, onSuccess: () -> Unit, onFailure: () -> Unit) {
         if (requestCode == RC_SIGN_IN) {
@@ -126,14 +122,14 @@ class FirebaseAuthService(private var context: Activity) {
      * @param password The password of the user. It must be at least 6 characters long.
      * @return Returns `true` if the user registration is successful; otherwise, returns `false`.
      *
-     * @throws FirebaseAuthException If an error occurs during authentication, such as an email
-     * already in use or a weak password.
      */
     suspend fun createUserWithEmailAndPassword(email: String, password: String): Result<Boolean> {
         return try {
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
             Result.success(authResult.user != null)
-        } catch (e: Exception) {
+        } catch(e: FirebaseAuthException) {
+            Result.failure(Exception("User already registered. Please try logging in."))
+        }catch (e: Exception) {
             Result.failure(Exception("An error occurred in log in. Please try again later."))
         }
     }
@@ -148,8 +144,6 @@ class FirebaseAuthService(private var context: Activity) {
      * @param password The password of the user. It must match the password used during registration.
      * @return Returns `true` if the sign-in is successful; otherwise, returns `false`.
      *
-     * @throws FirebaseAuthException If an error occurs during authentication, such as an incorrect
-     * password or a non-existing email.
      */
     suspend fun signInWithEmailAndPassword(email: String, password: String): Result<Boolean> {
         return try {
