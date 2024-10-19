@@ -9,15 +9,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
 
 
-class FirebaseAuthService(private var context: Activity) {
+open class FirebaseAuthService(private var context: Activity) {
     private val auth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
 
@@ -113,49 +112,40 @@ class FirebaseAuthService(private var context: Activity) {
     }
 
     /**
-     * Creates a new user with the provided email address and password.
+     * Asynchronously creates a new user with the provided email and password.
      *
-     * This function uses Firebase Authentication to register a new user.
-     * A completion listener is added to check if the operation was successful.
+     * This function uses Firebase Authentication to register a new user account with the given
+     * email and password. The result of the account creation is returned as an [AuthResult] object.
      *
-     * @param email The email address of the user to be registered. It must be a valid email.
-     * @param password The password of the user. It must be at least 6 characters long.
-     * @return Returns `true` if the user registration is successful; otherwise, returns `false`.
+     * This is a **suspend** function, meaning it must be called within a coroutine or another
+     * suspend function, and it will suspend execution until the user creation process is complete.
+     *
+     * @param email The email address for the new user account.
+     * @param password The password to set for the new user account.
+     * @return [AuthResult] containing details of the newly created user if successful.
      *
      */
-    suspend fun createUserWithEmailAndPassword(email: String, password: String): Result<Boolean> {
-        return try {
-            val authResult = auth.createUserWithEmailAndPassword(email, password).await()
-            Result.success(authResult.user != null)
-        } catch(e: FirebaseAuthException) {
-            Result.failure(Exception("User already registered. Please try logging in."))
-        }catch (e: Exception) {
-            Result.failure(Exception("An error occurred in log in. Please try again later."))
-        }
+    internal suspend fun createUserWithEmailAndPassword(email: String, password: String): AuthResult {
+        return auth.createUserWithEmailAndPassword(email, password).await()
     }
 
     /**
-     * Signs in a user with the provided email address and password.
+     * Asynchronously signs in a user with the provided email and password.
      *
-     * This function uses Firebase Authentication to sign in an existing user.
-     * A completion listener is added to check if the operation was successful.
+     * This function uses Firebase Authentication to sign in a user with the given email
+     * and password. The result of the sign-in process is returned as an [AuthResult] object.
      *
-     * @param email The email address of the user attempting to sign in. It must be a valid email.
-     * @param password The password of the user. It must match the password used during registration.
-     * @return Returns `true` if the sign-in is successful; otherwise, returns `false`.
+     * This is a **suspend** function, meaning it must be called within a coroutine or another
+     * suspend function, and it will suspend execution until the sign-in process completes.
+     *
+     * @param email The email address of the user attempting to sign in.
+     * @param password The password associated with the provided email.
+     * @return [AuthResult] containing details of the authenticated user if the sign-in is successful.
      *
      */
-    suspend fun signInWithEmailAndPassword(email: String, password: String): Result<Boolean> {
-        return try {
-            val authResult = auth.signInWithEmailAndPassword(email, password).await()
-            Result.success(authResult.user != null)
-        } catch (e: FirebaseAuthInvalidUserException) {
-            Result.failure(Exception("User not found."))
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Result.failure(Exception("Invalid email or password"))
-        } catch (e: Exception) {
-            Result.failure(Exception("An error occurred in log in. Please try again later."))
-        }
+
+    internal suspend fun signInWithEmailAndPassword(email: String, password: String): AuthResult {
+        return auth.signInWithEmailAndPassword(email, password).await()
     }
 
     /**
@@ -171,6 +161,18 @@ class FirebaseAuthService(private var context: Activity) {
     fun signOut() {
         auth.signOut()
         googleSignInClient.signOut()
+    }
+
+    /**
+     * Retrieves the currently authenticated user, if any.
+     *
+     * This function returns the currently signed-in [FirebaseUser], or `null` if no user
+     * is currently authenticated.
+     *
+     * @return The currently signed-in [FirebaseUser], or `null` if there is no authenticated user.
+     */
+    fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser ?: null
     }
 
     companion object {
