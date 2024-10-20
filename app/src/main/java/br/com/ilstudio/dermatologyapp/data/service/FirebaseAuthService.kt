@@ -1,9 +1,7 @@
 package br.com.ilstudio.dermatologyapp.data.service
 
-
 import android.app.Activity
 import android.content.Intent
-import android.widget.Toast
 import br.com.ilstudio.dermatologyapp.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -15,10 +13,13 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
 
-
-open class FirebaseAuthService(private var context: Activity) {
-    private val auth = FirebaseAuth.getInstance()
+open class FirebaseAuthService(private val context: Activity) {
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    init {
+        configureGoogleSignIn()
+    }
 
     /**
      * Configures Google Sign-In options for the application.
@@ -31,7 +32,7 @@ open class FirebaseAuthService(private var context: Activity) {
      * the client ID of the Google project configured in the Google Cloud Console.
      *
      */
-    fun configureGoogleSignIn() {
+    private fun configureGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(context.getString(R.string.web_client_id))
             .requestEmail()
@@ -55,60 +56,72 @@ open class FirebaseAuthService(private var context: Activity) {
     }
 
     /**
-     * Handles the result of the Google Sign-In process.
+     * Handles the result of a Google sign-in attempt.
      *
-     * This method is called after the Google Sign-In activity returns a result. It checks if the
-     * `requestCode` matches the `RC_SIGN_IN` code and retrieves the signed-in account from the intent data.
-     * If the sign-in is successful, it calls `firebaseAuthWithGoogle()` to authenticate with Firebase using
-     * the Google ID token. If an error occurs (such as an `ApiException`), the `onFailure` callback is invoked.
+     * This function processes the result of a Google sign-in intent based on the provided request code.
+     * If the sign-in is successful, it retrieves the Google account from the intent and attempts to
+     * authenticate with Firebase using the account's ID token. The function returns a [Result] indicating
+     * whether the sign-in and Firebase authentication were successful.
      *
-     * @param requestCode The request code passed to identify the sign-in intent result, expected to be `RC_SIGN_IN`.
-     * @param data The intent data returned from the Google Sign-In activity containing the sign-in result.
-     * @param onSuccess A callback function to be executed if the Google Sign-In and Firebase authentication succeed.
-     * @param onFailure A callback function to be executed if the sign-in or Firebase authentication fails.
+     * This is an **internal suspend** function, meaning it must be called within a coroutine or another suspend function,
+     * and it is accessible only within the module.
+     *
+     * @param requestCode The request code received from the Google sign-in intent.
+     * @param data The intent data containing the Google sign-in result.
+     * @return A [Result] containing `true` if the Google sign-in and Firebase authentication are successful,
+     *         or a [Result.failure] if an error occurs during the process.
      *
      */
-    fun handleGoogleSignInResult(requestCode: Int, data: Intent?, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    internal suspend fun handleGoogleSignInResult(requestCode: Int, data: Intent?): Result<Boolean> {
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
                 val account = task.getResult(ApiException::class.java)
                 account?.let {
-                    firebaseAuthWithGoogle(it.idToken!!, onSuccess, onFailure)
+                    val result = firebaseAuthWithGoogle(it.idToken!!)
+                    result.fold({
+                        return Result.success(true)
+                    },{ e ->
+                        return Result.failure(e)
+                    })
                 }
             } catch (e: ApiException) {
-                onFailure()
-                throw e
+                return Result.failure(e)
             }
         }
+
+        return Result.success(false)
     }
 
     /**
-     * Authenticates the user with Firebase using a Google ID token.
+     * Authenticates a user with Firebase using a Google ID token.
      *
-     * This private method takes the Google ID token obtained after a successful Google Sign-In and uses it
-     * to authenticate the user with Firebase. It creates a Firebase credential using the `GoogleAuthProvider`,
-     * and then attempts to sign in to Firebase with that credential.
+     * This function signs in a user to Firebase using the Google ID token provided. It creates
+     * a [GoogleAuthProvider] credential from the token and attempts to sign in with Firebase.
+     * The function returns a [Result] indicating whether the authentication was successful or not.
      *
-     * Upon successful authentication, the `onSuccess` callback is triggered. If the authentication fails,
-     * a toast message is displayed to notify the user of the failure, and the `onFailure` callback is invoked.
+     * This is a **private suspend** function, meaning it must be called within a coroutine or another
+     * suspend function, and it is accessible only within this class or file.
      *
-     * @param idToken The Google ID token obtained from the Google Sign-In result.
-     * @param onSuccess A callback function to be executed if Firebase authentication succeeds.
-     * @param onFailure A callback function to be executed if Firebase authentication fails.
+     * @param idToken The Google ID token used for Firebase authentication.
+     * @return A [Result] containing `true` if the Firebase authentication is successful, or a [Result.failure]
+     *         if the authentication fails.
+     *
      */
-    private fun firebaseAuthWithGoogle(idToken: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    private suspend fun firebaseAuthWithGoogle(idToken: String): Result<Boolean> {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+
         auth.signInWithCredential(credential)
             .addOnCompleteListener(context) { task ->
                 if (task.isSuccessful) {
-                    onSuccess()
+                    Result.success(true)
                 } else {
-                    Toast.makeText(context, "Authentication Failed.", Toast.LENGTH_SHORT).show()
-                    onFailure()
+                    Result.failure(Exception("Authentication Failed."))
                 }
-            }
+            }.await()
+
+        return Result.success(false)
     }
 
     /**
@@ -143,7 +156,6 @@ open class FirebaseAuthService(private var context: Activity) {
      * @return [AuthResult] containing details of the authenticated user if the sign-in is successful.
      *
      */
-
     internal suspend fun signInWithEmailAndPassword(email: String, password: String): AuthResult {
         return auth.signInWithEmailAndPassword(email, password).await()
     }
@@ -171,9 +183,7 @@ open class FirebaseAuthService(private var context: Activity) {
      *
      * @return The currently signed-in [FirebaseUser], or `null` if there is no authenticated user.
      */
-    fun getCurrentUser(): FirebaseUser? {
-        return auth.currentUser ?: null
-    }
+    fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
     companion object {
         private const val RC_SIGN_IN = 9001
