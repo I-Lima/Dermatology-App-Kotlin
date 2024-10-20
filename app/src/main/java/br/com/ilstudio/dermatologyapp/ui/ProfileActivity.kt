@@ -19,7 +19,6 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuthService = FirebaseAuthService(this)
-        firebaseAuthService.configureGoogleSignIn()
 
         binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, MainActivity::class.java))
