@@ -70,7 +70,7 @@ class UserRepository(context: Activity) {
             val resultRegister = userAuth?.let { it1 -> registerGoogleUser(it1) }
 
             resultRegister?.fold({
-                return Result.success(true)
+                return Result.success(it)
             }, {e ->
                 return Result.failure(e)
             })
@@ -110,10 +110,10 @@ class UserRepository(context: Activity) {
 
             if(result.success) return Result.success(true)
 
+            userAuth.delete().await()
             return Result.failure(Exception("Error when trying to register user. Please try later."))
         }
 
-        userAuth.delete().await()
-        return Result.failure(Exception("Unregistered user. Please register."))
+        return Result.success(false)
     }
 }
