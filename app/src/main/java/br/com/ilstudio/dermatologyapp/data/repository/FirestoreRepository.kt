@@ -21,10 +21,10 @@ class FirestoreRepository {
     suspend fun getUser(uid: String): UserResponse {
          return try {
              val result = firestoreService.getUser(uid)
-             val data = result?.data ?: null
+             val data = result?.data
 
              if(data.isNullOrEmpty()) {
-                return UserResponse(false, null, "Data not found")
+                return UserResponse(true, null, "Data not found", true)
              }
 
              UserResponse(true, UserData(

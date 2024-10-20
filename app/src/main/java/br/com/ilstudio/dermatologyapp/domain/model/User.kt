@@ -9,8 +9,8 @@ class User(
     val name: String,
     val email: String,
     val mobileNumber: String,
-    val dateBirth: String,
-    val profilePicture: String?
+    val dateBirth: String? = null,
+    val profilePicture: String? = null
 ) {
     fun toUserDataCreate(): UserData {
         return UserData(
@@ -18,7 +18,7 @@ class User(
             name = this.name,
             email = this.email,
             mobileNumber = this.mobileNumber,
-            dateBirth = dateToTimestamp(dateBirth),
+            dateBirth = if (!this.dateBirth.isNullOrEmpty()) dateToTimestamp(this.dateBirth) else null,
             profilePicture = this.profilePicture,
             createdAt = localDate(),
             updatedAt = localDate()

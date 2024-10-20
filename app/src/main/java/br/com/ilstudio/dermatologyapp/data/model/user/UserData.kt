@@ -7,7 +7,7 @@ data class UserData(
     val name: String,
     val email: String,
     val mobileNumber: String,
-    val dateBirth: Timestamp,
+    val dateBirth: Timestamp?,
     val profilePicture: String?,
     val createdAt: String,
     val updatedAt: String
