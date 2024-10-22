@@ -13,13 +13,10 @@ import br.com.ilstudio.dermatologyapp.data.repository.FirebaseAuthRepository
 import br.com.ilstudio.dermatologyapp.data.repository.UserRepository
 import br.com.ilstudio.dermatologyapp.databinding.ActivitySignUpBinding
 import br.com.ilstudio.dermatologyapp.domain.model.RegistrationUser
+import br.com.ilstudio.dermatologyapp.utils.Validators.isValidDate
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidPassword
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.Period
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -36,7 +33,6 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
         firebaseAuthRepository = FirebaseAuthRepository(this)
-        firebaseAuthRepository.configureGoogleSignIn()
         userRepository = UserRepository(this)
 
         binding.header.setOnBackButtonClickListener {
@@ -76,16 +72,14 @@ class SignUpActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        firebaseAuthRepository.handleGoogleSignInResult(requestCode, data, {
-            Toast
-                .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
-                .show()
-
-            startActivity(Intent(this, MainActivity::class.java))
-        }, {
-
-            binding.textError.text = "An error occurred while registering. Please try again later."
-        })
+        lifecycleScope.launch {
+            val result = userRepository.handleGoogleSignInResult(requestCode, data)
+            result.fold({
+                startActivity(Intent(this@SignUpActivity, NewAccountGoogleActivity::class.java))
+            }, {
+                binding.textError.text = it.message
+            })
+        }
     }
 
     private fun signUp() {
@@ -246,36 +240,4 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Validates the given date string and checks if it represents a valid date,
-     * if the user is at least 18 years old, or if the date is invalid or a minor.
-     *
-     * This function:
-     * - Parses the input date string in the format "dd/MM/yyyy".
-     * - Compares the date to the current date.
-     * - Returns "Valid" if the date corresponds to someone who is 18 years or older.
-     * - Returns "Minor" if the age is less than 18 years.
-     * - Returns "Invalid" if the date is in the future.
-     * - Returns "error" if the date format is incorrect or parsing fails.
-     *
-     * @param dateStg The date string to validate, expected in the format "dd/MM/yyyy".
-     * @return A string indicating the result: "Valid", "Minor", "Invalid", or "error".
-     */
-    private fun isValidDate(dateStg: String): String {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-
-        try {
-            val date = LocalDate.parse(dateStg, formatter)
-            val today = LocalDate.now()
-
-            if (date.isAfter(today)) return "Invalid"
-
-            val age = Period.between(date, today).years
-            if (age < 18) return "Minor"
-
-            return "Valid"
-        } catch (e: DateTimeParseException) {
-            return "error"
-        }
-    }
 }

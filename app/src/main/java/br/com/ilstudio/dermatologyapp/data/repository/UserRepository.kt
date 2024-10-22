@@ -1,13 +1,14 @@
 package br.com.ilstudio.dermatologyapp.data.repository
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import br.com.ilstudio.dermatologyapp.domain.model.RegistrationUser
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
-class UserRepository(context: Activity) {
+class UserRepository(private val context: Activity) {
     private val firebaseAuthRepository = FirebaseAuthRepository(context)
     private val firestoreRepository = FirestoreRepository()
 
@@ -104,11 +105,20 @@ class UserRepository(context: Activity) {
                 userAuth.uid,
                 userAuth.displayName ?: "",
                 userAuth.email ?: "",
-                userAuth.phoneNumber ?: "",
-                ""
+                "",
+                null,
+                userAuth.photoUrl.toString()
             ))
 
-            if(result.success) return Result.success(true)
+            if(result.success) {
+                val sharedPreferences = context.getSharedPreferences("userData", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString("name", userAuth.displayName)
+                editor.putString("profilePicture", userAuth.photoUrl.toString())
+                editor.apply()
+
+                return Result.success(true)
+            }
 
             userAuth.delete().await()
             return Result.failure(Exception("Error when trying to register user. Please try later."))

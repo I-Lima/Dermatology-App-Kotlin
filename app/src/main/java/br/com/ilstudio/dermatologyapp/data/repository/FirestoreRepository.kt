@@ -1,5 +1,6 @@
 package br.com.ilstudio.dermatologyapp.data.repository
 
+import br.com.ilstudio.dermatologyapp.data.model.user.NewAccount
 import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import br.com.ilstudio.dermatologyapp.data.model.user.UserResponse
 import br.com.ilstudio.dermatologyapp.data.service.FirestoreService
@@ -40,5 +41,32 @@ class FirestoreRepository {
          } catch (e: Exception) {
              UserResponse(false, null, "Get user error")
          }
+    }
+
+    suspend fun updateUser(user: UserData): UserResponse {
+        return try {
+            firestoreService.updateUser(user)
+            UserResponse(true)
+        } catch (e: Exception) {
+            UserResponse(false, null, "Error when update user. Please try later.")
+        }
+    }
+
+    suspend fun updateGoogleAccount(user: NewAccount): UserResponse {
+        return try {
+            firestoreService.updateGoogleAccount(user)
+            UserResponse(true)
+        } catch (e: Exception) {
+            UserResponse(false, null, "Error when update user. Please try later.")
+        }
+    }
+
+    suspend fun deleteUser(uid: String): UserResponse  {
+        return try {
+            firestoreService.deleteUser(uid)
+            UserResponse(true)
+        } catch (e: Exception) {
+            UserResponse(false, null, "Error when try delete user. Please try later.")
+        }
     }
 }
