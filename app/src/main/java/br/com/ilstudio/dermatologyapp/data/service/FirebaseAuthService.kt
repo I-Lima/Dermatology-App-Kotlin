@@ -63,7 +63,8 @@ open class FirebaseAuthService(private val context: Activity) {
      * authenticate with Firebase using the account's ID token. The function returns a [Result] indicating
      * whether the sign-in and Firebase authentication were successful.
      *
-     * This is an **internal suspend** function, meaning it must be called within a coroutine or another suspend function,
+     * This is an **internal suspend** function, meaning it must be called within a coroutine or another
+     * suspend function,
      * and it is accessible only within the module.
      *
      * @param requestCode The request code received from the Google sign-in intent.

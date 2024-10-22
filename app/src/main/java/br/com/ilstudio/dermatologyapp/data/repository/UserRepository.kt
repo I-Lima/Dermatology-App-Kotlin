@@ -88,9 +88,11 @@ class UserRepository(private val context: Activity) {
      * This function checks if a user authenticated via Google already exists in the Firestore database.
      * If the user is not found, it creates a new user record with the details from the [FirebaseUser] object
      * and saves it to Firestore. If the user registration is successful, it returns a [Result.success].
-     * If the registration fails or the user already exists, the function deletes the authenticated user and returns a [Result.failure].
+     * If the registration fails or the user already exists, the function deletes the authenticated
+     * user and returns a [Result.failure].
      *
-     * This is a **private suspend** function, meaning it must be called within a coroutine or another suspend function, and it is accessible only within this class or file.
+     * This is a **private suspend** function, meaning it must be called within a coroutine or another
+     * suspend function, and it is accessible only within this class or file.
      *
      * @param userAuth The authenticated [FirebaseUser] object retrieved from Google sign-in.
      * @return A [Result] containing `true` if the user registration is successful, or a [Result.failure]
