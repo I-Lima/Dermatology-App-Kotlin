@@ -9,8 +9,8 @@
 
         <ImageView
             android:id="@+id/button_back"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/icon_arrow"
             android:contentDescription="@string/back_icon"
             android:clickable="true"
