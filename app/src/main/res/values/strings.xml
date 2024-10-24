@@ -13,7 +13,7 @@
     <string name="password">Password</string>
     <string name="pass_login">*************</string>
     <string name="forget_password">Forget Password</string>
-    <string name="don_t_have_an_account">Don`t have an account?</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="invalid_email_mobile_number_or_password">Invalid email or password</string>
     <string name="invalid_email">Invalid email</string>
     <string name="show_hidden_password">show/hidden password</string>
@@ -28,7 +28,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="full_name">Full name</string>
     <string name="john_doe">John Doe</string>
-    <string name="already_have_an_account">already have an account?</string>
+    <string name="already_have_an_account">Already have an account?</string>
     <string name="or_sign_up_with">or sign up with</string>
     <string name="google_sign_up">Google sign up</string>
     <string name="web_client_id">3415260252-l9m5mqstl7qbul635ng5aruok6poa24f.apps.googleusercontent.com</string>
@@ -47,4 +47,5 @@
     <string name="logout_description">are you sure you want to log out?</string>
     <string name="or_sign_in_with">or sign in with</string>
     <string name="an_error_occurred_while_registering_please_try_again_later">An error occurred while registering. Please try again later.</string>
+    <string name="new_account_description">Some information is missing to complete your profile. Please fill in the following fields.</string>
 </resources>

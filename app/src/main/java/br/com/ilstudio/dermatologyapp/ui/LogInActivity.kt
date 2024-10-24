@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
-import br.com.ilstudio.dermatologyapp.data.service.FirebaseAuthService
+import br.com.ilstudio.dermatologyapp.data.repository.FirebaseAuthRepository
+import br.com.ilstudio.dermatologyapp.data.repository.UserRepository
 import br.com.ilstudio.dermatologyapp.databinding.ActivityLogInBinding
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import kotlinx.coroutines.launch
@@ -17,14 +19,16 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
     private lateinit var user: String
     private lateinit var pass: String
-    private lateinit var firebaseAuthService: FirebaseAuthService
+    private lateinit var firebaseAuthRepository: FirebaseAuthRepository
+    private lateinit var userRepository: UserRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        firebaseAuthService = FirebaseAuthService(this)
-        firebaseAuthService.configureGoogleSignIn()
+        firebaseAuthRepository = FirebaseAuthRepository(this)
+        userRepository = UserRepository(this)
 
         binding.header.setOnBackButtonClickListener {
             startActivity(Intent(this, LaunchScreenActivity::class.java))
@@ -50,7 +54,7 @@ class LogInActivity : AppCompatActivity() {
             }
 
             lifecycleScope.launch {
-                val result = firebaseAuthService.signInWithEmailAndPassword(user, pass)
+                val result = firebaseAuthRepository.signIn(user, pass)
                 result.fold({
                         startActivity(Intent(this@LogInActivity, MainActivity::class.java))
                     },
@@ -58,14 +62,10 @@ class LogInActivity : AppCompatActivity() {
                         binding.textError.text = exception.message
                     })
             }
-
-            binding.textError.text = getString(R.string.invalid_email_mobile_number_or_password)
-            binding.textError.text = ""
-
         }
 
         binding.buttonGoogle.setOnClickListener {
-            firebaseAuthService.signInWithGoogle()
+            firebaseAuthRepository.signInWithGoogle()
         }
 
         binding.buttonForget.setOnClickListener {
@@ -81,11 +81,20 @@ class LogInActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        firebaseAuthService.handleGoogleSignInResult(requestCode, data, {
-            startActivity(Intent(this, MainActivity::class.java))
-        }, {
-            binding.textError.text = "An error occurred in log in. Please try again later."
-        })
+        lifecycleScope.launch {
+            val result = userRepository.handleGoogleSignInResult(requestCode, data)
+            result.fold({
+                if(it) {
+                    Toast
+                        .makeText(this@LogInActivity, "User registered successfully", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+            }, {
+                binding.textError.text = it.message
+            })
+        }
     }
 
     private val loginTextWatcher = object : TextWatcher {

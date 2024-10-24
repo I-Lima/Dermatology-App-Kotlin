@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.NewAccountGoogleActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="24dp">
+        <br.com.ilstudio.dermatologyapp.ui.customview.HeaderView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title="@string/new_account"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/league_spartan"
+            android:text="@string/new_account_description"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
+
+        <LinearLayout
+            android:id="@+id/contentNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/mobile_number"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/editNumber"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/shape_view_edit_text"
+                android:fontFamily="@font/league_spartan"
+                android:gravity="center_vertical"
+                android:hint="@string/xx_xxxxx_xxxx"
+                android:inputType="number"
+                android:textColorHint="@color/blue_light_200"
+                android:textSize="18sp"
+                android:paddingHorizontal="16dp"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentBirth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/contentNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/date_of_birth"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/editBirth"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/shape_view_edit_text"
+                android:fontFamily="@font/league_spartan"
+                android:gravity="center_vertical"
+                android:hint="@string/dd_mm_yyyy"
+                android:inputType="date"
+                android:textColorHint="@color/blue_light_200"
+                android:textSize="18sp"
+                android:paddingHorizontal="16dp"
+                android:maxLines="1"
+                android:maxLength="10"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/contentBirth"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/error"
+            android:fontFamily="@font/league_spartan"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
+            android:id="@+id/button_sign_in_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:active="false"
+            app:labelTextButton="Create Account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textError"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

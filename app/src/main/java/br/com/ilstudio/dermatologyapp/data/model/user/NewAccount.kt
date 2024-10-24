@@ -1,18 +1,10 @@
 package br.com.ilstudio.dermatologyapp.data.model.user
 
-import java.sql.Timestamp
-
-class UserData(
+class NewAccount (
     val uid: String,
-    val name: String,
-    val email: String,
     val mobileNumber: String,
-    val dateBirth: Timestamp?,
-    val profilePicture: String?,
-    val createdAt: String,
-    val updatedAt: String
+    val dateBirth: String
 ) {
-
     /**
      * Converts the user object to a map representation.
      *
@@ -26,13 +18,8 @@ class UserData(
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "uid" to uid,
-            "name" to name,
-            "email" to email,
             "mobileNumber" to mobileNumber,
             "dateBirth" to dateBirth,
-            "profilePicture" to profilePicture,
-            "createdAt" to createdAt,
-            "updatedAt" to updatedAt
         )
     }
 }

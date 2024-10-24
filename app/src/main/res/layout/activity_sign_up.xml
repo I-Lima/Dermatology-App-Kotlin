@@ -230,7 +230,8 @@
             android:layout_marginTop="8dp"
             android:textColor="@color/error"
             android:fontFamily="@font/league_spartan"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textSize="16sp"/>
 
         <LinearLayout
             android:id="@+id/textTerm"

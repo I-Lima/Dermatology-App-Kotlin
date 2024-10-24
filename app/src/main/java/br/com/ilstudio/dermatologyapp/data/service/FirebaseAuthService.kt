@@ -1,25 +1,25 @@
 package br.com.ilstudio.dermatologyapp.data.service
 
-
 import android.app.Activity
 import android.content.Intent
-import android.widget.Toast
 import br.com.ilstudio.dermatologyapp.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
 
-
-class FirebaseAuthService(private var context: Activity) {
-    private val auth = FirebaseAuth.getInstance()
+open class FirebaseAuthService(private val context: Activity) {
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    init {
+        configureGoogleSignIn()
+    }
 
     /**
      * Configures Google Sign-In options for the application.
@@ -31,9 +31,8 @@ class FirebaseAuthService(private var context: Activity) {
      * The web client ID is retrieved from the app's string resources, which should match
      * the client ID of the Google project configured in the Google Cloud Console.
      *
-     * @throws Resources.NotFoundException if the web client ID resource is not found.
      */
-    fun configureGoogleSignIn() {
+    private fun configureGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(context.getString(R.string.web_client_id))
             .requestEmail()
@@ -50,8 +49,6 @@ class FirebaseAuthService(private var context: Activity) {
      * the intent for a result. The result will be handled in the activity's `onActivityResult`
      * method, using the request code `RC_SIGN_IN`.
      *
-     * @throws IllegalStateException if the `googleSignInClient` is not properly initialized
-     * before calling this method.
      */
     fun signInWithGoogle() {
         val signInIntent = googleSignInClient.signInIntent
@@ -59,109 +56,109 @@ class FirebaseAuthService(private var context: Activity) {
     }
 
     /**
-     * Handles the result of the Google Sign-In process.
+     * Handles the result of a Google sign-in attempt.
      *
-     * This method is called after the Google Sign-In activity returns a result. It checks if the
-     * `requestCode` matches the `RC_SIGN_IN` code and retrieves the signed-in account from the intent data.
-     * If the sign-in is successful, it calls `firebaseAuthWithGoogle()` to authenticate with Firebase using
-     * the Google ID token. If an error occurs (such as an `ApiException`), the `onFailure` callback is invoked.
+     * This function processes the result of a Google sign-in intent based on the provided request code.
+     * If the sign-in is successful, it retrieves the Google account from the intent and attempts to
+     * authenticate with Firebase using the account's ID token. The function returns a [Result] indicating
+     * whether the sign-in and Firebase authentication were successful.
      *
-     * @param requestCode The request code passed to identify the sign-in intent result, expected to be `RC_SIGN_IN`.
-     * @param data The intent data returned from the Google Sign-In activity containing the sign-in result.
-     * @param onSuccess A callback function to be executed if the Google Sign-In and Firebase authentication succeed.
-     * @param onFailure A callback function to be executed if the sign-in or Firebase authentication fails.
+     * This is an **internal suspend** function, meaning it must be called within a coroutine or another
+     * suspend function,
+     * and it is accessible only within the module.
      *
-     * @throws ApiException if there is an issue with retrieving the Google account from the intent.
+     * @param requestCode The request code received from the Google sign-in intent.
+     * @param data The intent data containing the Google sign-in result.
+     * @return A [Result] containing `true` if the Google sign-in and Firebase authentication are successful,
+     *         or a [Result.failure] if an error occurs during the process.
+     *
      */
-    fun handleGoogleSignInResult(requestCode: Int, data: Intent?, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    internal suspend fun handleGoogleSignInResult(requestCode: Int, data: Intent?): Result<Boolean> {
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
                 val account = task.getResult(ApiException::class.java)
                 account?.let {
-                    firebaseAuthWithGoogle(it.idToken!!, onSuccess, onFailure)
+                    val result = firebaseAuthWithGoogle(it.idToken!!)
+                    result.fold({
+                        return Result.success(true)
+                    },{ e ->
+                        return Result.failure(e)
+                    })
                 }
             } catch (e: ApiException) {
-                onFailure()
-                throw e
+                return Result.failure(e)
             }
         }
+
+        return Result.success(false)
     }
 
     /**
-     * Authenticates the user with Firebase using a Google ID token.
+     * Authenticates a user with Firebase using a Google ID token.
      *
-     * This private method takes the Google ID token obtained after a successful Google Sign-In and uses it
-     * to authenticate the user with Firebase. It creates a Firebase credential using the `GoogleAuthProvider`,
-     * and then attempts to sign in to Firebase with that credential.
+     * This function signs in a user to Firebase using the Google ID token provided. It creates
+     * a [GoogleAuthProvider] credential from the token and attempts to sign in with Firebase.
+     * The function returns a [Result] indicating whether the authentication was successful or not.
      *
-     * Upon successful authentication, the `onSuccess` callback is triggered. If the authentication fails,
-     * a toast message is displayed to notify the user of the failure, and the `onFailure` callback is invoked.
+     * This is a **private suspend** function, meaning it must be called within a coroutine or another
+     * suspend function, and it is accessible only within this class or file.
      *
-     * @param idToken The Google ID token obtained from the Google Sign-In result.
-     * @param onSuccess A callback function to be executed if Firebase authentication succeeds.
-     * @param onFailure A callback function to be executed if Firebase authentication fails.
+     * @param idToken The Google ID token used for Firebase authentication.
+     * @return A [Result] containing `true` if the Firebase authentication is successful, or a [Result.failure]
+     *         if the authentication fails.
+     *
      */
-    private fun firebaseAuthWithGoogle(idToken: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    private suspend fun firebaseAuthWithGoogle(idToken: String): Result<Boolean> {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+
         auth.signInWithCredential(credential)
             .addOnCompleteListener(context) { task ->
                 if (task.isSuccessful) {
-                    onSuccess()
+                    Result.success(true)
                 } else {
-                    Toast.makeText(context, "Authentication Failed.", Toast.LENGTH_SHORT).show()
-                    onFailure()
+                    Result.failure(Exception("Authentication Failed."))
                 }
-            }
+            }.await()
+
+        return Result.success(false)
     }
 
     /**
-     * Creates a new user with the provided email address and password.
+     * Asynchronously creates a new user with the provided email and password.
      *
-     * This function uses Firebase Authentication to register a new user.
-     * A completion listener is added to check if the operation was successful.
+     * This function uses Firebase Authentication to register a new user account with the given
+     * email and password. The result of the account creation is returned as an [AuthResult] object.
      *
-     * @param email The email address of the user to be registered. It must be a valid email.
-     * @param password The password of the user. It must be at least 6 characters long.
-     * @return Returns `true` if the user registration is successful; otherwise, returns `false`.
+     * This is a **suspend** function, meaning it must be called within a coroutine or another
+     * suspend function, and it will suspend execution until the user creation process is complete.
      *
-     * @throws FirebaseAuthException If an error occurs during authentication, such as an email
-     * already in use or a weak password.
+     * @param email The email address for the new user account.
+     * @param password The password to set for the new user account.
+     * @return [AuthResult] containing details of the newly created user if successful.
+     *
      */
-    suspend fun createUserWithEmailAndPassword(email: String, password: String): Result<Boolean> {
-        return try {
-            val authResult = auth.createUserWithEmailAndPassword(email, password).await()
-            Result.success(authResult.user != null)
-        } catch (e: Exception) {
-            Result.failure(Exception("An error occurred in log in. Please try again later."))
-        }
+    internal suspend fun createUserWithEmailAndPassword(email: String, password: String): AuthResult {
+        return auth.createUserWithEmailAndPassword(email, password).await()
     }
 
     /**
-     * Signs in a user with the provided email address and password.
+     * Asynchronously signs in a user with the provided email and password.
      *
-     * This function uses Firebase Authentication to sign in an existing user.
-     * A completion listener is added to check if the operation was successful.
+     * This function uses Firebase Authentication to sign in a user with the given email
+     * and password. The result of the sign-in process is returned as an [AuthResult] object.
      *
-     * @param email The email address of the user attempting to sign in. It must be a valid email.
-     * @param password The password of the user. It must match the password used during registration.
-     * @return Returns `true` if the sign-in is successful; otherwise, returns `false`.
+     * This is a **suspend** function, meaning it must be called within a coroutine or another
+     * suspend function, and it will suspend execution until the sign-in process completes.
      *
-     * @throws FirebaseAuthException If an error occurs during authentication, such as an incorrect
-     * password or a non-existing email.
+     * @param email The email address of the user attempting to sign in.
+     * @param password The password associated with the provided email.
+     * @return [AuthResult] containing details of the authenticated user if the sign-in is successful.
+     *
      */
-    suspend fun signInWithEmailAndPassword(email: String, password: String): Result<Boolean> {
-        return try {
-            val authResult = auth.signInWithEmailAndPassword(email, password).await()
-            Result.success(authResult.user != null)
-        } catch (e: FirebaseAuthInvalidUserException) {
-            Result.failure(Exception("User not found."))
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Result.failure(Exception("Invalid email or password"))
-        } catch (e: Exception) {
-            Result.failure(Exception("An error occurred in log in. Please try again later."))
-        }
+    internal suspend fun signInWithEmailAndPassword(email: String, password: String): AuthResult {
+        return auth.signInWithEmailAndPassword(email, password).await()
     }
 
     /**
@@ -178,6 +175,16 @@ class FirebaseAuthService(private var context: Activity) {
         auth.signOut()
         googleSignInClient.signOut()
     }
+
+    /**
+     * Retrieves the currently authenticated user, if any.
+     *
+     * This function returns the currently signed-in [FirebaseUser], or `null` if no user
+     * is currently authenticated.
+     *
+     * @return The currently signed-in [FirebaseUser], or `null` if there is no authenticated user.
+     */
+    fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
     companion object {
         private const val RC_SIGN_IN = 9001
