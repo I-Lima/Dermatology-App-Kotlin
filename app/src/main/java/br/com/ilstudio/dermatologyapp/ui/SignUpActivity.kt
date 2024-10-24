@@ -60,6 +60,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.buttonGoogle.setOnClickListener {
+            binding.buttonSignIn2.showLoading(true)
             firebaseAuthRepository.signInWithGoogle()
         }
 
@@ -72,8 +73,10 @@ class SignUpActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        binding.buttonSignIn2.showLoading(true)
         lifecycleScope.launch {
             val result = userRepository.handleGoogleSignInResult(requestCode, data)
+            binding.buttonSignIn2.showLoading(false)
             result.fold({
                 startActivity(Intent(this@SignUpActivity, NewAccountGoogleActivity::class.java))
             }, {
@@ -83,6 +86,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun signUp() {
+        binding.buttonSignIn2.showLoading(true)
         if (!isValidEmail(email)) {
             binding.editEmail.error = getString(R.string.invalid_email)
         }
@@ -103,11 +107,13 @@ class SignUpActivity : AppCompatActivity() {
                     "letters and special characters."
         }
 
+
         val emailError = binding.editEmail.error
         val dateError = binding.editBirth.error
         val passError = binding.editPass.error
 
         if(emailError.isNullOrEmpty() && dateError.isNullOrEmpty() && passError.isNullOrEmpty()) {
+            binding.buttonSignIn2.showLoading(true)
             lifecycleScope.launch {
                 val result = userRepository.registerAndAddUser(RegistrationUser(
                     name,
@@ -117,6 +123,7 @@ class SignUpActivity : AppCompatActivity() {
                     birth
                 ))
 
+                binding.buttonSignIn2.showLoading(false)
                 result.fold({
                     Toast
                         .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
@@ -128,6 +135,8 @@ class SignUpActivity : AppCompatActivity() {
                 })
             }
         }
+
+        binding.buttonSignIn2.showLoading(false)
     }
 
     private val loginTextWatcher = object : TextWatcher {

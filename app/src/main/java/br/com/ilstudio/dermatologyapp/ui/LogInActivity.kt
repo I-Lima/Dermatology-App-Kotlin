@@ -53,18 +53,22 @@ class LogInActivity : AppCompatActivity() {
                 return@setOnButtonClickListener
             }
 
+            binding.buttonLogIn2.showLoading(true)
             lifecycleScope.launch {
                 val result = firebaseAuthRepository.signIn(user, pass)
+                binding.buttonLogIn2.showLoading(false)
+
                 result.fold({
-                        startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-                    },
-                    { exception ->
-                        binding.textError.text = exception.message
-                    })
+                    startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                },
+                { exception ->
+                    binding.textError.text = exception.message
+                })
             }
         }
 
         binding.buttonGoogle.setOnClickListener {
+            binding.buttonLogIn2.showLoading(true)
             firebaseAuthRepository.signInWithGoogle()
         }
 
@@ -83,6 +87,7 @@ class LogInActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val result = userRepository.handleGoogleSignInResult(requestCode, data)
+            binding.buttonLogIn2.showLoading(false)
             result.fold({
                 if(it) {
                     Toast
