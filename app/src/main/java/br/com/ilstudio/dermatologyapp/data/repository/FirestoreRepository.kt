@@ -30,11 +30,11 @@ class FirestoreRepository {
 
              UserResponse(true, UserData(
                  data["uid"] as? String ?: "",
-                 data["fullName"] as? String ?: "",
+                 data["name"] as? String ?: "",
                  data["email"] as? String ?: "",
                  data["mobileNumber"] as? String ?: "",
                  data["dateBirth"] as? Timestamp ?: Timestamp(167234),
-                 data["userPicture"] as? String ?: "",
+                 data["profilePicture"] as? String ?: "",
                  data["createdAt"] as? String ?: "",
                  data["updatedAt"] as? String ?: "",
              ))
