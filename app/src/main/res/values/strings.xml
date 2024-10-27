@@ -48,4 +48,8 @@
     <string name="or_sign_in_with">or sign in with</string>
     <string name="an_error_occurred_while_registering_please_try_again_later">An error occurred while registering. Please try again later.</string>
     <string name="new_account_description">Some information is missing to complete your profile. Please fill in the following fields.</string>
+    <string name="edit_profile">Edit Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_icon">edit icon</string>
 </resources>

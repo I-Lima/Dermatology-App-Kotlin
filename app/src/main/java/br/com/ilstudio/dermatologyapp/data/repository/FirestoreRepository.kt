@@ -10,6 +10,21 @@ import java.sql.Timestamp
 class FirestoreRepository {
     private val firestoreService = FirestoreService()
 
+    /**
+     * Saves a user object to the Firestore database.
+     *
+     * This function attempts to save the provided [User] object to Firestore. If the save operation
+     * is successful, it returns a [UserResponse] indicating success. In case of an error, it catches
+     * the exception and returns a [UserResponse] indicating failure, along with an error message.
+     *
+     * This is a **suspend** function, meaning it must be called within a coroutine or another suspend function.
+     *
+     * @param user The [User] object to be saved in the database.
+     * @return A [UserResponse] indicating the success or failure of the save operation.
+     *         If successful, the response will contain `true`; otherwise, it will include an error message.
+     * @throws Exception If an error occurs while attempting to save the user.
+     */
+
     suspend fun saveUser(user: User): UserResponse {
         return try {
             firestoreService.saveUser(user.id, user.toUserDataCreate())
@@ -18,6 +33,22 @@ class FirestoreRepository {
             UserResponse(false, null, "Register error")
         }
     }
+
+    /**
+     * Saves a user object to the Firestore database.
+     *
+     * This function attempts to save the provided [User] object to the Firestore database.
+     * If the save operation is successful, it returns a [UserResponse] indicating success.
+     * In the event of an error, it catches the exception and returns a [UserResponse] indicating failure,
+     * along with a descriptive error message.
+     *
+     * This is a **suspend** function, meaning it must be called within a coroutine or another suspend function.
+     *
+     * @param user The [User] object to be saved in the database.
+     * @return A [UserResponse] indicating the success or failure of the save operation.
+     *         If successful, the response will contain `true`; otherwise, it will include an error message.
+     * @throws Exception If an error occurs while attempting to save the user.
+     */
 
     suspend fun getUser(uid: String): UserResponse {
          return try {
@@ -43,6 +74,21 @@ class FirestoreRepository {
          }
     }
 
+    /**
+     * Updates an existing user object in the Firestore database.
+     *
+     * This function attempts to update the provided [UserData] object in the Firestore database.
+     * If the update operation is successful, it returns a [UserResponse] indicating success.
+     * If an error occurs during the update, it catches the exception and returns a [UserResponse]
+     * indicating failure, along with a descriptive error message.
+     *
+     * This is a **suspend** function, meaning it must be called within a coroutine or another suspend function.
+     *
+     * @param user The [UserData] object containing the updated user information.
+     * @return A [UserResponse] indicating the success or failure of the update operation.
+     *         If successful, the response will contain `true`; otherwise, it will include an error message.
+     * @throws Exception If an error occurs while attempting to update the user.
+     */
     suspend fun updateUser(user: UserData): UserResponse {
         return try {
             firestoreService.updateUser(user)
@@ -52,6 +98,21 @@ class FirestoreRepository {
         }
     }
 
+    /**
+     * Updates a Google account in the Firestore database.
+     *
+     * This function attempts to update the provided [NewAccount] object in the Firestore database.
+     * If the update operation is successful, it returns a [UserResponse] indicating success.
+     * If an error occurs during the update, it catches the exception and returns a [UserResponse]
+     * indicating failure, along with a descriptive error message.
+     *
+     * This is a **suspend** function, meaning it must be called within a coroutine or another suspend function.
+     *
+     * @param user The [NewAccount] object containing the updated Google account information.
+     * @return A [UserResponse] indicating the success or failure of the update operation.
+     *         If successful, the response will contain `true`; otherwise, it will include an error message.
+     * @throws Exception If an error occurs while attempting to update the Google account.
+     */
     suspend fun updateGoogleAccount(user: NewAccount): UserResponse {
         return try {
             firestoreService.updateGoogleAccount(user)
@@ -61,6 +122,21 @@ class FirestoreRepository {
         }
     }
 
+    /**
+     * Deletes a user from the Firestore database.
+     *
+     * This function attempts to delete the user associated with the provided user ID (UID)
+     * from the Firestore database. If the deletion is successful, it returns a [UserResponse]
+     * indicating success. If an error occurs during the deletion process, it catches the exception
+     * and returns a [UserResponse] indicating failure, along with a descriptive error message.
+     *
+     * This is a **suspend** function, meaning it must be called within a coroutine or another suspend function.
+     *
+     * @param uid The user ID (UID) of the user to be deleted.
+     * @return A [UserResponse] indicating the success or failure of the deletion operation.
+     *         If successful, the response will contain `true`; otherwise, it will include an error message.
+     * @throws Exception If an error occurs while attempting to delete the user.
+     */
     suspend fun deleteUser(uid: String): UserResponse  {
         return try {
             firestoreService.deleteUser(uid)

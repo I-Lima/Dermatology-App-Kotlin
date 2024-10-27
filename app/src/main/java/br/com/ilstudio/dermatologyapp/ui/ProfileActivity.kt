@@ -31,7 +31,9 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        binding.buttonProfile.setOnButtonClickListener { }
+        binding.buttonProfile.setOnButtonClickListener {
+            startActivity(Intent(this, EditProfileActivity::class.java))
+        }
         binding.buttonPrivacy.setOnButtonClickListener { }
         binding.buttonSettings.setOnButtonClickListener { }
         binding.buttonHelp.setOnButtonClickListener { }

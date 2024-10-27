@@ -115,8 +115,7 @@ class UserRepository(private val context: Activity) {
             ))
 
             if(result.success) {
-                editor.putString("name", userAuth.displayName)
-                editor.putString("profilePicture", userAuth.photoUrl.toString())
+                editor.putString("userId", userAuth.uid)
                 editor.apply()
 
                 return Result.success(true)
@@ -126,8 +125,7 @@ class UserRepository(private val context: Activity) {
             return Result.failure(Exception("Error when trying to register user. Please try later."))
         }
 
-        editor.putString("name", user.data?.name)
-        editor.putString("profilePicture", user.data?.profilePicture)
+        editor.putString("userId", userAuth.uid)
         editor.apply()
 
         return Result.success(false)
