@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.data.repository.FirebaseAuthRepository
@@ -90,12 +89,10 @@ class LogInActivity : AppCompatActivity() {
             binding.buttonLogIn2.showLoading(false)
             result.fold({
                 if(it) {
-                    Toast
-                        .makeText(this@LogInActivity, "User registered successfully", Toast.LENGTH_SHORT)
-                        .show()
+                    startActivity(Intent(this@LogInActivity, NewAccountGoogleActivity::class.java))
+                } else {
+                    startActivity(Intent(this@LogInActivity, MainActivity::class.java))
                 }
-
-                startActivity(Intent(this@LogInActivity, MainActivity::class.java))
             }, {
                 binding.textError.text = it.message
             })
