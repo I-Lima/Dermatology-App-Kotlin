@@ -58,7 +58,7 @@ class LogInActivity : AppCompatActivity() {
                 binding.buttonLogIn2.showLoading(false)
 
                 result.fold({
-                    startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                    startActivity(Intent(baseContext, MainActivity::class.java))
                 },
                 { exception ->
                     binding.textError.text = exception.message
@@ -89,9 +89,9 @@ class LogInActivity : AppCompatActivity() {
             binding.buttonLogIn2.showLoading(false)
             result.fold({
                 if(it) {
-                    startActivity(Intent(this@LogInActivity, NewAccountGoogleActivity::class.java))
+                    startActivity(Intent(baseContext, NewAccountGoogleActivity::class.java))
                 } else {
-                    startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                    startActivity(Intent(baseContext, MainActivity::class.java))
                 }
             }, {
                 binding.textError.text = it.message

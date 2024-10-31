@@ -72,10 +72,10 @@ class NewAccountGoogleActivity : AppCompatActivity() {
         }
 
         Toast
-            .makeText(this@NewAccountGoogleActivity, "User registered successfully", Toast.LENGTH_SHORT)
+            .makeText(baseContext, "User registered successfully", Toast.LENGTH_SHORT)
             .show()
 
-        startActivity(Intent(this@NewAccountGoogleActivity, MainActivity::class.java))
+        startActivity(Intent(baseContext, MainActivity::class.java))
         finish()
     }
 
