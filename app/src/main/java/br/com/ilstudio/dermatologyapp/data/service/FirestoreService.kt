@@ -24,7 +24,7 @@ class FirestoreService {
 
     internal suspend fun updateUser(user: UserData): Void? {
         return db.collection(USERS_TABLE).document(user.uid)
-            .update(user.toMap())
+            .update(user.toMapUpdate())
             .await()
     }
 
