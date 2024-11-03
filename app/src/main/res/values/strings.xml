@@ -52,4 +52,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_icon">edit icon</string>
+    <string name="button_try_again">button try again</string>
+    <string name="button_save">button save</string>
+    <string name="button_gallery">button gallery</string>
+    <string name="capture_button">capture button</string>
+    <string name="close_button">close button</string>
+    <string name="switch_camera_button">switch camera button</string>
 </resources>
