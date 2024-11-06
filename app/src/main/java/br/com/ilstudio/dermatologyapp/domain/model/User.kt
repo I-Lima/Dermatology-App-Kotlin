@@ -24,4 +24,15 @@ class User(
             updatedAt = localDate()
         )
     }
+
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "id" to this.id,
+            "name" to this.name,
+            "email" to this.email,
+            "mobileNumber" to this.mobileNumber,
+            "dateBirth" to if (!this.dateBirth.isNullOrEmpty()) dateToTimestamp(this.dateBirth) else null,
+            "profilePicture" to this.profilePicture,
+        )
+    }
 }
