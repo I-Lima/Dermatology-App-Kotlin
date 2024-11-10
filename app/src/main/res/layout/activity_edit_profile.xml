@@ -226,6 +226,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:labelTextButton="Update Profile"
+            app:active="false"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

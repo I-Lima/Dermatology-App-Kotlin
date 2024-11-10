@@ -7,6 +7,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +20,7 @@ import br.com.ilstudio.dermatologyapp.databinding.ActivityEditProfileBinding
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import br.com.ilstudio.dermatologyapp.ui.customview.CameraActivity
 import br.com.ilstudio.dermatologyapp.utils.Convert.base64ToBitmap
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import java.io.File
@@ -25,6 +30,12 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var firestoreRepository: FirestoreRepository
+    private lateinit var userSave: Map<String, Any?>
+    private lateinit var name: String
+    private lateinit var email: String
+    private lateinit var number: String
+    private lateinit var birth: String
+    private var userData: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,18 +43,46 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("userData", Context.MODE_PRIVATE)
-        firestoreRepository = FirestoreRepository()
+        firestoreRepository = FirestoreRepository(this)
 
-        val userData = fetchUserData()
+
+        userData = fetchUserData()
         if (userData == null) {
             Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
             return
         }
 
-        setUserData(userData)
+        userSave = userData!!.toMap()
+        setUserData(userData!!)
+
+        binding.editName.addTextChangedListener(loginTextWatcher)
+        binding.editEmail.addTextChangedListener(loginTextWatcher)
+        binding.editNumber.addTextChangedListener(numberTextWatcher)
+        binding.editBirth.addTextChangedListener(dateTextWatcher)
 
         binding.header.setOnBackButtonClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            if (!isIgual(userSave, userData!!.toMap())) {
+                val view: View = layoutInflater.inflate(R.layout.view_modal, null)
+                val buttonCancel = view.findViewById<Button>(R.id.button_cancel)
+                val buttonContinue = view.findViewById<Button>(R.id.button_continue)
+
+                val dialog = BottomSheetDialog(this)
+                dialog.setContentView(view)
+                dialog.show()
+
+                buttonCancel.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                buttonContinue.setOnClickListener {
+                    dialog.dismiss()
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
+                }
+            }
+
+//            startActivity(Intent(this, ProfileActivity::class.java))
+//            finish()
         }
 
         binding.imgUser.setOnClickListener {
@@ -52,8 +91,10 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.buttonUpdate.setOnButtonClickListener {
             lifecycleScope.launch {
-                updateUserData(userData.id)
+                updateUserData(userData!!.id)
             }
+
+            TODO("Add verification to update data")
         }
     }
 
@@ -132,5 +173,114 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
         return file.toUri()
+    }
+
+    private fun isIgual(a: Any?, b: Any?): Boolean {return a == b}
+
+    private val loginTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            name = binding.editName.text.toString()
+            email = binding.editEmail.text.toString()
+            number = binding.editNumber.text.toString()
+            birth = binding.editBirth.text.toString()
+            userData = User(name, email, number, birth)
+
+            binding.buttonUpdate.setActive(!isIgual(userSave, userData!!.toMap() ))
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    }
+
+    private val numberTextWatcher = object : TextWatcher {
+        private var isUpdating: Boolean = false
+        private val mask = "(##) #####-####"
+
+        override fun afterTextChanged(s: Editable?) {
+            name = binding.editName.text.toString()
+            email = binding.editEmail.text.toString()
+            number = binding.editNumber.text.toString()
+            birth = binding.editBirth.text.toString()
+            userData = User(name, email, number, birth)
+
+            binding.buttonUpdate.setActive(!isIgual(userSave, userData!!.toMap() ))
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (isUpdating) {
+                isUpdating = false
+                return
+            }
+
+            var str = s.toString().replace(Regex("[^\\d]"), "")
+
+            if (str.length > 11) {
+                str = str.substring(0, 11)
+            }
+
+            var formatted = ""
+            var i = 0
+            for (m in mask.toCharArray()) {
+                if (m != '#' && i < str.length) {
+                    formatted += m
+                } else {
+                    if (i < str.length) {
+                        formatted += str[i]
+                        i++
+                    }
+                }
+            }
+
+            isUpdating = true
+            binding.editNumber.setText(formatted)
+            binding.editNumber.setSelection(formatted.length)
+        }
+    }
+
+    private val dateTextWatcher = object : TextWatcher {
+        private var isUpdating: Boolean = false
+        private val mask = "##/##/####"
+
+        override fun afterTextChanged(s: Editable?) {
+            name = binding.editName.text.toString()
+            email = binding.editEmail.text.toString()
+            number = binding.editNumber.text.toString()
+            birth = binding.editBirth.text.toString()
+            userData = User(name, email, number, birth)
+
+            binding.buttonUpdate.setActive(!isIgual(userSave, userData!!.toMap() ))
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (isUpdating) {
+                isUpdating = false
+                return
+            }
+
+            var str = s.toString().replace(Regex("[^\\d]"), "")
+
+            if (str.length > 8) {
+                str = str.substring(0, 8)
+            }
+
+            var formatted = ""
+            var i = 0
+            for (m in mask.toCharArray()) {
+                if (m != '#') {
+                    formatted += m
+                } else {
+                    if (i < str.length) {
+                        formatted += str[i]
+                        i++
+                    }
+                }
+            }
+
+            isUpdating = true
+            binding.editBirth.setText(formatted)
+            binding.editBirth.setSelection(formatted.length)
+        }
     }
 }
