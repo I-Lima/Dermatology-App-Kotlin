@@ -1,6 +1,7 @@
 package br.com.ilstudio.dermatologyapp.data.repository
 
 import android.app.Activity
+import android.content.Context
 import br.com.ilstudio.dermatologyapp.data.service.FirebaseAuthService
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -8,6 +9,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class FirebaseAuthRepository(context: Activity): FirebaseAuthService(context) {
     private val firebaseAuthService = FirebaseAuthService(context)
+    private val sharedPreferences = context.getSharedPreferences("userData", Context.MODE_PRIVATE)
+    private val editor = sharedPreferences.edit()
 
     /**
      * Asynchronously creates a new user account with the provided email and password.
@@ -51,7 +54,13 @@ class FirebaseAuthRepository(context: Activity): FirebaseAuthService(context) {
     suspend fun signIn(email: String, password: String): Result<Boolean> {
         return try {
             val authResult = firebaseAuthService.signInWithEmailAndPassword(email, password)
-            Result.success(authResult.user != null)
+
+            if (authResult.user != null) {
+                editor.putString("userId", authResult.user!!.uid)
+                editor.apply()
+                Result.success(true)
+            }
+            Result.success(false)
         } catch (e: FirebaseAuthInvalidUserException) {
             Result.failure(Exception("User not found."))
         } catch (e: FirebaseAuthInvalidCredentialsException) {

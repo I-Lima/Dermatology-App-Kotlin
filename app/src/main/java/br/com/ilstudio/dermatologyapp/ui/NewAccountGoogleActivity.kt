@@ -27,7 +27,7 @@ class NewAccountGoogleActivity : AppCompatActivity() {
         binding = ActivityNewAccountGoogleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        firestoreRepository = FirestoreRepository()
+        firestoreRepository = FirestoreRepository(this)
         firebaseAuthRepository = FirebaseAuthRepository(this)
         user = firebaseAuthRepository.getCurrentUser()!!
 

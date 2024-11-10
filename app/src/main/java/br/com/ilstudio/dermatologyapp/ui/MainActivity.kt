@@ -29,11 +29,11 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun fetchUserData() {
         val userId = sharedPreferences.getString("userId", null)
-        val firestoreRepository = FirestoreRepository()
+        val firestoreRepository = FirestoreRepository(this)
 
         if (userId != null) {
             val userData = firestoreRepository.getUser(userId)
-            if (userData?.data == null) {
+            if (userData.data == null) {
                 Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
                 return
             }

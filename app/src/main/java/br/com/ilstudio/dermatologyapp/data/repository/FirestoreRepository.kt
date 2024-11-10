@@ -1,5 +1,7 @@
 package br.com.ilstudio.dermatologyapp.data.repository
 
+import android.app.Activity
+import android.content.Context
 import br.com.ilstudio.dermatologyapp.data.model.user.NewAccount
 import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import br.com.ilstudio.dermatologyapp.data.model.user.UserResponse
@@ -7,8 +9,10 @@ import br.com.ilstudio.dermatologyapp.data.service.FirestoreService
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import java.sql.Timestamp
 
-class FirestoreRepository {
+class FirestoreRepository(private val context: Activity) {
     private val firestoreService = FirestoreService()
+    private val sharedPreferences = context.getSharedPreferences("userData", Context.MODE_PRIVATE)
+    private val editor = sharedPreferences.edit()
 
     /**
      * Saves a user object to the Firestore database.
@@ -28,6 +32,10 @@ class FirestoreRepository {
     suspend fun saveUser(user: User): UserResponse {
         return try {
             firestoreService.saveUser(user.id, user.toUserDataCreate())
+
+            editor.putString("userId", user.id)
+            editor.apply()
+
             UserResponse(true)
         } catch (e: Exception) {
             UserResponse(false, null, "Register error")
