@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
@@ -20,7 +18,7 @@ import br.com.ilstudio.dermatologyapp.databinding.ActivityEditProfileBinding
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import br.com.ilstudio.dermatologyapp.ui.customview.CameraActivity
 import br.com.ilstudio.dermatologyapp.utils.Convert.base64ToBitmap
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import java.io.File
@@ -62,27 +60,12 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.header.setOnBackButtonClickListener {
             if (!isIgual(userSave, userData!!.toMap())) {
-                val view: View = layoutInflater.inflate(R.layout.view_modal, null)
-                val buttonCancel = view.findViewById<Button>(R.id.button_cancel)
-                val buttonContinue = view.findViewById<Button>(R.id.button_continue)
-
-                val dialog = BottomSheetDialog(this)
-                dialog.setContentView(view)
-                dialog.show()
-
-                buttonCancel.setOnClickListener {
-                    dialog.dismiss()
-                }
-
-                buttonContinue.setOnClickListener {
-                    dialog.dismiss()
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    finish()
-                }
+                showMaterialDialog()
+                return@setOnBackButtonClickListener
             }
 
-//            startActivity(Intent(this, ProfileActivity::class.java))
-//            finish()
+            startActivity(Intent(this, ProfileActivity::class.java))
+            finish()
         }
 
         binding.imgUser.setOnClickListener {
@@ -93,9 +76,20 @@ class EditProfileActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 updateUserData(userData!!.id)
             }
-
-            TODO("Add verification to update data")
         }
+    }
+
+    private fun showMaterialDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setMessage("Do you want to go ahead and undo the changes?")
+            .setPositiveButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setNegativeButton("Continue") { dialog, _ ->
+                startActivity(Intent(this, ProfileActivity::class.java))
+                finish()
+            }
+            .show()
     }
 
     private fun fetchUserData(): User? {

@@ -57,5 +57,4 @@
     <string name="capture_button">capture button</string>
     <string name="close_button">close button</string>
     <string name="switch_camera_button">switch camera button</string>
-    <string name="do_you_want_to_go_ahead_and_undo_the_changes">Do you want to go ahead and undo the changes?</string>
 </resources>
