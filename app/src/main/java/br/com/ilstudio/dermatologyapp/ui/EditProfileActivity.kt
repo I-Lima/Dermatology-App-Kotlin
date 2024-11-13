@@ -3,26 +3,19 @@ package br.com.ilstudio.dermatologyapp.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
 import br.com.ilstudio.dermatologyapp.databinding.ActivityEditProfileBinding
 import br.com.ilstudio.dermatologyapp.domain.model.User
-import br.com.ilstudio.dermatologyapp.ui.customview.CameraActivity
-import br.com.ilstudio.dermatologyapp.utils.Convert.base64ToBitmap
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
 
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
@@ -68,13 +61,9 @@ class EditProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.imgUser.setOnClickListener {
-            startActivity(Intent(this, CameraActivity::class.java))
-        }
-
         binding.buttonUpdate.setOnButtonClickListener {
             lifecycleScope.launch {
-                updateUserData(userData!!.id)
+                updateUserData(userSave["id"].toString())
             }
         }
     }
@@ -100,7 +89,7 @@ class EditProfileActivity : AppCompatActivity() {
         val datebirth = sharedPreferences.getString("dateBirth", null)
         val imgUrl = sharedPreferences.getString("profilePicture", null)
 
-        if (userId ==null || name == null || email == null || mobileNumber == null || datebirth == null) {
+        if (userId == null || name == null || email == null || mobileNumber == null || datebirth == null) {
             return null
         }
 
@@ -108,16 +97,9 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun setUserData(user: User) {
-        var photo = user.profilePicture
-
-        if (!isValidUri(user.profilePicture)) {
-            val base64Image = user.profilePicture?.let { base64ToBitmap(it) }
-            photo = bitmapToPicassoUri(base64Image).toString()
-        }
-
         if (!user.profilePicture.isNullOrEmpty()) {
             Picasso.get()
-                .load(photo)
+                .load(user.profilePicture)
                 .error(R.drawable.icon_person)
                 .into(binding.imgUser)
         } else {
@@ -131,42 +113,38 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private suspend fun updateUserData(userId: String) {
+        binding.buttonUpdate.showLoading(true)
+
         val name = binding.editName.text.toString()
         val email = binding.editEmail.text.toString()
         val mobileNumber = binding.editNumber.text.toString()
         val dateBirth = binding.editBirth.text.toString()
-        val profilePicture = binding.imgUser.toString()
 
-        firestoreRepository.updateUser(User(
+        val result = firestoreRepository.updateUser(User(
             userId,
             name,
             email,
             mobileNumber,
-            dateBirth,
-            profilePicture
+            dateBirth
         ).toUserDataCreate())
-    }
 
-    private fun isValidUri(uriString: String?): Boolean {
-        if (uriString.isNullOrEmpty()) return false
-
-        return try {
-            val uri = Uri.parse(uriString)
-            val validSchemes = listOf("http", "https", "content", "file")
-            uri.scheme in validSchemes
-        } catch (e: Exception) {
-            false
+        if (!result.success) {
+            binding.buttonUpdate.showLoading(false)
+            Toast.makeText(this, result.errorMessage, Toast.LENGTH_LONG).show()
+            return
         }
-    }
 
-    private fun bitmapToPicassoUri(bitmap: Bitmap?): Uri {
-        val file = File(this.cacheDir, "temp_image.jpg")
-        if (bitmap != null) {
-            FileOutputStream(file).use {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            }
-        }
-        return file.toUri()
+        val editor = sharedPreferences.edit()
+        editor.putString("name", name)
+        editor.putString("email", email)
+        editor.putString("mobileNumber", mobileNumber)
+        editor.putString("dateBirth", dateBirth)
+        editor.apply()
+
+        binding.buttonUpdate.showLoading(false)
+
+        startActivity(Intent(this, ProfileActivity::class.java))
+        finish()
     }
 
     private fun isIgual(a: Any?, b: Any?): Boolean {return a == b}

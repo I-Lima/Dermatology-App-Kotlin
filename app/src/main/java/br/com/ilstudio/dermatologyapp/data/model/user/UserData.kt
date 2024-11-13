@@ -30,7 +30,6 @@ class UserData(
             "email" to email,
             "mobileNumber" to mobileNumber,
             "dateBirth" to dateBirth,
-            "profilePicture" to profilePicture,
             "createdAt" to createdAt,
             "updatedAt" to updatedAt
         )
