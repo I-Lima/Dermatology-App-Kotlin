@@ -57,4 +57,7 @@
     <string name="capture_button">capture button</string>
     <string name="close_button">close button</string>
     <string name="switch_camera_button">switch camera button</string>
+    <string name="password_manager">Password Manager</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="notification_settings">Notification Settings</string>
 </resources>
