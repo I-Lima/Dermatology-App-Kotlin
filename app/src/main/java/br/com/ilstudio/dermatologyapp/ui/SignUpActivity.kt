@@ -16,7 +16,9 @@ import br.com.ilstudio.dermatologyapp.domain.model.RegistrationUser
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidDate
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidPassword
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -75,7 +77,11 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.buttonSignIn2.showLoading(true)
         lifecycleScope.launch {
-            val result = userRepository.handleGoogleSignInResult(requestCode, data)
+            var result: Result<Boolean>
+            withContext(Dispatchers.IO) {
+                result = userRepository.handleGoogleSignInResult(requestCode, data)
+            }
+
             binding.buttonSignIn2.showLoading(false)
             result.fold({
                 startActivity(Intent(baseContext, NewAccountGoogleActivity::class.java))
@@ -115,13 +121,16 @@ class SignUpActivity : AppCompatActivity() {
         if(emailError.isNullOrEmpty() && dateError.isNullOrEmpty() && passError.isNullOrEmpty()) {
             binding.buttonSignIn2.showLoading(true)
             lifecycleScope.launch {
-                val result = userRepository.registerAndAddUser(RegistrationUser(
-                    name,
-                    email,
-                    pass,
-                    number,
-                    birth
-                ))
+                var result: Result<Boolean>
+                withContext(Dispatchers.IO) {
+                    result = userRepository.registerAndAddUser(RegistrationUser(
+                        name,
+                        email,
+                        pass,
+                        number,
+                        birth
+                    ))
+                }
 
                 binding.buttonSignIn2.showLoading(false)
                 result.fold({
