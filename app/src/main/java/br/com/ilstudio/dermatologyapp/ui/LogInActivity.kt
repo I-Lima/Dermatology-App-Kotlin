@@ -12,7 +12,10 @@ import br.com.ilstudio.dermatologyapp.data.repository.FirebaseAuthRepository
 import br.com.ilstudio.dermatologyapp.data.repository.UserRepository
 import br.com.ilstudio.dermatologyapp.databinding.ActivityLogInBinding
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
@@ -54,7 +57,11 @@ class LogInActivity : AppCompatActivity() {
 
             binding.buttonLogIn2.showLoading(true)
             lifecycleScope.launch {
-                val result = firebaseAuthRepository.signIn(user, pass)
+                var result: Result<Boolean>
+                withContext(Dispatchers.IO) {
+                    result = firebaseAuthRepository.signIn(user, pass)
+                }
+
                 binding.buttonLogIn2.showLoading(false)
 
                 result.fold({
@@ -68,7 +75,11 @@ class LogInActivity : AppCompatActivity() {
 
         binding.buttonGoogle.setOnClickListener {
             binding.buttonLogIn2.showLoading(true)
-            firebaseAuthRepository.signInWithGoogle()
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    firebaseAuthRepository.signInWithGoogle()
+                }
+            }
         }
 
         binding.buttonForget.setOnClickListener {
@@ -85,7 +96,11 @@ class LogInActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         lifecycleScope.launch {
-            val result = userRepository.handleGoogleSignInResult(requestCode, data)
+            var result: Result<Boolean>
+            withContext(Dispatchers.IO) {
+                result = userRepository.handleGoogleSignInResult(requestCode, data)
+            }
+
             binding.buttonLogIn2.showLoading(false)
             result.fold({
                 if(it) {
