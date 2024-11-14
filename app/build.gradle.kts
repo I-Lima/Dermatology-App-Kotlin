@@ -63,12 +63,4 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     // PICASSO
     implementation("com.squareup.picasso:picasso:2.8")
-    // CAMERAX
-    implementation ("androidx.camera:camera-core:1.2.2")
-    implementation ("androidx.camera:camera-camera2:1.2.2")
-    implementation ("androidx.camera:camera-lifecycle:1.2.2")
-    implementation ("androidx.camera:camera-video:1.2.2")
-    implementation ("androidx.camera:camera-view:1.2.2")
-    implementation ("androidx.camera:camera-extensions:1.2.2")
-    implementation ("com.google.guava:guava:33.3.1-android")
 }
