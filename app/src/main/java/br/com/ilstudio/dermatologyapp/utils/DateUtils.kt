@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.Locale
 
 object DateUtils {
     /**
@@ -37,5 +38,21 @@ object DateUtils {
         val now = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
         return now.format(formatter)
+    }
+
+    /**
+     * Converts a [Timestamp] to a formatted date string.
+     *
+     * This function takes a [Timestamp] object and converts it to a string representation
+     * in the format "dd/MM/yyyy". If the provided timestamp is `null`, the function returns `null`.
+     *
+     * @param timestamp The [Timestamp] to be converted to a date string.
+     * @return A formatted date string in the format "dd/MM/yyyy", or `null` if the timestamp is `null`.
+     */
+    fun timestampToDate(timestamp: Timestamp?): String? {
+        if (timestamp == null) return null
+
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return dateFormat.format(timestamp)
     }
 }

@@ -30,8 +30,18 @@ class UserData(
             "email" to email,
             "mobileNumber" to mobileNumber,
             "dateBirth" to dateBirth,
-            "profilePicture" to profilePicture,
             "createdAt" to createdAt,
+            "updatedAt" to updatedAt
+        )
+    }
+
+    fun toMapUpdate(): Map<String, Any?> {
+        return mapOf(
+            "name" to name,
+            "email" to email,
+            "mobileNumber" to mobileNumber,
+            "dateBirth" to dateBirth,
+            "profilePicture" to profilePicture,
             "updatedAt" to updatedAt
         )
     }

@@ -78,7 +78,7 @@ class SignUpActivity : AppCompatActivity() {
             val result = userRepository.handleGoogleSignInResult(requestCode, data)
             binding.buttonSignIn2.showLoading(false)
             result.fold({
-                startActivity(Intent(this@SignUpActivity, NewAccountGoogleActivity::class.java))
+                startActivity(Intent(baseContext, NewAccountGoogleActivity::class.java))
             }, {
                 binding.textError.text = it.message
             })
@@ -126,10 +126,10 @@ class SignUpActivity : AppCompatActivity() {
                 binding.buttonSignIn2.showLoading(false)
                 result.fold({
                     Toast
-                        .makeText(this@SignUpActivity, "User registered successfully", Toast.LENGTH_SHORT)
+                        .makeText(baseContext, "User registered successfully", Toast.LENGTH_SHORT)
                         .show()
 
-                    startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
+                    startActivity(Intent(baseContext, MainActivity::class.java))
                 }, {
                     binding.textError.text = it.message
                 })

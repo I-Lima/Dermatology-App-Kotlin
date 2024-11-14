@@ -1,7 +1,6 @@
 package br.com.ilstudio.dermatologyapp.data.repository
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import br.com.ilstudio.dermatologyapp.domain.model.RegistrationUser
 import br.com.ilstudio.dermatologyapp.domain.model.User
@@ -10,7 +9,7 @@ import kotlinx.coroutines.tasks.await
 
 class UserRepository(private val context: Activity) {
     private val firebaseAuthRepository = FirebaseAuthRepository(context)
-    private val firestoreRepository = FirestoreRepository()
+    private val firestoreRepository = FirestoreRepository(context)
 
     /**
      * Registers a new user and adds their information to the database.
@@ -101,8 +100,6 @@ class UserRepository(private val context: Activity) {
      */
     private suspend fun registerGoogleUser(userAuth: FirebaseUser): Result<Boolean> {
         val user = firestoreRepository.getUser(userAuth.uid)
-        val sharedPreferences = context.getSharedPreferences("userData", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
 
         if (user.success && user.notFound == true) {
             val result = firestoreRepository.saveUser(User(
@@ -115,20 +112,12 @@ class UserRepository(private val context: Activity) {
             ))
 
             if(result.success) {
-                editor.putString("name", userAuth.displayName)
-                editor.putString("profilePicture", userAuth.photoUrl.toString())
-                editor.apply()
-
                 return Result.success(true)
             }
 
             userAuth.delete().await()
             return Result.failure(Exception("Error when trying to register user. Please try later."))
         }
-
-        editor.putString("name", user.data?.name)
-        editor.putString("profilePicture", user.data?.profilePicture)
-        editor.apply()
 
         return Result.success(false)
     }
