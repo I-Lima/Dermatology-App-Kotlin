@@ -1,10 +1,10 @@
-# Dermatology App
+# Dermatology App (Em desenvolvimento)
 
 <br/>
 
 ## Sumário
 
-- [Dermatology App](#dermatology-app)
+- [Dermatology App (Em desenvolvimento)](#dermatology-app-em-desenvolvimento)
   - [Sumário](#sumário)
   - [Introdução](#introdução)
   - [Protótipo](#protótipo)
@@ -15,6 +15,13 @@
 <br/> <br/>
 
 ## Introdução
+
+Um projeto desenvolvido em Kotlin para uma aplicação nativa Android que representa um aplicativo para uma clínica de dermatologia, proporcionando aos pacientes diversas funcionalidades práticas, tais como:
+
+ 1. Visualizar a lista de médicos disponíveis para atendimentos;
+ 2. Consultar os agendamentos de consultas;
+ 3. Acessar o histórico completo de atendimentos realizados;
+ 4. Adicionar avaliações sobre o atendimento recebido.
 
 <br/>
 
@@ -32,6 +39,11 @@ O projeto foi desenvolvido com base no design do [Template Castle](https://www.f
 
 ## Funcionalidades
 
+- Login
+- Criar conta
+- Login com Google
+- Atualizar dados do usuário
+
 <br/>
 
 ## Tecnologias Utilizadas
@@ -39,6 +51,7 @@ O projeto foi desenvolvido com base no design do [Template Castle](https://www.f
 - Kotlin
 - Android Studio
 - Firebase Authentication
+- Firestore
 - Figma
 - Github Actions
 - Detekt
