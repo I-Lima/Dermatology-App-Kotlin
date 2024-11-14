@@ -35,7 +35,7 @@
             android:id="@+id/button"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:src="@drawable/icon_arrow_2"
+            android:src="@drawable/icon_arrow"
             android:contentDescription="@string/back_icon"
             android:layout_marginStart="-8dp"
             android:rotation="180"
