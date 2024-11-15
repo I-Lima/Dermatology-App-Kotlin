@@ -121,4 +121,36 @@ class UserRepository(private val context: Activity) {
 
         return Result.success(false)
     }
+
+    /**
+     * Deletes the currently authenticated user's account and removes their data from the Firestore database.
+     *
+     * This function attempts to delete the user's account using the `firebaseAuthRepository`. If the account
+     * deletion is successful, it retrieves the user's unique identifier (`uid`) and removes the user's data
+     * from the Firestore database using the `firestoreRepository`.
+     *
+     * If the process completes successfully, it returns a [Result] containing `true`. If an error occurs, it
+     * returns a [Result.failure] with the exception details.
+     *
+     * This is a **private suspend** function, meaning it must be called within a coroutine or another suspend
+     * function, and it is accessible only within this class or file.
+     *
+     * @return A [Result] containing `true` if the account and associated data are successfully deleted,
+     *         or a [Result.failure] if an error occurs during the process.
+     */
+    suspend fun deleteAccount(): Result<Boolean> {
+        val result = firebaseAuthRepository.deleteAccount()
+
+        result.fold({
+            val userId = firebaseAuthRepository.getCurrentUser()?.uid
+
+            userId?.let {
+                firestoreRepository.deleteUser(it)
+            }
+
+            return Result.success(true)
+        }, {
+            return Result.failure(Error("Error when update user. Please try later."))
+        })
+    }
 }
