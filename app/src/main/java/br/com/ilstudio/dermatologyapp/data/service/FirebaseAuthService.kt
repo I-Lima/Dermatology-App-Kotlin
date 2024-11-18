@@ -186,6 +186,29 @@ open class FirebaseAuthService(private val context: Activity) {
      */
     fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
+    /**
+     * Deletes the currently authenticated user's account.
+     *
+     * This function attempts to delete the account of the currently authenticated user.
+     * If the deletion is successful, it returns a [Result] containing `true`. If an error
+     * occurs, it catches the exception and returns a [Result.failure] with the error details.
+     *
+     * This is an **internal suspend** function, meaning it must be called within a coroutine
+     * or another suspend function, and it is accessible only within the module.
+     *
+     * @return A [Result] containing `true` if the account is successfully deleted, or a [Result.failure]
+     *         if an error occurs during the deletion process.
+     */
+    internal suspend fun deleteAccount(): Result<Boolean> {
+        return try {
+            val userAuth = getCurrentUser()
+            userAuth?.delete()?.await()
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     companion object {
         private const val RC_SIGN_IN = 9001
     }
