@@ -60,4 +60,6 @@
     <string name="password_manager">Password Manager</string>
     <string name="delete_account">Delete Account</string>
     <string name="notification_settings">Notification Settings</string>
+    <string name="are_you_sure_you_want_to_delete_account">are you sure you want to delete account?</string>
+    <string name="yes_delete">Yes, delete</string>
 </resources>
