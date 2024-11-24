@@ -29,7 +29,9 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.itemNotification.setOnClickListener {}
+        binding.itemNotification.setOnClickListener {
+            startActivity(Intent(this, NotificationSettingActivity::class.java))
+        }
         binding.itemAccount.setOnClickListener {
             val view: View = layoutInflater.inflate(R.layout.view_bottom_sheet_delete_account, null)
             val buttonCancel = view.findViewById<Button>(R.id.button_cancel)
