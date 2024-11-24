@@ -12,7 +12,6 @@ import java.sql.Timestamp
 class FirestoreRepository(private val context: Activity) {
     private val firestoreService = FirestoreService()
     private val sharedPreferences = context.getSharedPreferences("userData", Context.MODE_PRIVATE)
-    private val editor = sharedPreferences.edit()
 
     /**
      * Saves a user object to the Firestore database.
@@ -33,6 +32,7 @@ class FirestoreRepository(private val context: Activity) {
         return try {
             firestoreService.saveUser(user.id, user.toUserDataCreate())
 
+            val editor = sharedPreferences.edit()
             editor.putString("userId", user.id)
             editor.apply()
 
