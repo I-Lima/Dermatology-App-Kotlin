@@ -62,4 +62,6 @@
     <string name="notification_settings">Notification Settings</string>
     <string name="are_you_sure_you_want_to_delete_account">are you sure you want to delete account?</string>
     <string name="yes_delete">Yes, delete</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="last_update">Last update: 24/11/2024</string>
 </resources>
