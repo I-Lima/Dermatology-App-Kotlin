@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@id/update_date"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque congue lorem, vel tincidunt tortor placerat a. Proin ac diam quam. Aenean in sagittis magna, ut feugiat diam. Fusce a scelerisque neque, sed accumsan metus."/>
+            android:text="@string/policy_1"/>
 
         <TextView
             android:id="@+id/text_2"
@@ -55,7 +55,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:fontFamily="@font/league_spartan"
             android:textSize="16sp"
-            android:text="Nunc auctor tortor in dolor luctus, quis euismod urna tincidunt. Aenean arcu metus, bibendum at rhoncus at, volutpat ut lacus. Morbi pellentesque malesuada eros semper ultrices. Vestibulum lobortis enim vel neque auctor, a ultrices ex placerat. Mauris ut lacinia justo, sed suscipit tortor. Nam egestas nulla posuere neque tincidunt porta."/>
+            android:text="@string/policy_2"/>
 
         <TextView
             android:id="@+id/topic"
@@ -94,7 +94,7 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:fontFamily="@font/league_spartan"
-                android:text="Ut lacinia justo sit amet lorem sodales accumsan. Proin malesuada eleifend fermentum. Donec condimentum, nunc at rhoncus faucibus, ex nisi laoreet ipsum, eu pharetra eros est vitae orci. Morbi quis rhoncus mi. Nullam lacinia ornare accumsan. Duis laoreet, ex eget rutrum pharetra, lectus nisl posuere risus, vel facilisis nisi tellus ac turpis."/>
+                android:text="@string/topic_1"/>
         </LinearLayout>
 
         <LinearLayout
@@ -121,7 +121,7 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:fontFamily="@font/league_spartan"
-                android:text="Ut lacinia justo sit amet lorem sodales accumsan. Proin malesuada eleifend fermentum. Donec condimentum, nunc at rhoncus faucibus, ex nisi laoreet ipsum, eu pharetra eros est vitae orci. Morbi quis rhoncus mi. Nullam lacinia ornare accumsan. Duis laoreet, ex eget rutrum pharetra, lectus nisl posuere risus, vel facilisis nisi tellus ac turpis."/>
+                android:text="@string/topic_1"/>
         </LinearLayout>
 
         <LinearLayout
@@ -148,7 +148,7 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:fontFamily="@font/league_spartan"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque congue lorem, vel tincidunt tortor placerat a. Proin ac diam quam. Aenean in sagittis magna, ut feugiat diam."/>
+                android:text="@string/topic_3"/>
         </LinearLayout>
 
         <LinearLayout
@@ -175,7 +175,7 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:fontFamily="@font/league_spartan"
-                android:text="Nunc auctor tortor in dolor luctus, quis euismod urna tincidunt. Aenean arcu metus, bibendum at rhoncus at, volutpat ut lacus. Morbi pellentesque malesuada eros semper ultrices. Vestibulum lobortis enim vel neque auctor, a ultrices ex placerat. Mauris ut lacinia justo, sed suscipit tortor. Nam egestas nulla posuere neque."/>
+                android:text="@string/topic_4"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
