@@ -52,7 +52,7 @@ class FirestoreRepository(private val context: Activity) {
      *
      * This is a **suspend** function, meaning it must be called within a coroutine or another suspend function.
      *
-     * @param user The [User] object to be saved in the database.
+     * @param uid The user uid.
      * @return A [UserResponse] indicating the success or failure of the save operation.
      *         If successful, the response will contain `true`; otherwise, it will include an error message.
      * @throws Exception If an error occurs while attempting to save the user.
