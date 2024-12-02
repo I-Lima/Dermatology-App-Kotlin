@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ProfileActivity"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="14dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <br.com.ilstudio.dermatologyapp.ui.customview.HeaderView
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/my_profile"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/img_user"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:layout_constraintTop_toBottomOf="@+id/header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/icon_person"
+                android:background="@drawable/shape_view_user_picture"
+                android:clipToOutline="true"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/user_picture"
+                />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_bold"
+                android:text="@string/john_doe"
+                android:textSize="28sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/img_user"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <LinearLayout
+                android:id="@+id/menu_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/user_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="32dp"
+                android:orientation="vertical">
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.MenuItemProfileView
+                    android:id="@+id/button_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:iconSrc="@drawable/icon_profile"
+                    app:labelText="@string/edit_profile"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.MenuItemProfileView
+                    android:id="@+id/button_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:iconSrc="@drawable/icon_config"
+                    app:labelText="@string/settings"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.MenuItemProfileView
+                    android:id="@+id/button_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:iconSrc="@drawable/icon_locked"
+                    app:labelText="@string/privacy_policy"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.MenuItemProfileView
+                    android:id="@+id/button_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:iconSrc="@drawable/icon_help"
+                    app:labelText="@string/help"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.MenuItemProfileView
+                    android:id="@+id/button_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:iconSrc="@drawable/icon_logout"
+                    app:labelText="@string/logout"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:buttonHidden="true"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <br.com.ilstudio.dermatologyapp.ui.customview.BottomMenuView
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="16dp"
+        app:page="profile"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

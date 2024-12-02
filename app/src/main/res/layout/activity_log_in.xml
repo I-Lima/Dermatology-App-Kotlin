@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.LogInActivity"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="14dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <br.com.ilstudio.dermatologyapp.ui.customview.HeaderView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/log_in"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/league_spartan_semibold"
+            android:text="@string/welcome"
+            android:textColor="@color/primary"
+            android:textSize="26sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/league_spartan"
+            android:text="@string/log_in_desc"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:layout_editor_absoluteX="24dp" />
+
+        <LinearLayout
+            android:id="@+id/contentUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/email"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/editUser"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/shape_view_edit_text"
+                android:fontFamily="@font/league_spartan"
+                android:gravity="center_vertical"
+                android:hint="@string/example_example_com"
+                android:inputType="text"
+                android:textColorHint="@color/blue_light_200"
+                android:textSize="18sp"
+                android:paddingHorizontal="16dp"
+                android:maxLines="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contentUser">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/password"
+                android:textSize="22sp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="8dp"
+                    android:autofillHints="none"
+                    android:background="@drawable/shape_view_edit_text"
+                    android:fontFamily="@font/league_spartan"
+                    android:hint="@string/pass_login"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/blue_light_200"
+                    android:textSize="18sp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="40dp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/buttonHidden"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/show_hidden_password"
+                    android:focusable="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/icon_eye_close"
+                    app:layout_constraintRight_toRightOf="@id/editPass"
+                    app:layout_constraintTop_toTopOf="@id/editPass"
+                    app:layout_constraintBottom_toBottomOf="@id/editPass"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/button_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/forget_password"
+                android:textColor="@color/primary"
+                android:textSize="18sp"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/contentPass"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/error"
+            android:fontFamily="@font/league_spartan"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
+            android:id="@+id/button_log_in_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:labelTextButton="@string/log_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textError"
+            app:active="false"/>
+
+        <TextView
+            android:id="@+id/textWith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/league_spartan"
+            android:text="@string/or_sign_in_with"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_log_in_2"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:id="@+id/iconsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textWith"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/button_google"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/icon_google"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/google_sign_up"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="46dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iconsContainer"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan"
+                android:text="@string/don_t_have_an_account"
+                android:layout_marginEnd="2dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/sign_up"
+                android:textColor="@color/primary"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:clickable="true"
+        android:focusable="true">
+        <Button
+            android:id="@+id/button"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="@string/log_in"
+            android:textSize="27sp"
+            android:fontFamily="@font/league_spartan_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/loadingSpinner"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button"
+            app:layout_constraintStart_toStartOf="@id/button"
+            app:layout_constraintEnd_toEndOf="@id/button"
+            app:layout_constraintBottom_toBottomOf="@id/button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

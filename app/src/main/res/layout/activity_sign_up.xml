@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.SignUpActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="24dp">
+        <br.com.ilstudio.dermatologyapp.ui.customview.HeaderView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/new_account"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/contentUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/full_name"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/shape_view_edit_text"
+                android:fontFamily="@font/league_spartan"
+                android:gravity="center_vertical"
+                android:hint="@string/john_doe"
+                android:inputType="text"
+                android:textColorHint="@color/blue_light_200"
+                android:textSize="18sp"
+                android:paddingHorizontal="16dp"
+                android:maxLines="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contentUser">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/password"
+                android:textSize="22sp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/editPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:autofillHints="none"
+                    android:background="@drawable/shape_view_edit_text"
+                    android:fontFamily="@font/league_spartan"
+                    android:hint="@string/pass_login"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/blue_light_200"
+                    android:textSize="18sp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="48dp"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/buttonHidden"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/show_hidden_password"
+                    android:focusable="true"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/icon_eye_close"
+                    app:layout_constraintRight_toRightOf="@id/editPass"
+                    app:layout_constraintTop_toTopOf="@id/editPass"
+                    app:layout_constraintBottom_toBottomOf="@id/editPass"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/contentPass"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/email"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/shape_view_edit_text"
+                android:fontFamily="@font/league_spartan"
+                android:gravity="center_vertical"
+                android:hint="@string/example_example_com"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/blue_light_200"
+                android:textSize="18sp"
+                android:paddingHorizontal="16dp"
+                android:maxLines="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/contentEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/mobile_number"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/editNumber"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/shape_view_edit_text"
+                android:fontFamily="@font/league_spartan"
+                android:gravity="center_vertical"
+                android:hint="@string/xx_xxxxx_xxxx"
+                android:inputType="number"
+                android:textColorHint="@color/blue_light_200"
+                android:textSize="18sp"
+                android:paddingHorizontal="16dp"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentBirth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/contentNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/date_of_birth"
+                android:textSize="22sp" />
+
+            <EditText
+                android:id="@+id/editBirth"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="username"
+                android:background="@drawable/shape_view_edit_text"
+                android:fontFamily="@font/league_spartan"
+                android:gravity="center_vertical"
+                android:hint="@string/dd_mm_yyyy"
+                android:inputType="date"
+                android:textColorHint="@color/blue_light_200"
+                android:textSize="18sp"
+                android:paddingHorizontal="16dp"
+                android:maxLines="1"
+                android:maxLength="10"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/contentBirth"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/error"
+            android:fontFamily="@font/league_spartan"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:id="@+id/textTerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textError"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan"
+                android:text="@string/by_continuing_you_agree_to"
+                android:textAlignment="center"
+                android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/league_spartan"
+                    android:text="@string/terms_of_use"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/league_spartan"
+                    android:text="@string/and"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/league_spartan"
+                    android:text="@string/privacy_policy"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
+            android:id="@+id/button_sign_in_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:active="false"
+            app:labelTextButton="@string/sign_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTerm"/>
+
+        <TextView
+            android:id="@+id/textWith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/league_spartan"
+            android:text="@string/or_sign_up_with"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_sign_in_2" />
+
+        <LinearLayout
+            android:id="@+id/iconsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textWith"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/buttonGoogle"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/icon_google"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/google_sign_up"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonLogIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iconsContainer"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan"
+                android:text="@string/already_have_an_account"
+                android:layout_marginEnd="2dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/league_spartan_semibold"
+                android:text="@string/log_in"
+                android:textColor="@color/primary"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

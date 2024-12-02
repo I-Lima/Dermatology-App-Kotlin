@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/shape_view_bottom_menu"
+        android:paddingHorizontal="46dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/button_home"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/icon_home"
+            android:padding="8dp"
+            android:contentDescription="@string/home_icon"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/button_profile"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/icon_people"
+            android:padding="8dp"
+            android:contentDescription="@string/profile_icon"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/button_calendar"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/icon_calendar"
+            android:padding="8dp"
+            android:contentDescription="@string/calendar_icon"/>
+    </LinearLayout>
+</merge>
