@@ -49,7 +49,6 @@ class NewAccountGoogleActivity : AppCompatActivity() {
             firestoreRepository.deleteUser(user.uid)
             user.delete()
 
-            startActivity(Intent(this, LaunchScreenActivity::class.java))
             return finish()
         }
         if (validDate === "Invalid") {

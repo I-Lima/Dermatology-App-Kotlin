@@ -25,7 +25,6 @@ class SettingsActivity : AppCompatActivity() {
         userRepository = UserRepository(this)
 
         binding.header.setOnBackButtonClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
             finish()
         }
 

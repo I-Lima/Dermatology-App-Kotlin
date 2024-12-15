@@ -23,6 +23,7 @@ Um projeto desenvolvido em Kotlin para uma aplicação nativa Android que repres
  3. Acessar o histórico completo de atendimentos realizados;
  4. Adicionar avaliações sobre o atendimento recebido.
 
+Os componentes que possuem tempo de carregamento utilizam o Skeleton Loading para proporcionar uma experiência mais fluida e agradável ao usuário durante esse processo.
 <br/>
 
 ## Protótipo

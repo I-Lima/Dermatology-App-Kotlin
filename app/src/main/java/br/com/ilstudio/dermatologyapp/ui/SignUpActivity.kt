@@ -38,7 +38,6 @@ class SignUpActivity : AppCompatActivity() {
         userRepository = UserRepository(this)
 
         binding.header.setOnBackButtonClickListener {
-            startActivity(Intent(this, LaunchScreenActivity::class.java))
             finish()
         }
 
