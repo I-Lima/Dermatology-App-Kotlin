@@ -63,4 +63,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     // PICASSO
     implementation("com.squareup.picasso:picasso:2.8")
+    // Skeleton Loading
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
 }
