@@ -1,10 +1,10 @@
-# Dermatology App (Em desenvolvimento)
+# Dermatology App (Em desenvolvimento) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
 
 <br/>
 
 ## Sumário
 
-- [Dermatology App (Em desenvolvimento)](#dermatology-app-em-desenvolvimento)
+- [Dermatology App (Em desenvolvimento)](#dermatology-app-em-desenvolvimento-)
   - [Sumário](#sumário)
   - [Introdução](#introdução)
   - [Protótipo](#protótipo)
