@@ -15,7 +15,6 @@ import br.com.ilstudio.dermatologyapp.utils.Validators.isValidEmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
@@ -33,7 +32,6 @@ class LogInActivity : AppCompatActivity() {
         userRepository = UserRepository(this)
 
         binding.header.setOnBackButtonClickListener {
-            startActivity(Intent(this, LaunchScreenActivity::class.java))
             finish()
         }
 
