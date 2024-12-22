@@ -9,8 +9,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import br.com.ilstudio.dermatologyapp.NotificationActivity
 import br.com.ilstudio.dermatologyapp.R
-import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryUsers
 import br.com.ilstudio.dermatologyapp.databinding.ActivityMainBinding
 import br.com.ilstudio.dermatologyapp.ui.shared.UserSharedViewModel
 import br.com.ilstudio.dermatologyapp.utils.DateUtils.timestampToDate
@@ -39,7 +40,9 @@ class MainActivity : AppCompatActivity() {
             fetchUserData()
         }
 
-        binding.iconNotifi.setOnClickListener {}
+        binding.iconNotifi.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
         binding.iconConfig.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
@@ -65,10 +68,10 @@ class MainActivity : AppCompatActivity() {
     private suspend fun fetchUserData() {
         dataLoading(true)
         val userId = sharedPreferences.getString("userId", null)
-        val firestoreRepository = FirestoreRepository(this)
+        val firestoreRepositoryUsers = FirestoreRepositoryUsers(this)
 
         if (userId != null) {
-            val userData = firestoreRepository.getUser(userId)
+            val userData = firestoreRepositoryUsers.getUser(userId)
             if (userData.data == null) {
                 Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
                 return

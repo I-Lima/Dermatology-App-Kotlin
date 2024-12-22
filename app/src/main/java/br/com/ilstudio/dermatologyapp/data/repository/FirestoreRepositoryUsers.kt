@@ -5,12 +5,12 @@ import android.content.Context
 import br.com.ilstudio.dermatologyapp.data.model.user.NewAccount
 import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import br.com.ilstudio.dermatologyapp.data.model.user.UserResponse
-import br.com.ilstudio.dermatologyapp.data.service.FirestoreService
+import br.com.ilstudio.dermatologyapp.data.service.FirestoreServiceUsers
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import java.sql.Timestamp
 
-class FirestoreRepository(private val context: Activity) {
-    private val firestoreService = FirestoreService()
+class FirestoreRepositoryUsers(private val context: Activity) {
+    private val firestoreServiceUsers = FirestoreServiceUsers()
     private val sharedPreferences = context.getSharedPreferences("userData", Context.MODE_PRIVATE)
 
     /**
@@ -30,7 +30,7 @@ class FirestoreRepository(private val context: Activity) {
 
     suspend fun saveUser(user: User): UserResponse {
         return try {
-            firestoreService.saveUser(user.id, user.toUserDataCreate())
+            firestoreServiceUsers.saveUser(user.id, user.toUserDataCreate())
 
             val editor = sharedPreferences.edit()
             editor.putString("userId", user.id)
@@ -60,7 +60,7 @@ class FirestoreRepository(private val context: Activity) {
 
     suspend fun getUser(uid: String): UserResponse {
          return try {
-             val result = firestoreService.getUser(uid)
+             val result = firestoreServiceUsers.getUser(uid)
              val data = result?.data
 
              if(data.isNullOrEmpty()) {
@@ -99,7 +99,7 @@ class FirestoreRepository(private val context: Activity) {
      */
     suspend fun updateUser(user: UserData): UserResponse {
         return try {
-            firestoreService.updateUser(user)
+            firestoreServiceUsers.updateUser(user)
             UserResponse(true)
         } catch (e: Exception) {
             UserResponse(false, null, "Error when update user. Please try later.")
@@ -123,7 +123,7 @@ class FirestoreRepository(private val context: Activity) {
      */
     suspend fun updateGoogleAccount(user: NewAccount): UserResponse {
         return try {
-            firestoreService.updateGoogleAccount(user)
+            firestoreServiceUsers.updateGoogleAccount(user)
             UserResponse(true)
         } catch (e: Exception) {
             UserResponse(false, null, "Error when update user. Please try later.")
@@ -147,7 +147,7 @@ class FirestoreRepository(private val context: Activity) {
      */
     suspend fun deleteUser(uid: String): UserResponse  {
         return try {
-            firestoreService.deleteUser(uid)
+            firestoreServiceUsers.deleteUser(uid)
             UserResponse(true)
         } catch (e: Exception) {
             UserResponse(false, null, "Error when try delete user. Please try later.")
