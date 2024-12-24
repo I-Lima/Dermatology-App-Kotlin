@@ -1,4 +1,4 @@
-package br.com.ilstudio.dermatologyapp
+package br.com.ilstudio.dermatologyapp.ui
 
 import android.os.Bundle
 import android.view.View
