@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import br.com.ilstudio.dermatologyapp.NotificationActivity
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryUsers
 import br.com.ilstudio.dermatologyapp.databinding.ActivityMainBinding
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("userData", Context.MODE_PRIVATE)
 
         lifecycleScope.launch {
-            if (userSharedViewModel.userData != null) {
+            if (userSharedViewModel.userData.value?.uid != null) {
                 userSharedViewModel.userData.value?.let {
                     return@launch setUserData(it.name, it.profilePicture)
                 }
@@ -41,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.iconNotifi.setOnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
+            val intent = Intent(this, NotificationActivity::class.java)
+            intent.putExtra("userId", userSharedViewModel.userData.value?.uid)
+            startActivity(intent)
         }
         binding.iconConfig.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))

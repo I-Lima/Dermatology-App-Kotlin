@@ -7,9 +7,24 @@ import br.com.ilstudio.dermatologyapp.data.service.FirestoreServiceNotifications
 class FirestoreRepositoryNotifications {
     private val firestoreServiceNotifications = FirestoreServiceNotifications()
 
-    suspend fun getNotifications(): NotificationResponse {
+    /**
+     * Retrieves notifications for a specific user from the Firestore database.
+     *
+     * This function fetches notification data for the given `userId` using the `firestoreServiceNotifications`.
+     * If notifications are found, it maps the retrieved documents into a list of [NotificationsData] objects
+     * and returns a [NotificationResponse] containing the data. If no notifications are found, it returns
+     * a [NotificationResponse] indicating that the notifications list is empty. If an error occurs during
+     * the retrieval process, it returns a failure response with an error message.
+     *
+     * This is a **suspend** function, meaning it must be called within a coroutine or another suspend function.
+     *
+     * @param userId The unique identifier of the user for whom to fetch notifications.
+     * @return A [NotificationResponse] containing the success status, the list of notifications (if found),
+     *         and any applicable error message or metadata.
+     */
+    suspend fun getNotifications(userId: String): NotificationResponse {
         return try {
-            val response = firestoreServiceNotifications.getNotifications()
+            val response = firestoreServiceNotifications.getNotifications(userId)
             val documents = response.documents
 
             if (response.documents.isEmpty()) {
