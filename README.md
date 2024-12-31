@@ -1,10 +1,16 @@
-# Dermatology App (Em desenvolvimento) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
+# Dermatology App (Em desenvolvimento)
 
 <br/>
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=bugs)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
+
 ## Sumário
 
-- [Dermatology App (Em desenvolvimento)](#dermatology-app-em-desenvolvimento-)
+- [Dermatology App (Em desenvolvimento)](#dermatology-app-em-desenvolvimento)
   - [Sumário](#sumário)
   - [Introdução](#introdução)
   - [Protótipo](#protótipo)
