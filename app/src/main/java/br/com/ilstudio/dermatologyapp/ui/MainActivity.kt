@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
-import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryUsers
 import br.com.ilstudio.dermatologyapp.databinding.ActivityMainBinding
 import br.com.ilstudio.dermatologyapp.ui.shared.UserSharedViewModel
 import br.com.ilstudio.dermatologyapp.utils.DateUtils.timestampToDate
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("userData", Context.MODE_PRIVATE)
 
         lifecycleScope.launch {
-            if (userSharedViewModel.userData != null) {
+            if (userSharedViewModel.userData.value?.uid != null) {
                 userSharedViewModel.userData.value?.let {
                     return@launch setUserData(it.name, it.profilePicture)
                 }
@@ -39,7 +39,11 @@ class MainActivity : AppCompatActivity() {
             fetchUserData()
         }
 
-        binding.iconNotifi.setOnClickListener {}
+        binding.iconNotifi.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            intent.putExtra("userId", userSharedViewModel.userData.value?.uid)
+            startActivity(intent)
+        }
         binding.iconConfig.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
@@ -65,10 +69,10 @@ class MainActivity : AppCompatActivity() {
     private suspend fun fetchUserData() {
         dataLoading(true)
         val userId = sharedPreferences.getString("userId", null)
-        val firestoreRepository = FirestoreRepository(this)
+        val firestoreRepositoryUsers = FirestoreRepositoryUsers(this)
 
         if (userId != null) {
-            val userData = firestoreRepository.getUser(userId)
+            val userData = firestoreRepositoryUsers.getUser(userId)
             if (userData.data == null) {
                 Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
                 return

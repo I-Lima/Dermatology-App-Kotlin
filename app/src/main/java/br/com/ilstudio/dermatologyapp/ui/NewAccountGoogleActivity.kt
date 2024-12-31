@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.data.model.user.NewAccount
 import br.com.ilstudio.dermatologyapp.data.repository.FirebaseAuthRepository
-import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryUsers
 import br.com.ilstudio.dermatologyapp.databinding.ActivityNewAccountGoogleBinding
 import br.com.ilstudio.dermatologyapp.utils.Validators.isValidDate
 import com.google.firebase.auth.FirebaseUser
@@ -19,7 +19,7 @@ class NewAccountGoogleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewAccountGoogleBinding
     private lateinit var birth: String
     private lateinit var number: String
-    private lateinit var firestoreRepository: FirestoreRepository
+    private lateinit var firestoreRepositoryUsers: FirestoreRepositoryUsers
     private lateinit var firebaseAuthRepository: FirebaseAuthRepository
     private lateinit var user: FirebaseUser
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class NewAccountGoogleActivity : AppCompatActivity() {
         binding = ActivityNewAccountGoogleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        firestoreRepository = FirestoreRepository(this)
+        firestoreRepositoryUsers = FirestoreRepositoryUsers(this)
         firebaseAuthRepository = FirebaseAuthRepository(this)
         user = firebaseAuthRepository.getCurrentUser()!!
 
@@ -46,7 +46,7 @@ class NewAccountGoogleActivity : AppCompatActivity() {
         if (validDate === "Minor") {
             binding.editBirth.error = "To register you must be 18 years old. Come back later."
 
-            firestoreRepository.deleteUser(user.uid)
+            firestoreRepositoryUsers.deleteUser(user.uid)
             user.delete()
 
             return finish()
@@ -60,7 +60,7 @@ class NewAccountGoogleActivity : AppCompatActivity() {
             return
         }
 
-        val result = firestoreRepository.updateGoogleAccount(NewAccount(
+        val result = firestoreRepositoryUsers.updateGoogleAccount(NewAccount(
             user.uid,
             number,
             birth

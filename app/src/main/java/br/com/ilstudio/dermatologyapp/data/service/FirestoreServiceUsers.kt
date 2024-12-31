@@ -6,7 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FirestoreService {
+class FirestoreServiceUsers {
     private val db = FirebaseFirestore.getInstance()
 
     internal suspend fun saveUser(uid: String, user: UserData): Void? {

@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await
 
 class UserRepository(private val context: Activity) {
     private val firebaseAuthRepository = FirebaseAuthRepository(context)
-    private val firestoreRepository = FirestoreRepository(context)
+    private val firestoreRepositoryUsers = FirestoreRepositoryUsers(context)
     private val sharedPreferences = context.getSharedPreferences("userData", Context.MODE_PRIVATE)
 
     /**
@@ -41,7 +41,7 @@ class UserRepository(private val context: Activity) {
                 null
             )
 
-            val resultStore = firestoreRepository.saveUser(registeredUser)
+            val resultStore = firestoreRepositoryUsers.saveUser(registeredUser)
             return Result.success(resultStore.success)
         }, {
             return Result.failure(it)
@@ -101,11 +101,11 @@ class UserRepository(private val context: Activity) {
      *
      */
     private suspend fun registerGoogleUser(userAuth: FirebaseUser): Result<Boolean> {
-        val user = firestoreRepository.getUser(userAuth.uid)
+        val user = firestoreRepositoryUsers.getUser(userAuth.uid)
         val editor = sharedPreferences.edit()
 
         if (user.success && user.notFound == true) {
-            val result = firestoreRepository.saveUser(User(
+            val result = firestoreRepositoryUsers.saveUser(User(
                 userAuth.uid,
                 userAuth.displayName ?: "",
                 userAuth.email ?: "",
@@ -134,7 +134,7 @@ class UserRepository(private val context: Activity) {
      *
      * This function attempts to delete the user's account using the `firebaseAuthRepository`. If the account
      * deletion is successful, it retrieves the user's unique identifier (`uid`) and removes the user's data
-     * from the Firestore database using the `firestoreRepository`.
+     * from the Firestore database using the `firestoreRepositoryUsers`.
      *
      * If the process completes successfully, it returns a [Result] containing `true`. If an error occurs, it
      * returns a [Result.failure] with the exception details.
@@ -152,7 +152,7 @@ class UserRepository(private val context: Activity) {
             val userId = firebaseAuthRepository.getCurrentUser()?.uid
 
             userId?.let {
-                firestoreRepository.deleteUser(it)
+                firestoreRepositoryUsers.deleteUser(it)
             }
 
             return Result.success(true)
