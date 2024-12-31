@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit
 
 private fun setIcon(type: String): Int {
     return when (type) {
-        "schedule" -> R.drawable.icon_calendar_not
-        "note" -> R.drawable.icon_note_not
+        "scheduled" -> R.drawable.icon_calendar_not
+        "notes" -> R.drawable.icon_note_not
         "chat" -> R.drawable.icon_chat_not
         else -> R.drawable.icon_calendar_not
     }
@@ -19,7 +19,8 @@ private fun setIcon(type: String): Int {
 
 private fun formatTimestampDifference(timestamp: Long): String {
     val currentTime = System.currentTimeMillis()
-    val differenceMillis = currentTime - timestamp
+    val adjustedTimestamp = if (timestamp < 10000000000L) timestamp * 1000 else timestamp
+    val differenceMillis = currentTime - adjustedTimestamp
 
     val hours = TimeUnit.MILLISECONDS.toHours(differenceMillis)
     val days = TimeUnit.MILLISECONDS.toDays(differenceMillis)
@@ -28,11 +29,11 @@ private fun formatTimestampDifference(timestamp: Long): String {
     val years = days / 365
 
     return when {
-        hours < 24 -> "${hours}H"
-        days < 7 -> "${days}D"
-        weeks < 4 -> "${weeks}W"
-        months < 12 -> "${months}M"
-        else -> "${years}Y"
+        hours < 24 -> "${hours} H"
+        days < 7 -> "${days} D"
+        weeks < 4 -> "${weeks} W"
+        months < 12 -> "${months} M"
+        else -> "${years} Y"
     }
 }
 
