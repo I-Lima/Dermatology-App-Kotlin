@@ -10,7 +10,7 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
-import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepository
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryUsers
 import br.com.ilstudio.dermatologyapp.databinding.ActivityEditProfileBinding
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var firestoreRepository: FirestoreRepository
+    private lateinit var firestoreRepositoryUsers: FirestoreRepositoryUsers
     private lateinit var userSave: Map<String, Any?>
     private lateinit var name: String
     private lateinit var email: String
@@ -34,7 +34,7 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("userData", Context.MODE_PRIVATE)
-        firestoreRepository = FirestoreRepository(this)
+        firestoreRepositoryUsers = FirestoreRepositoryUsers(this)
 
 
         userData = fetchUserData()
@@ -57,7 +57,6 @@ class EditProfileActivity : AppCompatActivity() {
                 return@setOnBackButtonClickListener
             }
 
-            startActivity(Intent(this, ProfileActivity::class.java))
             finish()
         }
 
@@ -120,7 +119,7 @@ class EditProfileActivity : AppCompatActivity() {
         val mobileNumber = binding.editNumber.text.toString()
         val dateBirth = binding.editBirth.text.toString()
 
-        val result = firestoreRepository.updateUser(User(
+        val result = firestoreRepositoryUsers.updateUser(User(
             userId,
             name,
             email,

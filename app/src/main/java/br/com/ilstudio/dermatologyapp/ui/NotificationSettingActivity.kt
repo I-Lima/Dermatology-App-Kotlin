@@ -22,7 +22,6 @@ class NotificationSettingActivity : AppCompatActivity() {
         getAndSetSwitchState()
 
         binding.header.setOnBackButtonClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
             finish()
         }
 
