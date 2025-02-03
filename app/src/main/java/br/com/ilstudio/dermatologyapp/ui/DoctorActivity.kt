@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.ilstudio.dermatologyapp.adapter.DoctorsAdapter
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryDoctors
 import br.com.ilstudio.dermatologyapp.databinding.ActivityDoctorBinding
 import kotlinx.coroutines.launch
@@ -42,6 +44,7 @@ class DoctorActivity : AppCompatActivity() {
             binding.noData.visibility = View.VISIBLE
         }
 
-        //binding.recycle.layoutManager = LinearLayoutManager(this)
+        binding.recycle.layoutManager = LinearLayoutManager(this)
+        binding.recycle.adapter = DoctorsAdapter(response.data!!)
     }
 }
