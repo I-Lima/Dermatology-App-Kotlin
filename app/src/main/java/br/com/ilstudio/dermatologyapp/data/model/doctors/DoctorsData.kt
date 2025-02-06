@@ -4,5 +4,7 @@ data class DoctorsData (
     val id: String,
     val name: String,
     val expertise: String,
-    val photo: Long
+    val photo: Long,
+    val type: String,
+    val favorite: Boolean
 )
