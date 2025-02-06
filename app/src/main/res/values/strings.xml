@@ -70,4 +70,10 @@
     <string name="topic_3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque congue lorem, vel tincidunt tortor placerat a. Proin ac diam quam. Aenean in sagittis magna, ut feugiat diam.</string>
     <string name="topic_4">Nunc auctor tortor in dolor luctus, quis euismod urna tincidunt. Aenean arcu metus, bibendum at rhoncus at, volutpat ut lacus. Morbi pellentesque malesuada eros semper ultrices. Vestibulum lobortis enim vel neque auctor, a ultrices ex placerat. Mauris ut lacinia justo, sed suscipit tortor. Nam egestas nulla posuere neque.</string>
     <string name="no_data">No data</string>
+    <string name="sort_by">Sort By</string>
+    <string name="favorite_icon">favorite icon</string>
+    <string name="male_icon">male icon</string>
+    <string name="female_icon">female icon</string>
+    <string name="no_data_icon">no data icon</string>
+    <string name="error_icon">error icon</string>
 </resources>
