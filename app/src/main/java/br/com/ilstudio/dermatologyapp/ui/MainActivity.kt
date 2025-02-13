@@ -47,7 +47,9 @@ class MainActivity : AppCompatActivity() {
         binding.iconConfig.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
-        binding.iconDoctor.setOnClickListener {}
+        binding.iconDoctor.setOnClickListener {
+            startActivity(Intent(this, DoctorActivity::class.java))
+        }
         binding.iconFav.setOnClickListener {}
     }
 
