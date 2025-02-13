@@ -26,6 +26,8 @@ class FirestoreRepositoryDoctors {
                     data["name"] as? String ?: "",
                     data["expertise"] as? String ?: "",
                     data["photo"] as? Long ?: 0,
+                    data["type"] as? String ?: "male",
+                    data["favorite"] as? Boolean ?: false
                 )
             }
 

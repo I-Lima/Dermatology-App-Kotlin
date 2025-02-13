@@ -9,10 +9,12 @@
     android:background="@drawable/shape_view_edit_text"
     android:backgroundTint="@color/blue_light"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:layout_marginBottom="10dp">
 
     <ImageView
         android:id="@+id/img"
+        android:contentDescription="photo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="100dp"

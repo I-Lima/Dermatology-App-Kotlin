@@ -10,7 +10,6 @@ import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsData
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryDoctors
 import br.com.ilstudio.dermatologyapp.databinding.ActivityDoctorBinding
 import kotlinx.coroutines.launch
-import java.util.logging.Filter
 
 enum class FilterType(val type: String) {
     A_TO_Z("AtoZ"),
@@ -40,6 +39,11 @@ class DoctorActivity : AppCompatActivity() {
 
         binding.header.setOnBackButtonClickListener {
             finish()
+        }
+
+        binding.aToZFilter.setOnClickListener {
+            val orderedData = changeFilter(FilterType.A_TO_Z, data)
+            binding.recycle.adapter = DoctorsAdapter(orderedData)
         }
 
         binding.favoriteFilter.setOnClickListener {
