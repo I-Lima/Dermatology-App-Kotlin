@@ -11,15 +11,15 @@ import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryDoctors
 import br.com.ilstudio.dermatologyapp.databinding.ActivityDoctorBinding
 import kotlinx.coroutines.launch
 
-enum class FilterType(val type: String) {
-    A_TO_Z("AtoZ"),
-    Z_TO_A("ZtoA"),
-    MALE("male"),
-    FEMALE("female"),
-    FAVORITE("favorite")
-}
-
 class DoctorActivity : AppCompatActivity() {
+    enum class FilterType(val type: String) {
+        A_TO_Z("AtoZ"),
+        Z_TO_A("ZtoA"),
+        MALE("male"),
+        FEMALE("female"),
+        FAVORITE("favorite")
+    }
+
     private lateinit var binding: ActivityDoctorBinding
     private lateinit var firestoreRepositoryDoctors: FirestoreRepositoryDoctors
     private lateinit var orderType: FilterType
@@ -30,6 +30,7 @@ class DoctorActivity : AppCompatActivity() {
         binding = ActivityDoctorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var isAscending = true
         orderType = FilterType.A_TO_Z
         firestoreRepositoryDoctors = FirestoreRepositoryDoctors()
 
@@ -42,8 +43,20 @@ class DoctorActivity : AppCompatActivity() {
         }
 
         binding.aToZFilter.setOnClickListener {
-            val orderedData = changeFilter(FilterType.A_TO_Z, data)
+            val orderedData = if (isAscending) {
+                binding.textA.text = "A"
+                binding.textZ.text = "Z"
+
+                changeFilter(FilterType.A_TO_Z, data)
+            } else {
+                binding.textZ.text = "A"
+                binding.textA.text = "Z"
+
+                changeFilter(FilterType.Z_TO_A, data)
+            }
+
             binding.recycle.adapter = DoctorsAdapter(orderedData)
+            isAscending = !isAscending
         }
 
         binding.favoriteFilter.setOnClickListener {
