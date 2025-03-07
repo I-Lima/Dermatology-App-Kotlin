@@ -1,10 +1,13 @@
 package br.com.ilstudio.dermatologyapp.ui
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.adapter.DoctorsAdapter
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsData
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryDoctors
@@ -31,6 +34,10 @@ class DoctorActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var isAscending = true
+        var favoriteFilter = false
+        var maleFilter = false
+        var femaleFilter = false
+
         orderType = FilterType.A_TO_Z
         firestoreRepositoryDoctors = FirestoreRepositoryDoctors()
 
@@ -60,14 +67,44 @@ class DoctorActivity : AppCompatActivity() {
         }
 
         binding.favoriteFilter.setOnClickListener {
+            favoriteFilter = !favoriteFilter
+
+            if (favoriteFilter) {
+                binding.favoriteFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
+                binding.favoriteFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
+            } else {
+                binding.favoriteFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.primary))
+                binding.favoriteFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.blue_light))
+            }
+
             val orderedData = changeFilter(FilterType.FAVORITE, data)
             binding.recycle.adapter = DoctorsAdapter(orderedData)
         }
         binding.maleFilter.setOnClickListener {
+            maleFilter = !maleFilter
+
+            if (maleFilter) {
+                binding.maleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
+                binding.maleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
+            } else {
+                binding.maleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.primary))
+                binding.maleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.blue_light))
+            }
+
             val orderedData = changeFilter(FilterType.MALE, data)
             binding.recycle.adapter = DoctorsAdapter(orderedData)
         }
         binding.femaleFilter.setOnClickListener {
+            femaleFilter = !femaleFilter
+
+            if (femaleFilter) {
+                binding.femaleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
+                binding.femaleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
+            } else {
+                binding.femaleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.primary))
+                binding.femaleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.blue_light))
+            }
+
             val orderedData = changeFilter(FilterType.FEMALE, data)
             binding.recycle.adapter = DoctorsAdapter(orderedData)
         }

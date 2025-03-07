@@ -74,29 +74,41 @@
                 android:id="@+id/favorite_filter"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
+                android:padding="8dp"
                 android:contentDescription="@string/favorite_icon"
                 android:src="@drawable/icon_heart_circle"
+                android:background="@drawable/shape_view_bottom_menu"
+                android:backgroundTint="@color/blue_light"
                 android:layout_marginStart="8dp"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                app:tint="@color/primary" />
             <ImageView
                 android:id="@+id/female_filter"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
+                android:padding="8dp"
                 android:src="@drawable/icon_male_circle"
+                android:background="@drawable/shape_view_bottom_menu"
+                android:backgroundTint="@color/blue_light"
                 android:layout_marginStart="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="@string/male_icon"/>
+                android:contentDescription="@string/male_icon"
+                app:tint="@color/primary" />
             <ImageView
                 android:id="@+id/male_filter"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
+                android:padding="8dp"
                 android:src="@drawable/icon_female_circle"
+                android:background="@drawable/shape_view_bottom_menu"
+                android:backgroundTint="@color/blue_light"
                 android:layout_marginStart="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="@string/female_icon"/>
+                android:contentDescription="@string/female_icon"
+                app:tint="@color/primary" />
         </LinearLayout>
     </HorizontalScrollView>
 
