@@ -1,6 +1,5 @@
 package br.com.ilstudio.dermatologyapp.ui
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -15,99 +14,28 @@ import br.com.ilstudio.dermatologyapp.databinding.ActivityDoctorBinding
 import kotlinx.coroutines.launch
 
 class DoctorActivity : AppCompatActivity() {
-    enum class FilterType(val type: String) {
-        A_TO_Z("AtoZ"),
-        Z_TO_A("ZtoA"),
-        MALE("male"),
-        FEMALE("female"),
-        FAVORITE("favorite")
-    }
+    enum class FilterType { A_TO_Z, Z_TO_A, MALE, FEMALE, FAVORITE }
 
     private lateinit var binding: ActivityDoctorBinding
     private lateinit var firestoreRepositoryDoctors: FirestoreRepositoryDoctors
-    private lateinit var orderType: FilterType
-    private lateinit var data: List<DoctorsData>
+    private var filters = mutableSetOf<FilterType>(FilterType.A_TO_Z)
+    private var data: List<DoctorsData> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDoctorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var isAscending = true
-        var favoriteFilter = false
-        var maleFilter = false
-        var femaleFilter = false
-
-        orderType = FilterType.A_TO_Z
         firestoreRepositoryDoctors = FirestoreRepositoryDoctors()
 
-        lifecycleScope.launch {
-            getAllDoctorsData()
-        }
+        lifecycleScope.launch { getAllDoctorsData() }
 
-        binding.header.setOnBackButtonClickListener {
-            finish()
-        }
+        binding.header.setOnBackButtonClickListener { finish() }
 
-        binding.aToZFilter.setOnClickListener {
-            val orderedData = if (isAscending) {
-                binding.textA.text = "A"
-                binding.textZ.text = "Z"
-
-                changeFilter(FilterType.A_TO_Z, data)
-            } else {
-                binding.textZ.text = "A"
-                binding.textA.text = "Z"
-
-                changeFilter(FilterType.Z_TO_A, data)
-            }
-
-            binding.recycle.adapter = DoctorsAdapter(orderedData)
-            isAscending = !isAscending
-        }
-
-        binding.favoriteFilter.setOnClickListener {
-            favoriteFilter = !favoriteFilter
-
-            if (favoriteFilter) {
-                binding.favoriteFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
-                binding.favoriteFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
-            } else {
-                binding.favoriteFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.primary))
-                binding.favoriteFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.blue_light))
-            }
-
-            val orderedData = changeFilter(FilterType.FAVORITE, data)
-            binding.recycle.adapter = DoctorsAdapter(orderedData)
-        }
-        binding.maleFilter.setOnClickListener {
-            maleFilter = !maleFilter
-
-            if (maleFilter) {
-                binding.maleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
-                binding.maleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
-            } else {
-                binding.maleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.primary))
-                binding.maleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.blue_light))
-            }
-
-            val orderedData = changeFilter(FilterType.MALE, data)
-            binding.recycle.adapter = DoctorsAdapter(orderedData)
-        }
-        binding.femaleFilter.setOnClickListener {
-            femaleFilter = !femaleFilter
-
-            if (femaleFilter) {
-                binding.femaleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
-                binding.femaleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
-            } else {
-                binding.femaleFilter.imageTintList = ColorStateList.valueOf(getColor(R.color.primary))
-                binding.femaleFilter.backgroundTintList = ColorStateList.valueOf(getColor(R.color.blue_light))
-            }
-
-            val orderedData = changeFilter(FilterType.FEMALE, data)
-            binding.recycle.adapter = DoctorsAdapter(orderedData)
-        }
+        binding.aToZFilter.setOnClickListener { toggleSorting() }
+        binding.favoriteFilter.setOnClickListener { toggleFilter(FilterType.FAVORITE, binding.favoriteFilter) }
+        binding.maleFilter.setOnClickListener { toggleFilter(FilterType.MALE, binding.maleFilter) }
+        binding.femaleFilter.setOnClickListener { toggleFilter(FilterType.FEMALE, binding.femaleFilter) }
     }
 
     private suspend fun getAllDoctorsData() {
@@ -117,111 +45,74 @@ class DoctorActivity : AppCompatActivity() {
             binding.textError.text = response.message
             binding.recycle.visibility = View.GONE
             binding.error.visibility = View.VISIBLE
+            return
         }
 
         if (response.isEmpty) {
             binding.recycle.visibility = View.GONE
             binding.noData.visibility = View.VISIBLE
+            return
         }
 
-        data = changeFilter(FilterType.A_TO_Z, response.data!!)
+        data = response.data ?: listOf()
+        updateDoctorList()
+    }
+
+    private fun toggleSorting() {
+        if (FilterType.A_TO_Z in filters) {
+            filters.remove(FilterType.A_TO_Z)
+            filters.add(FilterType.Z_TO_A)
+            binding.textA.text = "Z"
+            binding.textZ.text = "A"
+        } else {
+            filters.remove(FilterType.Z_TO_A)
+            filters.add(FilterType.A_TO_Z)
+            binding.textA.text = "A"
+            binding.textZ.text = "Z"
+        }
+        updateDoctorList()
+    }
+
+    private fun toggleFilter(filter: FilterType, view: View) {
+        if (filter == FilterType.MALE) {
+            filters.remove(FilterType.FEMALE)
+            updateFilterButton(binding.femaleFilter, false)
+        } else if (filter == FilterType.FEMALE) {
+            filters.remove(FilterType.MALE)
+            updateFilterButton(binding.maleFilter, false)
+        }
+
+        if (!filters.add(filter)) {
+            filters.remove(filter)
+        }
+
+        updateFilterButton(view, filter in filters)
+        updateDoctorList()
+    }
+
+    private fun updateFilterButton(view: View, isActive: Boolean) {
+        val color = if (isActive) R.color.white else R.color.primary
+        val background = if (isActive) R.color.primary else R.color.blue_light
+        view.backgroundTintList = ColorStateList.valueOf(getColor(background))
+
+        if (view is android.widget.ImageView) {
+            view.imageTintList = ColorStateList.valueOf(getColor(color))
+        }
+    }
+
+    private fun updateDoctorList() {
+        var filteredData = data
+
+        if (FilterType.MALE in filters) filteredData = filteredData.filter { it.type == "male" }
+        if (FilterType.FEMALE in filters) filteredData = filteredData.filter { it.type == "female" }
+        if (FilterType.FAVORITE in filters) filteredData = filteredData.filter { it.favorite }
+
+        when {
+            FilterType.A_TO_Z in filters -> filteredData = filteredData.sortedBy { it.name }
+            FilterType.Z_TO_A in filters -> filteredData = filteredData.sortedByDescending { it.name }
+        }
 
         binding.recycle.layoutManager = LinearLayoutManager(this)
-        binding.recycle.adapter = DoctorsAdapter(data)
-    }
-
-    /**
-     * Changes the order or filters a list of doctors based on the specified type.
-     *
-     * This function takes a sorting or filtering type and applies the corresponding operation
-     * to the given list of [DoctorsData]. It supports sorting alphabetically (A-Z, Z-A) and
-     * filtering by gender (male, female). If an unknown type is provided, it defaults to sorting
-     * the list from A to Z.
-     *
-     * @param type The type of ordering or filtering to apply. Supported values:
-     *  - `"AtoZ"`: Sorts doctors alphabetically in ascending order.
-     *  - `"ZtoA"`: Sorts doctors alphabetically in descending order.
-     *  - `"male"`: Filters the list to include only male doctors.
-     *  - `"female"`: Filters the list to include only female doctors.
-     *
-     * @param data The list of [DoctorsData] to be sorted or filtered.
-     * @return A new list of [DoctorsData] modified based on the specified type.
-     */
-    private fun changeFilter(type: FilterType, data: List<DoctorsData>): List<DoctorsData> {
-        return when (type) {
-            FilterType.A_TO_Z -> orderAtoZData(data)
-            FilterType.Z_TO_A -> orderZtoAData(data)
-            FilterType.MALE -> maleData(data)
-            FilterType.FEMALE -> femaleData(data)
-            FilterType.FAVORITE -> favoriteData(data)
-        }
-    }
-
-    /**
-     * Sorts a list of doctors in alphabetical order by name.
-     *
-     * This function takes a list of [DoctorsData] and sorts it in ascending order based on the `name` property.
-     *
-     * @param data The list of [DoctorsData] to be sorted.
-     * @return A new list of [DoctorsData] sorted alphabetically by name.
-     */
-    private fun orderAtoZData(data: List<DoctorsData>): List<DoctorsData> {
-        val orderedData = data.sortedBy { it.name }
-        return orderedData
-    }
-
-    /**
-     * Sorts a list of doctors in reverse alphabetical order by name.
-     *
-     * This function takes a list of [DoctorsData] and sorts it in descending order based on the `name` property.
-     *
-     * @param data The list of [DoctorsData] to be sorted.
-     * @return A new list of [DoctorsData] sorted in reverse alphabetical order by name.
-     */
-    private fun orderZtoAData(data: List<DoctorsData>): List<DoctorsData> {
-        val orderedData = data.sortedByDescending { it.name }
-        return orderedData
-    }
-
-    /**
-     * Filters a list of doctors to include only male doctors.
-     *
-     * This function takes a list of [DoctorsData] and returns a new list containing only the doctors
-     * whose `type` property is equal to `"male"`.
-     *
-     * @param data The list of [DoctorsData] to be filtered.
-     * @return A new list of [DoctorsData] containing only male doctors.
-     */
-    private fun maleData(data: List<DoctorsData>): List<DoctorsData> {
-        val orderedData = data.filter { it.type == "male" }
-        return orderedData
-    }
-
-    /**
-     * Filters a list of doctors to include only female doctors.
-     *
-     * This function takes a list of [DoctorsData] and returns a new list containing only the doctors
-     * whose `type` property is equal to `"female"`.
-     *
-     * @param data The list of [DoctorsData] to be filtered.
-     * @return A new list of [DoctorsData] containing only female doctors.
-     */
-    private fun femaleData(data: List<DoctorsData>): List<DoctorsData> {
-        val orderedData = data.filter { it.type == "female" }
-        return orderedData
-    }
-
-    /**
-     * Filters a list of doctors to include only those marked as favorites.
-     *
-     * This function takes a list of [DoctorsData] and returns a new list containing only the doctors
-     * whose `favorite` property is set to `true`.
-     *
-     * @param data The list of [DoctorsData] to be filtered.
-     * @return A new list of [DoctorsData] containing only favorite doctors.
-     */
-    private fun favoriteData(data: List<DoctorsData>): List<DoctorsData> {
-        val orderedData = data.filter { it.favorite }
-        return orderedData
+        binding.recycle.adapter = DoctorsAdapter(filteredData)
     }
 }
