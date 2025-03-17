@@ -28,10 +28,11 @@ class DoctorActivity : AppCompatActivity() {
 
         firestoreRepositoryDoctors = FirestoreRepositoryDoctors()
 
-        lifecycleScope.launch { getAllDoctorsData() }
+        lifecycleScope.launch {
+            getAllDoctorsData()
+        }
 
         binding.header.setOnBackButtonClickListener { finish() }
-
         binding.aToZFilter.setOnClickListener { toggleSorting() }
         binding.favoriteFilter.setOnClickListener { toggleFilter(FilterType.FAVORITE, binding.favoriteFilter) }
         binding.maleFilter.setOnClickListener { toggleFilter(FilterType.MALE, binding.maleFilter) }
@@ -113,6 +114,10 @@ class DoctorActivity : AppCompatActivity() {
         }
 
         binding.recycle.layoutManager = LinearLayoutManager(this)
-        binding.recycle.adapter = DoctorsAdapter(filteredData)
+        binding.recycle.adapter = DoctorsAdapter(filteredData) { doctor ->
+            lifecycleScope.launch {
+                firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, !doctor.favorite)
+            }
+        }
     }
 }

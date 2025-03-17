@@ -5,9 +5,10 @@ import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsDetailsData
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsDetailsResponse
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsResponse
 import br.com.ilstudio.dermatologyapp.data.service.FirestoreServiceDoctors
+import com.google.android.gms.tasks.Task
 
 class FirestoreRepositoryDoctors {
-    val firestoreServiceDoctors = FirestoreServiceDoctors()
+    private val firestoreServiceDoctors = FirestoreServiceDoctors()
 
     suspend fun getAll(): DoctorsResponse {
         return try {
@@ -66,5 +67,9 @@ class FirestoreRepositoryDoctors {
         } catch (e: Exception) {
             DoctorsDetailsResponse(false, null, "Get doctor details error")
         }
+    }
+
+    fun updateFavoriteDoctor(id: String, favorite: Boolean): Task<Void> {
+        return firestoreServiceDoctors.updateFavoriteDoctor(id, favorite)
     }
 }

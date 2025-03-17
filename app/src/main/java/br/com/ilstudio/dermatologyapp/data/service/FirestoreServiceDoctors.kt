@@ -1,5 +1,6 @@
 package br.com.ilstudio.dermatologyapp.data.service
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
@@ -18,6 +19,12 @@ class FirestoreServiceDoctors {
             .whereEqualTo("uid", id)
             .get()
             .await()
+    }
+
+    internal fun updateFavoriteDoctor(id: String, favorite: Boolean): Task<Void> {
+        return db.collection(DOCTORS_TABLE)
+        .document(id)
+        .update("favorite", favorite)
     }
 
     companion object {

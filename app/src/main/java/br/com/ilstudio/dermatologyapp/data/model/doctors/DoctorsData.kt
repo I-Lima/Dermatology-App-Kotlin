@@ -6,5 +6,5 @@ data class DoctorsData (
     val expertise: String,
     val photo: Long,
     val type: String,
-    val favorite: Boolean
+    var favorite: Boolean
 )
