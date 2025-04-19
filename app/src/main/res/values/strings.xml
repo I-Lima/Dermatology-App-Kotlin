@@ -76,4 +76,5 @@
     <string name="female_icon">female icon</string>
     <string name="no_data_icon">no data icon</string>
     <string name="error_icon">error icon</string>
+    <string name="texto_teste"><![CDATA[<b>Focus:</b> The impact of hormonal imbalances on skin conditions, specializing in acne, hirsutism, and other skin disorders.]]></string>
 </resources>
