@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.DoctorInfoActivity"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="14dp">
+    <br.com.ilstudio.dermatologyapp.ui.customview.HeaderView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Doctors Info"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="28dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_view_edit_text"
+                android:backgroundTint="@color/blue_light"
+                android:paddingHorizontal="22dp"
+                android:paddingVertical="18dp"
+                >
+                <ImageView
+                    android:id="@+id/img"
+                    android:contentDescription="photo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/alex"
+                    android:background="@drawable/shape_view_user_picture"
+                    android:clipToOutline="true"/>
+
+                <LinearLayout
+                    android:id="@+id/experienceText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingHorizontal="4dp"
+                    android:background="@color/primary"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15 years experience"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/league_spartan_light"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/focusContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/experienceText"
+                    app:layout_constraintStart_toEndOf="@id/img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@color/primary"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:id="@+id/focusText"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/texto_teste"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/league_spartan_light"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/img"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@drawable/shape_view_edit_text"
+                    android:backgroundTint="@color/white"
+                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="64dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dr. Alexander Bennet, Ph.D."
+                        android:fontFamily="@font/league_spartan_medium"
+                        android:textColor="@color/primary"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dermato-Genetics"
+                        android:fontFamily="@font/league_spartan_light"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_view_camera_button_central"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/container_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="16dp">
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/icon_star"
+                        android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_view_camera_button_central"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/container_name"
+                    app:layout_constraintStart_toEndOf="@id/container_stars"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp">
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/icon_message_1"
+                        android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_view_camera_button_central"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/container_name"
+                    app:layout_constraintStart_toEndOf="@id/container_comments"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp">
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/icon_clock"
+                        android:layout_marginEnd="8dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mon-Sat / 9:00AM - 5:00PM"/>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/profile_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="32dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile"
+                    android:textColor="@color/primary"
+                    android:fontFamily="@font/league_spartan_bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/career_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="23dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Career Path"
+                    android:textColor="@color/primary"
+                    android:fontFamily="@font/league_spartan_bold"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/highlight_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="23dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Highlights"
+                    android:textColor="@color/primary"
+                    android:fontFamily="@font/league_spartan_bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <br.com.ilstudio.dermatologyapp.ui.customview.BottomMenuView
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
