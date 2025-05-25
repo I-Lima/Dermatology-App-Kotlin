@@ -1,5 +1,6 @@
 package br.com.ilstudio.dermatologyapp.ui
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.adapter.DoctorsAdapter
+import br.com.ilstudio.dermatologyapp.adapter.listener.DoctorOnClickFavListener
+import br.com.ilstudio.dermatologyapp.adapter.listener.DoctorOnClickListener
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsData
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryDoctors
 import br.com.ilstudio.dermatologyapp.databinding.ActivityDoctorBinding
@@ -114,10 +117,14 @@ class DoctorActivity : AppCompatActivity() {
         }
 
         binding.recycle.layoutManager = LinearLayoutManager(this)
-        binding.recycle.adapter = DoctorsAdapter(filteredData) { doctor ->
+        binding.recycle.adapter = DoctorsAdapter(filteredData, DoctorOnClickFavListener { doctor ->
             lifecycleScope.launch {
                 firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, !doctor.favorite)
             }
-        }
+        }, DoctorOnClickListener { doctor ->
+            val intent = Intent(applicationContext, DoctorInfoActivity::class.java)
+            intent.putExtra("id", doctor.id)
+            startActivity(intent)
+        })
     }
 }

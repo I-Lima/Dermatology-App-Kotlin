@@ -2,19 +2,34 @@ package br.com.ilstudio.dermatologyapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
-import br.com.ilstudio.dermatologyapp.R
+import androidx.lifecycle.lifecycleScope
+import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsDetailsResponse
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryDoctors
+import br.com.ilstudio.dermatologyapp.data.service.FirestoreServiceDoctors
 import br.com.ilstudio.dermatologyapp.databinding.ActivityDoctorInfoBinding
+import kotlinx.coroutines.launch
 
 class DoctorInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDoctorInfoBinding
+    private lateinit var firestoreRepositoryDoctors: FirestoreRepositoryDoctors
+    private lateinit var data: DoctorsDetailsResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDoctorInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.focusText.setText(HtmlCompat.fromHtml(getString(R.string.texto_teste), HtmlCompat.FROM_HTML_MODE_LEGACY))
+        firestoreServiceDoctors = FirestoreServiceDoctors()
+
+        lifecycleScope.launch {
+            data = firestoreRepositoryDoctors.getDoctorDetails("")
+
+            if (!data.success) {
+
+            }
+
+
+        }
 
     }
 }

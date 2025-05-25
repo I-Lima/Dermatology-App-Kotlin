@@ -1,21 +1,23 @@
 package br.com.ilstudio.dermatologyapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.ilstudio.dermatologyapp.R
+import br.com.ilstudio.dermatologyapp.adapter.listener.DoctorOnClickFavListener
+import br.com.ilstudio.dermatologyapp.adapter.listener.DoctorOnClickListener
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsData
 import br.com.ilstudio.dermatologyapp.databinding.ItemDoctorBinding
 
 class DoctorsAdapter(
     private var itemList: List<DoctorsData>,
-    private val onFavItemClick: (DoctorsData) -> Unit
+    private val doctorOnClickFavListener: DoctorOnClickFavListener,
+    private val doctorOnClickListener: DoctorOnClickListener
 ) : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
 
     class MyViewHolder(
         private val binding: ItemDoctorBinding,
-        private val onFavItemClick: (DoctorsData) -> Unit
+        private val doctorOnClickFavListener: DoctorOnClickFavListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: DoctorsData) {
@@ -25,7 +27,7 @@ class DoctorsAdapter(
 
             changeFavColor(item.favorite, binding)
             binding.fav.setOnClickListener {
-                onFavItemClick(item)
+                doctorOnClickFavListener(item)
                 item.favorite = !item.favorite
                 changeFavColor(item.favorite, binding)
             }
@@ -52,11 +54,15 @@ class DoctorsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemDoctorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding, onFavItemClick)
+        return MyViewHolder(binding, doctorOnClickFavListener)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        val doctor = itemList[position]
+
+        holder.itemView.setOnClickListener {
+            doctorOnClickListener.onClick(doctor)
+        }
     }
 
     override fun getItemCount(): Int = itemList.size
