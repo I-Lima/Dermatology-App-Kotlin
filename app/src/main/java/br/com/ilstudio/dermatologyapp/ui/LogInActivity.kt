@@ -105,6 +105,7 @@ class LogInActivity : AppCompatActivity() {
                     startActivity(Intent(baseContext, NewAccountGoogleActivity::class.java))
                 } else {
                     startActivity(Intent(baseContext, MainActivity::class.java))
+                    finish()
                 }
             }, {
                 binding.textError.text = it.message
