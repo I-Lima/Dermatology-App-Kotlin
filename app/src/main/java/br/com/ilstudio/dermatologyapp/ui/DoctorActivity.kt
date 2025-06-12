@@ -1,8 +1,10 @@
 package br.com.ilstudio.dermatologyapp.ui
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -96,7 +98,7 @@ class DoctorActivity : AppCompatActivity() {
         val background = if (isActive) R.color.primary else R.color.blue_light
         view.backgroundTintList = ColorStateList.valueOf(getColor(background))
 
-        if (view is android.widget.ImageView) {
+        if (view is ImageView) {
             view.imageTintList = ColorStateList.valueOf(getColor(color))
         }
     }
@@ -114,10 +116,18 @@ class DoctorActivity : AppCompatActivity() {
         }
 
         binding.recycle.layoutManager = LinearLayoutManager(this)
-        binding.recycle.adapter = DoctorsAdapter(filteredData) { doctor ->
-            lifecycleScope.launch {
-                firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, !doctor.favorite)
+        binding.recycle.adapter = DoctorsAdapter(
+            filteredData,
+            onFavItemClick = { doctor ->
+                lifecycleScope.launch {
+                    firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, !doctor.favorite)
+                }
+            },
+            onItemClick = { doctor ->
+                    val intent = Intent(this, DoctorInfoActivity::class.java)
+                    intent.putExtra("doctor", doctor.toString())
+                    startActivity(intent)
             }
-        }
+        )
     }
 }
