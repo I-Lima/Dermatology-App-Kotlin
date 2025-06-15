@@ -18,7 +18,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="200dp"
+            android:src="@drawable/icon_error"
+            android:layout_marginTop="50dp"
+            android:contentDescription="@string/error_icon"
+            />
+
+        <TextView
+            android:id="@+id/text_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/league_spartan_medium"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
     <ScrollView
+        android:id="@+id/data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/header"
@@ -50,16 +79,16 @@
                     android:clipToOutline="true"/>
 
                 <LinearLayout
-                    android:id="@+id/experienceText"
+                    android:id="@+id/experienceTextContainer"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:paddingHorizontal="4dp"
                     android:background="@color/primary"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/experienceText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="15 years experience"
@@ -71,7 +100,7 @@
                     android:id="@+id/focusContainer"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/experienceText"
+                    app:layout_constraintTop_toBottomOf="@id/experienceTextContainer"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:background="@color/primary"
                     android:orientation="horizontal"
@@ -109,6 +138,7 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <TextView
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dr. Alexander Bennet, Ph.D."
@@ -116,6 +146,7 @@
                         android:textColor="@color/primary"
                         android:textSize="16sp"/>
                     <TextView
+                        android:id="@+id/expertise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dermato-Genetics"
@@ -140,6 +171,7 @@
                         android:src="@drawable/icon_heart_stroke"
                         android:layout_marginEnd="8dp"/>
                     <TextView
+                        android:id="@+id/stars"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="5"/>
@@ -163,6 +195,7 @@
                         android:src="@drawable/icon_message_1"
                         android:layout_marginEnd="8dp"/>
                     <TextView
+                        android:id="@+id/comments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="5"/>
@@ -186,6 +219,7 @@
                         android:src="@drawable/icon_clock"
                         android:layout_marginEnd="8dp"/>
                     <TextView
+                        android:id="@+id/schedule"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mon-Sat / 9:00AM - 5:00PM"/>
@@ -245,6 +279,7 @@
                     android:textColor="@color/primary"
                     android:fontFamily="@font/league_spartan_bold"/>
                 <TextView
+                    android:id="@+id/profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
@@ -263,6 +298,7 @@
                     android:textColor="@color/primary"
                     android:fontFamily="@font/league_spartan_bold"/>
                 <TextView
+                    android:id="@+id/carrer_path"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." />
@@ -281,6 +317,7 @@
                     android:textColor="@color/primary"
                     android:fontFamily="@font/league_spartan_bold"/>
                 <TextView
+                    android:id="@+id/highlidghts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
