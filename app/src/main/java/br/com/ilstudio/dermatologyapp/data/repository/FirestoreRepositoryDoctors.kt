@@ -58,12 +58,13 @@ class FirestoreRepositoryDoctors {
                     data["focus"] as? String ?: "",
                     data["experience"] as? Long ?: 0,
                     data["date"] as? String ?: "",
-                    data["careerPath"] as? String ?: "",
+                    data["hour"] as? String ?: "",
+                    data["career path"] as? String ?: "",
                     data["comments"] as? Long ?: 0,
                 )
             }
 
-            DoctorsDetailsResponse(true, listData, null, false)
+            DoctorsDetailsResponse(true, listData.get(0), null, false)
         } catch (e: Exception) {
             DoctorsDetailsResponse(false, null, "Get doctor details error")
         }

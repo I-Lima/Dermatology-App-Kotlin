@@ -57,12 +57,12 @@ class DoctorInfoActivity : AppCompatActivity() {
     private fun setData(data: DoctorsDetailsData) {
         binding.experienceText.text = "${data.experience} years experience".trim()
         binding.focusText.text = data.focus.trim()
-        binding.img.setImageResource(doctor.photo)
         binding.name.text = doctor.name
         binding.expertise.text = doctor.expertise
         binding.comments.text = data.comments.toString()
         binding.stars.text = data.starts.toString()
-        binding.schedule.text = data.date
+        binding.scheduleDate.text = data.date
+        binding.scheduleHour.text = data.hour
         binding.profile.text = data.profile.trim()
         binding.carrerPath.text = data.careerPath.trim()
         binding.highlidghts.text = data.highlights.trim()
