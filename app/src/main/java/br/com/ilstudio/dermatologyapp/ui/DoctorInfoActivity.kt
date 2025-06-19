@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsData
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsDetailsResponse
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsDetailsData
@@ -41,6 +42,12 @@ class DoctorInfoActivity : AppCompatActivity() {
 
             data.data?.let { setData(it) }
         }
+
+        binding.fav.setOnClickListener {
+            doctor.favorite = !doctor.favorite
+            changeFavColor(doctor.favorite, binding)
+            firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, doctor.favorite)
+        }
     }
 
     private fun getData(sharedPreferences: SharedPreferences) {
@@ -66,5 +73,15 @@ class DoctorInfoActivity : AppCompatActivity() {
         binding.profile.text = data.profile.trim()
         binding.carrerPath.text = data.careerPath.trim()
         binding.highlidghts.text = data.highlights.trim()
+
+        changeFavColor(doctor.favorite, binding)
+    }
+
+    private fun changeFavColor(favorite: Boolean, binding: ActivityDoctorInfoBinding) {
+        val color = if (favorite) R.color.white else R.color.primary
+        val background = if (favorite) R.color.primary else R.color.white
+
+        binding.fav.imageTintList = binding.root.context.getColorStateList(color)
+        binding.fav.backgroundTintList = binding.root.context.getColorStateList(background)
     }
 }
