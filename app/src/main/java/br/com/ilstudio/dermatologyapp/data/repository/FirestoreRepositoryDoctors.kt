@@ -6,6 +6,7 @@ import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsDetailsResponse
 import br.com.ilstudio.dermatologyapp.data.model.doctors.DoctorsResponse
 import br.com.ilstudio.dermatologyapp.data.service.FirestoreServiceDoctors
 import com.google.android.gms.tasks.Task
+import java.util.Calendar
 
 class FirestoreRepositoryDoctors {
     private val firestoreServiceDoctors = FirestoreServiceDoctors()
@@ -49,6 +50,9 @@ class FirestoreRepositoryDoctors {
 
             val listData = response.map {
                 val data = it.data ?: emptyMap<String, Any>()
+                val experienceData = data["experience"] as Long
+                val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                val experience = currentYear - experienceData
 
                 DoctorsDetailsData(
                     data["uid"] as? String ?: "",
@@ -56,7 +60,7 @@ class FirestoreRepositoryDoctors {
                     data["profile"] as? String ?: "",
                     data["highlights"] as? String ?: "",
                     data["focus"] as? String ?: "",
-                    data["experience"] as? Long ?: 0,
+                    experience,
                     data["date"] as? String ?: "",
                     data["hour"] as? String ?: "",
                     data["career path"] as? String ?: "",
