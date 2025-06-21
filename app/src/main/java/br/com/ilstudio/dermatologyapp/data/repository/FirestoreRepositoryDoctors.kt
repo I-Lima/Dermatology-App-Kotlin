@@ -51,7 +51,7 @@ class FirestoreRepositoryDoctors {
             val listData = response.map {
                 val data = it.data ?: emptyMap<String, Any>()
                 val experienceData = data["experience"] as Long
-                val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                val currentYear = Calendar.getInstance()[Calendar.YEAR]
                 val experience = currentYear - experienceData
 
                 DoctorsDetailsData(
