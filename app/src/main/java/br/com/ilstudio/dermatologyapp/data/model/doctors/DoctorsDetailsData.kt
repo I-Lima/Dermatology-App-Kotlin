@@ -8,6 +8,7 @@ data class DoctorsDetailsData (
     val focus: String,
     val experience: Long,
     val date: String,
+    val hour: String,
     val careerPath: String,
     val comments: Long,
 )

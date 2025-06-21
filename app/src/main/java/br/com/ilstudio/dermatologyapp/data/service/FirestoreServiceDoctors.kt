@@ -16,7 +16,7 @@ class FirestoreServiceDoctors {
 
     internal suspend fun getDoctorDetails(id: String): QuerySnapshot {
         return db.collection(DOCTORS_DETAILS_TABLE)
-            .whereEqualTo("uid", id)
+            .whereEqualTo("doctor_uid", id)
             .get()
             .await()
     }
@@ -29,6 +29,6 @@ class FirestoreServiceDoctors {
 
     companion object {
         private const val DOCTORS_TABLE = "doctors"
-        private const val DOCTORS_DETAILS_TABLE = "doctors_details"
+        private const val DOCTORS_DETAILS_TABLE = "doctorsDetails"
     }
 }

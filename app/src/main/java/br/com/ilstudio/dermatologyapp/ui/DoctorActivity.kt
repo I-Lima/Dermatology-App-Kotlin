@@ -1,8 +1,12 @@
 package br.com.ilstudio.dermatologyapp.ui
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +22,8 @@ class DoctorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDoctorBinding
     private lateinit var firestoreRepositoryDoctors: FirestoreRepositoryDoctors
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
     private var filters = mutableSetOf<FilterType>(FilterType.A_TO_Z)
     private var data: List<DoctorsData> = listOf()
 
@@ -27,6 +33,8 @@ class DoctorActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firestoreRepositoryDoctors = FirestoreRepositoryDoctors()
+        sharedPreferences = getSharedPreferences("doctorData", Context.MODE_PRIVATE)
+        editor = sharedPreferences.edit()
 
         lifecycleScope.launch {
             getAllDoctorsData()
@@ -96,7 +104,7 @@ class DoctorActivity : AppCompatActivity() {
         val background = if (isActive) R.color.primary else R.color.blue_light
         view.backgroundTintList = ColorStateList.valueOf(getColor(background))
 
-        if (view is android.widget.ImageView) {
+        if (view is ImageView) {
             view.imageTintList = ColorStateList.valueOf(getColor(color))
         }
     }
@@ -114,10 +122,23 @@ class DoctorActivity : AppCompatActivity() {
         }
 
         binding.recycle.layoutManager = LinearLayoutManager(this)
-        binding.recycle.adapter = DoctorsAdapter(filteredData) { doctor ->
-            lifecycleScope.launch {
-                firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, !doctor.favorite)
+        binding.recycle.adapter = DoctorsAdapter(
+            filteredData,
+            onFavItemClick = { doctor ->
+                lifecycleScope.launch {
+                    firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, !doctor.favorite)
+                }
+            },
+            onItemClick = { doctor ->
+                editor.putString("doctor-id", doctor.id)
+                editor.putString("doctor-name", doctor.name)
+                editor.putString("doctor-expertise", doctor.expertise)
+                editor.putLong("doctor-photo", doctor.photo)
+                editor.putString("doctor-type", doctor.type)
+                editor.putBoolean("doctor-favorite", doctor.favorite)
+                editor.apply()
+                startActivity(Intent(this, DoctorInfoActivity::class.java))
             }
-        }
+        )
     }
 }

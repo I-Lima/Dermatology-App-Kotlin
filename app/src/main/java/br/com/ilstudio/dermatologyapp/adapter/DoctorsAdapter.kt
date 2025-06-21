@@ -1,7 +1,6 @@
 package br.com.ilstudio.dermatologyapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.ilstudio.dermatologyapp.R
@@ -10,12 +9,14 @@ import br.com.ilstudio.dermatologyapp.databinding.ItemDoctorBinding
 
 class DoctorsAdapter(
     private var itemList: List<DoctorsData>,
-    private val onFavItemClick: (DoctorsData) -> Unit
+    private val onFavItemClick: (DoctorsData) -> Unit,
+    private val onItemClick: (DoctorsData) -> Unit
 ) : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
 
     class MyViewHolder(
         private val binding: ItemDoctorBinding,
-        private val onFavItemClick: (DoctorsData) -> Unit
+        private val onFavItemClick: (DoctorsData) -> Unit,
+        private val onItemClick: (DoctorsData) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: DoctorsData) {
@@ -28,6 +29,9 @@ class DoctorsAdapter(
                 onFavItemClick(item)
                 item.favorite = !item.favorite
                 changeFavColor(item.favorite, binding)
+            }
+            binding.root.setOnClickListener {
+                onItemClick(item)
             }
         }
 
@@ -52,7 +56,7 @@ class DoctorsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemDoctorBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding, onFavItemClick)
+        return MyViewHolder(binding, onFavItemClick, onItemClick)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
