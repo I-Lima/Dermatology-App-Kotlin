@@ -20,4 +20,13 @@
         <attr name="labelTextButton" format="string" />
         <attr name="active" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="CalendarItemView">
+        <attr name="day_number" format="string" />
+        <attr name="day_name" format="string" />
+        <attr name="type" format="boolean">
+            <enum name="active" value="0" />
+            <enum name="inactive" value="1" />
+            <enum name="today" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>
