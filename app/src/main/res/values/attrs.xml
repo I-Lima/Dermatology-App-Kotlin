@@ -23,10 +23,17 @@
     <declare-styleable name="CalendarItemView">
         <attr name="day_number" format="string" />
         <attr name="day_name" format="string" />
-        <attr name="type" format="boolean">
+        <attr name="type" format="string">
             <enum name="active" value="0" />
             <enum name="inactive" value="1" />
             <enum name="today" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="HourItemView">
+        <attr name="hour" format="string" />
+        <attr name="expedient" format="string">
+            <enum name="am" value="AM" />
+            <enum name="pm" value="PM" />
         </attr>
     </declare-styleable>
 </resources>
