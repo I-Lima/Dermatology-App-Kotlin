@@ -26,7 +26,7 @@ class CalendarItemView @JvmOverloads constructor (
         container = findViewById(R.id.container)
 
         attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, R.styleable.HeaderView, 0, 0)
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.CalendarItemView, 0, 0)
 
             val labelNumber = typedArray.getString(R.styleable.CalendarItemView_day_number)
             val labelName = typedArray.getString(R.styleable.CalendarItemView_day_name)
