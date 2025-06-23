@@ -3,8 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#2260FF</color>
-    <color name="blue_light">#CAD6FF</color>
-    <color name="blue_light_100">#ECF1FF</color>
-    <color name="blue_light_200">#809CFF</color>
+    <color name="secondary">#CAD6FF</color>
+    <color name="blue_50">#ECF1FF</color>
+    <color name="blue_200">#809CFF</color>
+    <color name="blue_700">#00278C</color>
     <color name="error">#F00</color>
 </resources>
