@@ -7,7 +7,7 @@
     android:paddingVertical="16dp"
     android:paddingHorizontal="16dp"
     android:background="@drawable/shape_view_edit_text"
-    android:backgroundTint="@color/blue_light"
+    android:backgroundTint="@color/secondary"
     android:clickable="true"
     android:focusable="true"
     android:layout_marginBottom="10dp">

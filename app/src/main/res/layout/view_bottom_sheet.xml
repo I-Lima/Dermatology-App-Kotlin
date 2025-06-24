@@ -54,7 +54,7 @@
             android:text="@string/cancel"
             android:fontFamily="@font/league_spartan_medium"
             android:textSize="22sp"
-            android:backgroundTint="@color/blue_light"
+            android:backgroundTint="@color/secondary"
             android:textColor="@color/primary"
             android:gravity="center"
             />

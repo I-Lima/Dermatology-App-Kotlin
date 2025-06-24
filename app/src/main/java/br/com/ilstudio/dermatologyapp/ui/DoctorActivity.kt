@@ -101,7 +101,7 @@ class DoctorActivity : AppCompatActivity() {
 
     private fun updateFilterButton(view: View, isActive: Boolean) {
         val color = if (isActive) R.color.white else R.color.primary
-        val background = if (isActive) R.color.primary else R.color.blue_light
+        val background = if (isActive) R.color.primary else R.color.secondary
         view.backgroundTintList = ColorStateList.valueOf(getColor(background))
 
         if (view is ImageView) {

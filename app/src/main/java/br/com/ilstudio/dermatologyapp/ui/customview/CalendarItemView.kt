@@ -42,8 +42,8 @@ class CalendarItemView @JvmOverloads constructor (
                 }
                 "1" -> {
                     container.backgroundTintList = ColorStateList.valueOf(getColor(context,R.color.white))
-                    date_number.setTextColor(getColor(context,R.color.blue_light))
-                    date_name.setTextColor(getColor(context,R.color.blue_light))
+                    date_number.setTextColor(getColor(context,R.color.secondary))
+                    date_name.setTextColor(getColor(context,R.color.secondary))
                     container.isActivated = false
                 }
                 "2" -> {
