@@ -29,9 +29,17 @@ class HourItemView @JvmOverloads constructor (
             val typedArray = context.obtainStyledAttributes(it, R.styleable.HourItemView, 0, 0)
 
             val labelHour = typedArray.getString(R.styleable.HourItemView_hour)
-            val labelExp = typedArray.getString(R.styleable.HourItemView_expedient)
             hour.text = labelHour ?: ""
-            expedient.text = labelExp ?: ""
+
+            val exped = typedArray.getString(R.styleable.HourItemView_expedient) ?: "am"
+            when(exped) {
+                "0" -> {
+                    expedient.text = "AM"
+                }
+                "1" -> {
+                    expedient.text = "PM"
+                }
+            }
 
             val type = typedArray.getString(R.styleable.HourItemView_typeTime) ?: "active"
             when(type) {

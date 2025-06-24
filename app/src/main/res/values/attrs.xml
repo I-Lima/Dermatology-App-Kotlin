@@ -32,8 +32,12 @@
     <declare-styleable name="HourItemView">
         <attr name="hour" format="string" />
         <attr name="expedient" format="string">
-            <enum name="am" value="AM" />
-            <enum name="pm" value="PM" />
+            <enum name="am" value="0" />
+            <enum name="pm" value="1" />
+        </attr>
+        <attr name="typeTime" format="string">
+            <enum name="active" value="0" />
+            <enum name="inactive" value="1" />
         </attr>
     </declare-styleable>
 </resources>
