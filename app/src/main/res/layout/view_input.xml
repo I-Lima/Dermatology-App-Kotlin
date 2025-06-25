@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:id="@+id/contentUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            style="@style/H4"/>
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:autofillHints=""
+            android:background="@drawable/shape_view_edit_text"
+            android:gravity="center_vertical"
+            android:hint="@string/example_example_com"
+            android:inputType="text"
+            android:textColorHint="@color/blue_200"
+            android:paddingHorizontal="16dp"
+            android:maxLines="1"
+            style="@style/label_16_regular"/>
+    </LinearLayout>
+</merge>

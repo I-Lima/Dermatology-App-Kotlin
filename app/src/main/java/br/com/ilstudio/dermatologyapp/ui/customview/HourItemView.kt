@@ -44,15 +44,20 @@ class HourItemView @JvmOverloads constructor (
             val type = typedArray.getString(R.styleable.HourItemView_typeTime) ?: "active"
             when(type) {
                 "0" -> {
-                    container.backgroundTintList = ColorStateList.valueOf(getColor(context,R.color.white))
-                    hour.setTextColor(getColor(context,R.color.white))
-                    expedient.setTextColor(getColor(context,R.color.white))
+                    container.backgroundTintList = ColorStateList.valueOf(getColor(context,R.color.secondary))
+                    hour.setTextColor(getColor(context,R.color.black))
+                    expedient.setTextColor(getColor(context,R.color.black))
                 }
                 "1" -> {
                     container.backgroundTintList = ColorStateList.valueOf(getColor(context,R.color.blue_50))
                     hour.setTextColor(getColor(context,R.color.blue_200))
                     expedient.setTextColor(getColor(context,R.color.blue_200))
                     container.isActivated = false
+                }
+                "2" -> {
+                    container.backgroundTintList = ColorStateList.valueOf(getColor(context,R.color.primary))
+                    hour.setTextColor(getColor(context,R.color.white))
+                    expedient.setTextColor(getColor(context,R.color.white))
                 }
             }
 

@@ -38,6 +38,25 @@
         <attr name="typeTime" format="string">
             <enum name="active" value="0" />
             <enum name="inactive" value="1" />
+            <enum name="selected" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="ButtonTagView">
+        <attr name="titleTag" format="string" />
+        <attr name="typeTag" format="string">
+            <enum name="active" value="0" />
+            <enum name="inactive" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="InputView">
+        <attr name="titleInput" format="string" />
+        <attr name="placeholder" format="string" />
+        <attr name="typeInput" format="string">
+            <enum name="text" value="0" />
+            <enum name="password" value="1" />
+            <enum name="email" value="2" />
+            <enum name="phone" value="3" />
+            <enum name="number" value="4" />
         </attr>
     </declare-styleable>
 </resources>
