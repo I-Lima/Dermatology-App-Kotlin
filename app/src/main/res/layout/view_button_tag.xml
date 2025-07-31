@@ -6,15 +6,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp"
+        android:paddingVertical="6dp"
+        android:minWidth="50dp"
         android:background="@drawable/shape_view_button_tag_inactive"
-        android:gravity="center_vertical">
+        android:gravity="center">
         <TextView
-            android:id="@+id/hour"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/blue_200"
-            style="@style/body_12_light"
+            style="@style/body_14_light"
             android:text="Title" />
     </LinearLayout>
 </merge>

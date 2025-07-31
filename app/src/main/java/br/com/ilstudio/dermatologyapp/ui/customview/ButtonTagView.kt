@@ -33,13 +33,10 @@ class ButtonTagView @JvmOverloads constructor (
             val type = typedArray.getString(R.styleable.ButtonTagView_typeTag) ?: "active"
             when(type) {
                 "0" -> {
-                    container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.primary))
-                    title.setTextColor(getColor(context, R.color.white))
+                    setTypeTag(false)
                 }
                 "1" -> {
-                    container.background = getDrawable(context, R.drawable.shape_view_button_tag_inactive)
-                    title.setTextColor(getColor(context, R.color.blue_200))
-                    container.isActivated = false
+                    setTypeTag(true)
                 }
             }
 
@@ -48,7 +45,18 @@ class ButtonTagView @JvmOverloads constructor (
     }
 
     fun setOnButtonClickListener(listener: (View) -> Unit) {
-        val button = findViewById<LinearLayout>(R.id.main)
-        button.setOnClickListener(listener)
+        container.setOnClickListener(listener)
     }
+
+    fun setTypeTag(activated: Boolean) {
+        if(activated) {
+            container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.primary))
+            title.setTextColor(getColor(context, R.color.white))
+        } else {
+            container.backgroundTintList = null
+            container.background = getDrawable(context, R.drawable.shape_view_button_tag_inactive)
+            title.setTextColor(getColor(context, R.color.blue_200))
+        }
+    }
+
 }

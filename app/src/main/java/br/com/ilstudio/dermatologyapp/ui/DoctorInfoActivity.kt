@@ -1,6 +1,7 @@
 package br.com.ilstudio.dermatologyapp.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -47,6 +48,9 @@ class DoctorInfoActivity : AppCompatActivity() {
             doctor.favorite = !doctor.favorite
             changeFavColor(doctor.favorite, binding)
             firestoreRepositoryDoctors.updateFavoriteDoctor(doctor.id, doctor.favorite)
+        }
+        binding.scheduleButton.setOnClickListener {
+            startActivity(Intent(baseContext, ScheduleActivity::class.java))
         }
     }
 

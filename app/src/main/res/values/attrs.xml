@@ -36,16 +36,16 @@
             <enum name="pm" value="1" />
         </attr>
         <attr name="typeTime" format="string">
-            <enum name="active" value="0" />
-            <enum name="inactive" value="1" />
+            <enum name="inactive" value="0" />
+            <enum name="active" value="1" />
             <enum name="selected" value="2" />
         </attr>
     </declare-styleable>
     <declare-styleable name="ButtonTagView">
         <attr name="titleTag" format="string" />
         <attr name="typeTag" format="string">
-            <enum name="active" value="0" />
-            <enum name="inactive" value="1" />
+            <enum name="inactive" value="0" />
+            <enum name="active" value="1" />
         </attr>
     </declare-styleable>
     <declare-styleable name="InputView">
@@ -56,7 +56,7 @@
             <enum name="password" value="1" />
             <enum name="email" value="2" />
             <enum name="phone" value="3" />
-            <enum name="number" value="4" />
+            <enum name="large" value="4" />
         </attr>
     </declare-styleable>
 </resources>

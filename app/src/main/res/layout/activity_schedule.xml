@@ -37,7 +37,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/label_14_medium"
+            style="@style/H2"
             android:text="@string/my_profile"
             android:textColor="@color/white"
             android:clickable="false"
@@ -142,29 +142,192 @@
         app:layout_constraintTop_toBottomOf="@id/calendar_bgd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/menu">
+        app:layout_constraintBottom_toTopOf="@id/menu"
+        android:paddingBottom="10dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="24dp"
             android:paddingTop="10dp">
             <TextView
+                android:id="@+id/hour_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/available_time"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/label_14_medium"
+                style="@style/label_16_medium"
                 android:textColor="@color/primary"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/hour_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="14dp"/>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/recyclerHours"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="14dp"
+                android:background="@color/primary"
+                />
+
+            <TextView
+                android:id="@+id/details_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/patient_details"
+                android:textColor="@color/primary"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/line"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/label_16_medium" />
+
+            <br.com.ilstudio.dermatologyapp.ui.customview.ButtonTagView
+                android:id="@+id/button_yourself"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/details_title"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
+                app:titleTag="Yourself"
+                app:typeTag="active"/>
+
+            <br.com.ilstudio.dermatologyapp.ui.customview.ButtonTagView
+                android:id="@+id/button_another"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/details_title"
+                app:layout_constraintStart_toEndOf="@id/button_yourself"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"
+                app:titleTag="Another Person"
+                app:typeTag="inactive"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/another_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/button_yourself"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+                <br.com.ilstudio.dermatologyapp.ui.customview.InputView
+                    android:id="@+id/full_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:titleInput="Full Name"
+                    app:placeholder="John Doe"
+                    app:typeInput="text"
+                    />
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.InputView
+                    android:id="@+id/age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/full_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:titleInput="Age"
+                    app:placeholder="30"
+                    app:typeInput="number"
+                    />
+
+                <TextView
+                    android:id="@+id/gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/age"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/label_14_medium"/>
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.ButtonTagView
+                    android:id="@+id/button_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/gender"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:titleTag="Female"
+                    app:typeTag="inactive"/>
+
+                <br.com.ilstudio.dermatologyapp.ui.customview.ButtonTagView
+                    android:id="@+id/button_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/gender"
+                    app:layout_constraintStart_toEndOf="@id/button_female"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="4dp"
+                    app:titleTag="Male"
+                    app:typeTag="active"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/line_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/another_form"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="14dp"
+                android:background="@color/primary"
+                />
+
+            <TextView
+                android:id="@+id/label_large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/describe_your_problem"
+                android:layout_marginTop="10dp"
+                style="@style/H3"
+                app:layout_constraintTop_toBottomOf="@id/line_2"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/input_large"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:background="@drawable/shape_view_edit_text"
+                android:gravity="center_vertical"
+                android:hint="@string/enter_your_problem_here"
+                android:inputType="text"
+                android:textColorHint="@color/blue_200"
+                android:paddingHorizontal="16dp"
+                style="@style/label_16_regular"
+                app:layout_constraintTop_toBottomOf="@id/label_large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <br.com.ilstudio.dermatologyapp.ui.customview.BottomMenuView
+    <LinearLayout
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:page="schedule"/>
+        app:layout_constraintEnd_toEndOf="parent">
+        <br.com.ilstudio.dermatologyapp.ui.customview.BottomMenuView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:page="schedule"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

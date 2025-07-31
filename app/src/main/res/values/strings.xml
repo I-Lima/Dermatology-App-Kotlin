@@ -79,4 +79,6 @@
     <string name="texto_teste">The impact of hormonal imbalances on skin conditions, specializing in acne, hirsutism, and other skin disorders.</string>
     <string name="available_time">Available time</string>
     <string name="patient_details">Patient Details</string>
+    <string name="enter_your_problem_here">enter your Problem here...</string>
+    <string name="describe_your_problem">Describe your problem</string>
 </resources>

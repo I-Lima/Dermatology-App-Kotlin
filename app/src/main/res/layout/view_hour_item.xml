@@ -4,24 +4,26 @@
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="wrap_content"
+        android:minWidth="74dp"
         android:layout_height="wrap_content"
+        android:minHeight="24dp"
         android:paddingHorizontal="8dp"
         android:paddingVertical="6dp"
         android:background="@drawable/shape_view_bgd_primary_camera_button"
-        android:gravity="center_vertical">
+        android:gravity="center">
         <TextView
             android:id="@+id/hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            style="@style/body_12_light"
+            style="@style/body_14_light"
             android:text="09:00"
             android:layout_marginEnd="4dp"/>
         <TextView
             android:id="@+id/expedient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/body_12_light"
+            style="@style/body_14_light"
             android:textColor="@color/white"
             android:text="AM"/>
     </LinearLayout>
