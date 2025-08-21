@@ -1,18 +1,37 @@
 package br.com.ilstudio.dermatologyapp.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.ilstudio.dermatologyapp.adapter.HourListAdapter
+import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
+import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsResponse
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryAppointments
 import br.com.ilstudio.dermatologyapp.databinding.ActivityScheduleBinding
 import br.com.ilstudio.dermatologyapp.domain.model.AmPm
 import br.com.ilstudio.dermatologyapp.domain.model.ItemHour
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class ScheduleActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityScheduleBinding
-    private var isYourself = true
+    private lateinit var firestoreRepositoryAppointments: FirestoreRepositoryAppointments
+    private lateinit var appointmentList: AppointmentsResponse
+    private lateinit var sharedPreferencesDoctor: SharedPreferences
+    private lateinit var sharedPreferencesUser: SharedPreferences
+    private var isMale = false
+    private var hour: ItemHour? = null
+    private val user = mutableMapOf(
+        "fullName" to "",
+        "age" to "",
+        "gender" to "",
+        "description" to ""
+    )
 
     private val listHours = listOf(
         ItemHour("09:00", AmPm.AM, true), ItemHour("09:30", AmPm.AM, true), ItemHour("10:00", AmPm.AM, true),
@@ -24,7 +43,7 @@ class ScheduleActivity : AppCompatActivity() {
 
     private val adapter by lazy {
         HourListAdapter(listHours) { selectedHour ->
-            println("Selected hour: $selectedHour")
+            hour = selectedHour
         }
     }
 
@@ -33,30 +52,92 @@ class ScheduleActivity : AppCompatActivity() {
         binding = ActivityScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupRecyclerView()
-        setupButtons()
+        firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
+        binding.recyclerHours.layoutManager = GridLayoutManager(this, 3)
+        binding.recyclerHours.adapter = adapter
+        sharedPreferencesDoctor = getSharedPreferences("doctorData", Context.MODE_PRIVATE)
+        val doctorId = sharedPreferencesDoctor.getString("doctor-id", "")
+        val doctorName = sharedPreferencesDoctor.getString("doctor-name", "")
+        sharedPreferencesUser = getSharedPreferences("userData", Context.MODE_PRIVATE)
+        val userName = sharedPreferencesUser.getString("user-name", "")
+//        val userAge = sharedPreferencesUser.getString("dateBirth", "")
+
+        if (!doctorName.isNullOrBlank()) {
+            binding.title.text = doctorName
+        }
+
+        lifecycleScope.launch {
+            if (doctorId.isNullOrBlank()) return@launch
+
+            val selectedDate = LocalDate.now()
+            appointmentList = firestoreRepositoryAppointments.getAppointmentsByDoctorId(doctorId, selectedDate)
+            if (!appointmentList.success || appointmentList.data == null) return@launch
+
+            updateTimeList(listHours, appointmentList.data!!, selectedDate) //TODO: não tá desativando os horários
+        }
+
+
+        binding.buttonYourself.setOnButtonClickListener {
+            updatePatientDetailButtons(true)
+
+            if (!userName.isNullOrBlank()) {
+                binding.fullName.setTextInput(userName) //TODO: Não tá adicionando o texto no input.
+                binding.fullName.isActivated = false
+            }
+        }
+
+        binding.buttonAnother.setOnButtonClickListener {
+            updatePatientDetailButtons(false)
+
+            binding.fullName.setTextInput("")
+            binding.fullName.isActivated = true
+        }
+
+        binding.buttonMale.setOnButtonClickListener {
+            isMale = true
+            binding.buttonMale.setTypeTag(true)
+            binding.buttonFemale.setTypeTag(false)
+        }
+
+        binding.buttonFemale.setOnButtonClickListener {
+            isMale = false
+            binding.buttonMale.setTypeTag(false)
+            binding.buttonFemale.setTypeTag(true)
+        }
+
+        //TODO: Adicionar lógica para o botão de salvar o agendamento
 
         binding.buttonBack.setOnClickListener { finish() }
     }
 
-    private fun setupRecyclerView() {
-        binding.recyclerHours.layoutManager = GridLayoutManager(this, 3)
-        binding.recyclerHours.adapter = adapter
+    private fun updatePatientDetailButtons(isYourself: Boolean) {
+        binding.buttonYourself.setTypeTag(isYourself)
+        binding.buttonAnother.setTypeTag(!isYourself)
     }
 
-    private fun setupButtons() {
-        binding.buttonYourself.setOnButtonClickListener {
-            isYourself = true
-            binding.anotherForm.isVisible = false
-            binding.buttonYourself.setTypeTag(true)
-            binding.buttonAnother.setTypeTag(false)
+    private fun updateTimeList(listHours: List<ItemHour>, appointments: List<AppointmentsData>, selectedDate: LocalDate) {
+        val appointmentsToday = appointments.filter { ap ->
+            val apDate = ap.start_time
+                .toDate()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+            apDate == selectedDate
         }
 
-        binding.buttonAnother.setOnButtonClickListener {
-            isYourself = false
-            binding.anotherForm.isVisible = true
-            binding.buttonYourself.setTypeTag(false)
-            binding.buttonAnother.setTypeTag(true)
+        val horasOcupadas = appointmentsToday.map { ap ->
+            ap.start_time
+                .toDate()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime()
+                .format(DateTimeFormatter.ofPattern("HH:mm"))
+        }.toSet()
+
+        listHours.forEach { itemHour ->
+            itemHour.available = !horasOcupadas.contains(itemHour.hour)
         }
+
+        adapter.notifyDataSetChanged()
     }
 }

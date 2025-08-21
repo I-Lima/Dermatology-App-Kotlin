@@ -1,8 +1,10 @@
 package br.com.ilstudio.dermatologyapp.utils
 
+
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
@@ -54,5 +56,16 @@ object DateUtils {
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(timestamp)
+    }
+
+    /**
+     * Converts a [Timestamp] to a formatted hour string.
+     *
+     * @param timestamp The [Timestamp] to be converted to a hour string.
+     * @return A formatted hour string in the format "HH:mm", or `null` if the timestamp is `null`.
+    */
+    fun timestampToHourString(timestamp: com.google.firebase.Timestamp): String {
+        val dateTime = LocalDateTime.ofInstant(timestamp.toDate().toInstant(), ZoneId.systemDefault())
+        return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
 }

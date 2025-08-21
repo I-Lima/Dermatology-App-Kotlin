@@ -1,7 +1,6 @@
 package br.com.ilstudio.dermatologyapp.data.model.appointments
 
-import br.com.ilstudio.dermatologyapp.utils.enum.AppointmentsStatusEnum
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 
 class AppointmentsData(
     val uid: String,
@@ -11,5 +10,5 @@ class AppointmentsData(
     val start_time: Timestamp,
     val end_time: Timestamp,
     val description: String,
-    val status: String,
+    val status: Int,
 )

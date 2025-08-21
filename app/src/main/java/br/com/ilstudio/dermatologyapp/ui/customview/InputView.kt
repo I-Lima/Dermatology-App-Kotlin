@@ -46,4 +46,8 @@ class InputView @JvmOverloads constructor (
             typedArray.recycle()
         }
     }
+
+    fun setTextInput(text: String) {
+        input.setText(text) //TODO: Não tá adicionando o texto no input.
+    }
 }

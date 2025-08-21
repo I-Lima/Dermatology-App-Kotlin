@@ -3,14 +3,15 @@ package br.com.ilstudio.dermatologyapp.data.repository
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsResponse
 import br.com.ilstudio.dermatologyapp.data.service.FirestoreServiceAppointments
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
+import java.time.LocalDate
 
 class FirestoreRepositoryAppointments {
     private val firestoreServiceAppointments = FirestoreServiceAppointments()
 
-    suspend fun getAppointmentsByDoctorId(doctorId: String): AppointmentsResponse {
+    suspend fun getAppointmentsByDoctorId(doctorId: String, selectedDate: LocalDate): AppointmentsResponse {
         return try {
-            val result = firestoreServiceAppointments.getAppointmentsByDoctorId(doctorId)
+            val result = firestoreServiceAppointments.getAppointmentsByDoctorId(doctorId, selectedDate)
             val response = result.documents
 
             if (response.isEmpty()) {
@@ -25,10 +26,10 @@ class FirestoreRepositoryAppointments {
                     data["doctor_uid"] as? String ?: "",
                     data["user_uid"] as? String ?: "",
                     data["services_uid"] as? String ?: "",
-                    data["start_time"] as? Timestamp ?: Timestamp(0),
-                    data["end_time"] as? Timestamp ?: Timestamp(0),
+                    data["start_time"] as? Timestamp ?: Timestamp.now(),
+                    data["end_time"] as? Timestamp ?: Timestamp.now(),
                     data["description"] as? String ?: "",
-                    data["status"] as? String ?: ""
+                    data["status"] as? Int ?: 0
                 )
             }
 

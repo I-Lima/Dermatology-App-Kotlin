@@ -218,19 +218,19 @@
                 app:layout_constraintTop_toBottomOf="@id/button_yourself"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
+                android:layout_marginTop="10dp">
+
                 <br.com.ilstudio.dermatologyapp.ui.customview.InputView
                     android:id="@+id/full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:titleInput="Full Name"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:placeholder="John Doe"
-                    app:typeInput="text"
-                    />
+                    app:titleInput="Full Name"
+                    app:typeInput="text" />
 
                 <br.com.ilstudio.dermatologyapp.ui.customview.InputView
                     android:id="@+id/age"
