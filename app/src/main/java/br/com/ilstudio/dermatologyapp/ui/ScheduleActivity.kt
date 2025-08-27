@@ -2,10 +2,13 @@ package br.com.ilstudio.dermatologyapp.ui
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.ilstudio.dermatologyapp.adapter.HourListAdapter
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsResponse
@@ -61,6 +64,11 @@ class ScheduleActivity : AppCompatActivity() {
         sharedPreferencesUser = getSharedPreferences("userData", Context.MODE_PRIVATE)
         val userName = sharedPreferencesUser.getString("user-name", "")
 //        val userAge = sharedPreferencesUser.getString("dateBirth", "")
+        val spanCount = 3
+        val spacing = (6 * resources.displayMetrics.density).toInt()
+        val includeEdge = true
+        binding.recyclerHours.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
+
 
         if (!doctorName.isNullOrBlank()) {
             binding.title.text = doctorName
@@ -105,9 +113,10 @@ class ScheduleActivity : AppCompatActivity() {
             binding.buttonFemale.setTypeTag(true)
         }
 
-        //TODO: Adicionar lógica para o botão de salvar o agendamento
 
         binding.buttonBack.setOnClickListener { finish() }
+
+        binding.buttonSaveAppoint.setOnButtonClickListener { }
     }
 
     private fun updatePatientDetailButtons(isYourself: Boolean) {
@@ -139,5 +148,38 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         adapter.notifyDataSetChanged()
+    }
+
+    class GridSpacingItemDecoration(
+        private val spanCount: Int,
+        private val spacing: Int,
+        private val includeEdge: Boolean
+    ) : RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            val column = position % spanCount
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount
+                outRect.right = (column + 1) * spacing / spanCount
+
+                if (position < spanCount) {
+                    outRect.top = spacing
+                }
+                outRect.bottom = spacing
+            } else {
+                outRect.left = column * spacing / spanCount
+                outRect.right = spacing - (column + 1) * spacing / spanCount
+                if (position >= spanCount) {
+                    outRect.top = spacing
+                }
+            }
+        }
     }
 }

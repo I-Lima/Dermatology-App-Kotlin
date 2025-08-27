@@ -314,20 +314,17 @@
                 app:layout_constraintTop_toBottomOf="@id/label_large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+            <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
+                android:id="@+id/button_save_appoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:labelTextButton="Save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_large"
+                app:active="false"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <br.com.ilstudio.dermatologyapp.ui.customview.BottomMenuView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:page="schedule"/>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
