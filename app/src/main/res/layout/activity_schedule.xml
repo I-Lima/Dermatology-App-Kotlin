@@ -215,10 +215,11 @@
                 android:id="@+id/another_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/button_yourself"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp">
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_yourself">
 
                 <br.com.ilstudio.dermatologyapp.ui.customview.InputView
                     android:id="@+id/full_name"
@@ -263,7 +264,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="8dp"
                     app:titleTag="Female"
-                    app:typeTag="inactive"/>
+                    app:typeTag="inactive" />
 
                 <br.com.ilstudio.dermatologyapp.ui.customview.ButtonTagView
                     android:id="@+id/button_male"

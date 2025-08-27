@@ -18,8 +18,10 @@ import br.com.ilstudio.dermatologyapp.domain.model.AmPm
 import br.com.ilstudio.dermatologyapp.domain.model.ItemHour
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
@@ -81,7 +83,7 @@ class ScheduleActivity : AppCompatActivity() {
             appointmentList = firestoreRepositoryAppointments.getAppointmentsByDoctorId(doctorId, selectedDate)
             if (!appointmentList.success || appointmentList.data == null) return@launch
 
-            updateTimeList(listHours, appointmentList.data!!, selectedDate) //TODO: não tá desativando os horários
+            updateTimeList(listHours, appointmentList.data!!, selectedDate)
         }
 
 
@@ -124,7 +126,13 @@ class ScheduleActivity : AppCompatActivity() {
         binding.buttonAnother.setTypeTag(!isYourself)
     }
 
-    private fun updateTimeList(listHours: List<ItemHour>, appointments: List<AppointmentsData>, selectedDate: LocalDate) {
+    private fun updateTimeList(
+        listHours: List<ItemHour>,
+        appointments: List<AppointmentsData>,
+        selectedDate: LocalDate
+    ) {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+
         val appointmentsToday = appointments.filter { ap ->
             val apDate = ap.start_time
                 .toDate()
@@ -134,17 +142,31 @@ class ScheduleActivity : AppCompatActivity() {
             apDate == selectedDate
         }
 
-        val horasOcupadas = appointmentsToday.map { ap ->
-            ap.start_time
-                .toDate()
-                .toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalTime()
-                .format(DateTimeFormatter.ofPattern("HH:mm"))
-        }.toSet()
-
         listHours.forEach { itemHour ->
-            itemHour.available = !horasOcupadas.contains(itemHour.hour)
+            val itemTime = LocalTime.parse(itemHour.hour, formatter)
+
+            val remove = appointmentsToday.any { ap ->
+                val start = ap.start_time
+                    .toDate()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalTime()
+                    .truncatedTo(ChronoUnit.MINUTES)
+
+                val end = ap.end_time
+                    .toDate()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalTime()
+                    .truncatedTo(ChronoUnit.MINUTES)
+
+                val startRounded = start.withMinute((start.minute / 30) * 30).withSecond(0).withNano(0)
+                val endRounded = end.withMinute((end.minute / 30) * 30).withSecond(0).withNano(0)
+
+                itemTime >= startRounded && itemTime < endRounded
+            }
+
+            itemHour.available = !remove
         }
 
         adapter.notifyDataSetChanged()

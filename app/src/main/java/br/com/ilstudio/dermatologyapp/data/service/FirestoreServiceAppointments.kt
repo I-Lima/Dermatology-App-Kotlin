@@ -18,7 +18,7 @@ class FirestoreServiceAppointments {
         return db.collection("appointments")
             .whereEqualTo("doctor_uid", doctorId)
             .whereGreaterThanOrEqualTo("start_time", Timestamp(Date.from(startOfDay)))
-            .whereLessThan("start_date", Timestamp(Date.from(endOfDay)))
+            .whereLessThan("start_time", Timestamp(Date.from(endOfDay)))
             .get()
             .await()
     }
