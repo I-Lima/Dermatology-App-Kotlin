@@ -26,7 +26,7 @@
         <attr name="type" format="string">
             <enum name="active" value="0" />
             <enum name="inactive" value="1" />
-            <enum name="today" value="2" />
+            <enum name="selected" value="2" />
         </attr>
     </declare-styleable>
     <declare-styleable name="HourItemView">

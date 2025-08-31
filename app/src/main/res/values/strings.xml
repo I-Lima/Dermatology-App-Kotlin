@@ -81,4 +81,6 @@
     <string name="patient_details">Patient Details</string>
     <string name="enter_your_problem_here">enter your Problem here...</string>
     <string name="describe_your_problem">Describe your problem</string>
+    <string name="arrow_back">arrow_back</string>
+    <string name="arrow_next">arrow_next</string>
 </resources>
