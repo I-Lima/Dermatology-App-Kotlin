@@ -2,13 +2,10 @@ package br.com.ilstudio.dermatologyapp.ui
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Rect
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.ilstudio.dermatologyapp.adapter.HourListAdapter
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsResponse
@@ -16,6 +13,7 @@ import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryAppoint
 import br.com.ilstudio.dermatologyapp.databinding.ActivityScheduleBinding
 import br.com.ilstudio.dermatologyapp.domain.model.AmPm
 import br.com.ilstudio.dermatologyapp.domain.model.ItemHour
+import br.com.ilstudio.dermatologyapp.utils.AdapterLayout
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -69,7 +67,13 @@ class ScheduleActivity : AppCompatActivity() {
         val spanCount = 3
         val spacing = (6 * resources.displayMetrics.density).toInt()
         val includeEdge = true
-        binding.recyclerHours.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
+        binding.recyclerHours.addItemDecoration(
+            AdapterLayout.GridSpacingItemDecoration(
+                spanCount,
+                spacing,
+                includeEdge
+            )
+        )
 
 
         if (!doctorName.isNullOrBlank()) {
@@ -170,38 +174,5 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         adapter.notifyDataSetChanged()
-    }
-
-    class GridSpacingItemDecoration(
-        private val spanCount: Int,
-        private val spacing: Int,
-        private val includeEdge: Boolean
-    ) : RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            val position = parent.getChildAdapterPosition(view)
-            val column = position % spanCount
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount
-                outRect.right = (column + 1) * spacing / spanCount
-
-                if (position < spanCount) {
-                    outRect.top = spacing
-                }
-                outRect.bottom = spacing
-            } else {
-                outRect.left = column * spacing / spanCount
-                outRect.right = spacing - (column + 1) * spacing / spanCount
-                if (position >= spanCount) {
-                    outRect.top = spacing
-                }
-            }
-        }
     }
 }

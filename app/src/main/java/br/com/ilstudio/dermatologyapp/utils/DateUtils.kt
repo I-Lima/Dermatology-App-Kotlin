@@ -1,8 +1,11 @@
 package br.com.ilstudio.dermatologyapp.utils
 
 
+import br.com.ilstudio.dermatologyapp.domain.model.CalendarItem
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -67,5 +70,33 @@ object DateUtils {
     fun timestampToHourString(timestamp: com.google.firebase.Timestamp): String {
         val dateTime = LocalDateTime.ofInstant(timestamp.toDate().toInstant(), ZoneId.systemDefault())
         return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+    }
+
+    /**
+     * Get the current week's days as a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the current week's days.
+    * */
+    fun getCurrentWeekDays(): List<CalendarItem> {
+        val today = LocalDate.now()
+        val startOfWeek = today.with(DayOfWeek.MONDAY)
+        val formatterDay = DateTimeFormatter.ofPattern("EEE")
+        val formatterDate = DateTimeFormatter.ofPattern("dd")
+
+        return (0..4).map { i ->
+            val date = startOfWeek.plusDays(i.toLong())
+
+            val type = when {
+                date.isBefore(today) -> 1
+                date.isEqual(today) -> 2
+                else -> 0
+            }
+
+            CalendarItem(
+                day = date.format(formatterDay),
+                date = date.format(formatterDate),
+                type = type
+            )
+        }
     }
 }

@@ -4,11 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.ilstudio.dermatologyapp.R
 import br.com.ilstudio.dermatologyapp.adapter.CalendarItemAdapter
+import br.com.ilstudio.dermatologyapp.domain.model.CalendarItem
+import br.com.ilstudio.dermatologyapp.utils.AdapterLayout
+import br.com.ilstudio.dermatologyapp.utils.DateUtils
 
 class CalendarView @JvmOverloads constructor (
     context: Context,
@@ -17,7 +20,7 @@ class CalendarView @JvmOverloads constructor (
     private var backButton: ImageView
     private var nextButton: ImageView
     private var recyclerView: RecyclerView
-
+    private var listener: ((CalendarItem) -> Unit)? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_calendar, this, true)
@@ -32,10 +35,16 @@ class CalendarView @JvmOverloads constructor (
             //TODO: Add logic to the next week
         }
 
-        val items = null;
+        val items = DateUtils.getCurrentWeekDays()
         val adapter = CalendarItemAdapter(items) { item ->
-            Toast.makeText(this, "Clicou em ${item.day}", Toast.LENGTH_SHORT).show()
+            listener?.invoke(item)
         }
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.addItemDecoration(AdapterLayout.HorizontalSpaceItemDecoration(12))
         recyclerView.adapter = adapter
+    }
+
+    fun setOnDayClickListener(listener: (CalendarItem) -> Unit) {
+        this.listener = listener
     }
 }
