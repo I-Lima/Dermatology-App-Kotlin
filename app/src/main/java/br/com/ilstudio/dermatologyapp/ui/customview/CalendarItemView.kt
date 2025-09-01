@@ -35,13 +35,14 @@ class CalendarItemView @JvmOverloads constructor (
             when (type) {
                 0 -> {
                     container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
-                    date_number.setTextColor(getColor(context, R.color.black))
-                    date_name.setTextColor(getColor(context, R.color.black))
+                    date_number.setTextColor(getColor(context, R.color.secondary))
+                    date_name.setTextColor(getColor(context, R.color.secondary))
+                    container.isActivated = false
                 }
                 1 -> {
                     container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
-                    date_number.setTextColor(getColor(context, R.color.secondary))
-                    date_name.setTextColor(getColor(context, R.color.secondary))
+                    date_number.setTextColor(getColor(context, R.color.black))
+                    date_name.setTextColor(getColor(context, R.color.black))
                     container.isActivated = false
                 }
                 2 -> {
@@ -61,14 +62,17 @@ class CalendarItemView @JvmOverloads constructor (
         when(item.type) {
             0 -> {
                 container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
-                date_number.setTextColor(getColor(context, R.color.black))
-                date_name.setTextColor(getColor(context, R.color.black))
-            }
-            1 -> {
-                container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
                 date_number.setTextColor(getColor(context, R.color.secondary))
                 date_name.setTextColor(getColor(context, R.color.secondary))
                 container.isActivated = false
+                container.isClickable = false
+            }
+            1 -> {
+                container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
+                date_number.setTextColor(getColor(context, R.color.black))
+                date_name.setTextColor(getColor(context, R.color.black))
+                container.isActivated = false
+                container.isClickable = false
             }
             2 -> {
                 container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.primary))
