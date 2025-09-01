@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.ilstudio.dermatologyapp.adapter.HourListAdapter
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
-import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsResponse
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryAppointments
 import br.com.ilstudio.dermatologyapp.databinding.ActivityScheduleBinding
 import br.com.ilstudio.dermatologyapp.domain.model.AmPm
@@ -24,9 +23,9 @@ import java.time.temporal.ChronoUnit
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
     private lateinit var firestoreRepositoryAppointments: FirestoreRepositoryAppointments
-    private lateinit var appointmentList: AppointmentsResponse
     private lateinit var sharedPreferencesDoctor: SharedPreferences
     private lateinit var sharedPreferencesUser: SharedPreferences
+    private var appointmentList: List<AppointmentsData>? = null
     private var isMale = false
     private var hour: ItemHour? = null
     private val user = mutableMapOf(
@@ -67,6 +66,7 @@ class ScheduleActivity : AppCompatActivity() {
         val spanCount = 3
         val spacing = (6 * resources.displayMetrics.density).toInt()
         val includeEdge = true
+
         binding.recyclerHours.addItemDecoration(
             AdapterLayout.GridSpacingItemDecoration(
                 spanCount,
@@ -75,21 +75,21 @@ class ScheduleActivity : AppCompatActivity() {
             )
         )
 
-
-        if (!doctorName.isNullOrBlank()) {
-            binding.title.text = doctorName
-        }
+        if (!doctorName.isNullOrBlank()) binding.title.text = doctorName
 
         lifecycleScope.launch {
             if (doctorId.isNullOrBlank()) return@launch
 
             val selectedDate = LocalDate.now()
-            appointmentList = firestoreRepositoryAppointments.getAppointmentsByDoctorId(doctorId, selectedDate)
-            if (!appointmentList.success || appointmentList.data == null) return@launch
-
-            updateTimeList(listHours, appointmentList.data!!, selectedDate)
+            updateTimeList(listHours, selectedDate, doctorId)
         }
 
+        binding.calendar.setOnDayClickListener {
+            lifecycleScope.launch {
+                if (doctorId.isNullOrBlank()) return@launch
+                updateTimeList(listHours, it.searchDate, doctorId)
+            }
+        }
 
         binding.buttonYourself.setOnButtonClickListener {
             updatePatientDetailButtons(true)
@@ -119,7 +119,6 @@ class ScheduleActivity : AppCompatActivity() {
             binding.buttonFemale.setTypeTag(true)
         }
 
-
         binding.buttonBack.setOnClickListener { finish() }
 
         binding.buttonSaveAppoint.setOnButtonClickListener { }
@@ -130,14 +129,27 @@ class ScheduleActivity : AppCompatActivity() {
         binding.buttonAnother.setTypeTag(!isYourself)
     }
 
-    private fun updateTimeList(
-        listHours: List<ItemHour>,
-        appointments: List<AppointmentsData>,
-        selectedDate: LocalDate
-    ) {
-        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    private suspend fun getAppointments(doctorId: String, selectedDate: LocalDate): List<AppointmentsData>? {
+        val response = firestoreRepositoryAppointments.getAppointmentsByDoctorId(doctorId, selectedDate)
+        if (!response.success || response.data == null) return null
 
-        val appointmentsToday = appointments.filter { ap ->
+        return response.data
+    }
+
+    private suspend fun updateTimeList(
+        listHours: List<ItemHour>,
+        selectedDate: LocalDate,
+        doctorId: String,
+    ) {
+        if (doctorId.isBlank()) return
+
+        appointmentList = getAppointments(doctorId, selectedDate)
+        if (appointmentList == null) return
+
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        println("selectedDate: $selectedDate")
+
+        val appointmentsToday = appointmentList!!.filter { ap ->
             val apDate = ap.start_time
                 .toDate()
                 .toInstant()
