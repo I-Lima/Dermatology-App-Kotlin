@@ -1,6 +1,8 @@
 package br.com.ilstudio.dermatologyapp.data.service
 
+import br.com.ilstudio.dermatologyapp.domain.model.Appointment
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
@@ -28,6 +30,12 @@ class FirestoreServiceAppointments {
             .whereEqualTo("user_uid", userId)
             .get()
             .await()
+    }
+
+    internal suspend fun createAppointment(data: Appointment): DocumentReference? {
+        return db.collection(APPOINTMENTS_TABLE)
+            .add(data)
+            .await();
     }
 
     companion object {

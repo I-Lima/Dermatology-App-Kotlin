@@ -3,10 +3,12 @@ package br.com.ilstudio.dermatologyapp.utils
 
 import br.com.ilstudio.dermatologyapp.domain.model.CalendarItem
 import java.sql.Timestamp
+import com.google.firebase.Timestamp as FirebaseTimestamp
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -67,7 +69,7 @@ object DateUtils {
      * @param timestamp The [Timestamp] to be converted to a hour string.
      * @return A formatted hour string in the format "HH:mm", or `null` if the timestamp is `null`.
     */
-    fun timestampToHourString(timestamp: com.google.firebase.Timestamp): String {
+    fun timestampToHourString(timestamp: FirebaseTimestamp): String {
         val dateTime = LocalDateTime.ofInstant(timestamp.toDate().toInstant(), ZoneId.systemDefault())
         return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
@@ -98,5 +100,34 @@ object DateUtils {
                 type = type
             )
         }
+    }
+
+    /**
+     * Format a date and time string to a [Timestamp].
+     *
+     * @return A [Timestamp] object representing the formatted date and time.
+    * */
+    fun toTimestamp(date: String, time: String): FirebaseTimestamp {
+        val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
+        val localDate = LocalDate.parse(date, dateFormatter)
+        val localTime = LocalTime.parse(time, timeFormatter)
+
+        val localDateTime = LocalDateTime.of(localDate, localTime)
+
+        return FirebaseTimestamp(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant().epochSecond, 0)
+    }
+
+    /**
+    * Add minutes to a [Timestamp].
+     *
+     * @return A [Timestamp] object representing the original timestamp with the added minutes.
+    * */
+    fun addMinutesIntoTimestamp(timestamp: FirebaseTimestamp, minutes: Long): FirebaseTimestamp {
+        val instant = timestamp.toDate().toInstant()
+        val newInstant = instant.plusSeconds(minutes * 60)
+
+        return FirebaseTimestamp(Date.from(newInstant))
     }
 }

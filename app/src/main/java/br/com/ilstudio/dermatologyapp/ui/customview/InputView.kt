@@ -1,6 +1,7 @@
 package br.com.ilstudio.dermatologyapp.ui.customview
 
 import android.content.Context
+import android.text.Editable
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,10 +10,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import br.com.ilstudio.dermatologyapp.R
 
-class InputView @JvmOverloads constructor (
+class InputView<TextWatcher> @JvmOverloads constructor (
     context: Context,
     attrs: AttributeSet? = null,
 ): ConstraintLayout(context, attrs) {
+    val text: Editable
     private var title: TextView
     private var input: EditText
 
@@ -20,6 +22,7 @@ class InputView @JvmOverloads constructor (
         LayoutInflater.from(context).inflate(R.layout.view_input, this, true)
         title = findViewById(R.id.title)
         input = findViewById(R.id.input)
+        text = input.text
 
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.InputView, 0, 0)
@@ -50,4 +53,6 @@ class InputView @JvmOverloads constructor (
     fun setTextInput(text: String) {
         input.setText(text) //TODO: Não tá adicionando o texto no input.
     }
+
+    fun addTextChangedListener(formTextWatcher: TextWatcher) {}
 }
