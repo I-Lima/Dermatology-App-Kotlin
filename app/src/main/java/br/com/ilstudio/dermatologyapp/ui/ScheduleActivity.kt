@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.ilstudio.dermatologyapp.adapter.HourListAdapter
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
-import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsResponse
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryAppointments
 import br.com.ilstudio.dermatologyapp.databinding.ActivityScheduleBinding
 import br.com.ilstudio.dermatologyapp.domain.model.AmPm
@@ -28,9 +27,9 @@ import java.time.temporal.ChronoUnit
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
     private lateinit var firestoreRepositoryAppointments: FirestoreRepositoryAppointments
-    private lateinit var appointmentList: AppointmentsResponse
     private lateinit var sharedPreferencesDoctor: SharedPreferences
     private lateinit var sharedPreferencesUser: SharedPreferences
+    private var appointmentList: List<AppointmentsData>? = null
     private var isMale = false
     private var selectedDate: LocalDate = LocalDate.now()
     private var hour: ItemHour? = null
@@ -73,6 +72,7 @@ class ScheduleActivity : AppCompatActivity() {
 
         binding.recyclerHours.layoutManager = GridLayoutManager(this, 3)
         binding.recyclerHours.adapter = adapter
+
         binding.recyclerHours.addItemDecoration(
             AdapterLayout.GridSpacingItemDecoration(
                 spanCount,
@@ -86,10 +86,14 @@ class ScheduleActivity : AppCompatActivity() {
         lifecycleScope.launch {
             if (doctorId.isNullOrBlank()) return@launch
 
-            appointmentList = firestoreRepositoryAppointments.getAppointmentsByDoctorId(doctorId, selectedDate)
-            if (!appointmentList.success || appointmentList.data == null) return@launch
+            updateTimeList(listHours, selectedDate, doctorId)
+        }
 
-            updateTimeList(listHours, appointmentList.data!!, selectedDate)
+        binding.calendar.setOnDayClickListener {
+            lifecycleScope.launch {
+                if (doctorId.isNullOrBlank()) return@launch
+                updateTimeList(listHours, it.searchDate, doctorId)
+            }
         }
 
         binding.buttonYourself.setOnButtonClickListener {
@@ -176,14 +180,27 @@ class ScheduleActivity : AppCompatActivity() {
         binding.buttonAnother.setTypeTag(!isYourself)
     }
 
-    private fun updateTimeList(
-        listHours: List<ItemHour>,
-        appointments: List<AppointmentsData>,
-        selectedDate: LocalDate
-    ) {
-        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    private suspend fun getAppointments(doctorId: String, selectedDate: LocalDate): List<AppointmentsData>? {
+        val response = firestoreRepositoryAppointments.getAppointmentsByDoctorId(doctorId, selectedDate)
+        if (!response.success || response.data == null) return null
 
-        val appointmentsToday = appointments.filter { ap ->
+        return response.data
+    }
+
+    private suspend fun updateTimeList(
+        listHours: List<ItemHour>,
+        selectedDate: LocalDate,
+        doctorId: String,
+    ) {
+        if (doctorId.isBlank()) return
+
+        appointmentList = getAppointments(doctorId, selectedDate)
+        if (appointmentList == null) return
+
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        println("selectedDate: $selectedDate")
+
+        val appointmentsToday = appointmentList!!.filter { ap ->
             val apDate = ap.startTime
                 .toDate()
                 .toInstant()

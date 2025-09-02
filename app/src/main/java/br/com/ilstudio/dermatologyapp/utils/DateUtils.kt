@@ -80,24 +80,31 @@ object DateUtils {
      * @return A list of [CalendarItem] objects representing the current week's days.
     * */
     fun getCurrentWeekDays(): List<CalendarItem> {
-        val today = LocalDate.now()
-        val startOfWeek = today.with(DayOfWeek.MONDAY)
+        var today = LocalDate.now()
+        var startOfWeek = today.with(DayOfWeek.MONDAY)
+        val endOfWeek = today.with(DayOfWeek.FRIDAY)
         val formatterDay = DateTimeFormatter.ofPattern("EEE")
         val formatterDate = DateTimeFormatter.ofPattern("dd")
+
+        if (today.isAfter(endOfWeek)) {
+            today = today.plusWeeks(1).with(DayOfWeek.MONDAY)
+            startOfWeek = today
+        }
 
         return (0..4).map { i ->
             val date = startOfWeek.plusDays(i.toLong())
 
             val type = when {
-                date.isBefore(today) -> 1
+                date.isBefore(today) -> 0
                 date.isEqual(today) -> 2
-                else -> 0
+                else -> 1
             }
 
             CalendarItem(
                 day = date.format(formatterDay),
                 date = date.format(formatterDate),
-                type = type
+                type = type,
+                searchDate = date
             )
         }
     }
