@@ -26,7 +26,7 @@ import java.time.temporal.ChronoUnit
 
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
-    private lateinit var firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
+    private var firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
     private var sharedPreferencesDoctor = getSharedPreferences("doctorData", Context.MODE_PRIVATE)
     private var sharedPreferencesUser = getSharedPreferences("userData", Context.MODE_PRIVATE)
     private val doctorId = sharedPreferencesDoctor.getString("doctor-id", "")
