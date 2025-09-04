@@ -5,10 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.ilstudio.dermatologyapp.domain.model.ItemHour
 import br.com.ilstudio.dermatologyapp.ui.customview.HourItemView
 
-class HourListAdapter(
+class ItemHourAdapter(
     private val items: List<ItemHour>,
     private val onSelecionado: (ItemHour) -> Unit
-) : RecyclerView.Adapter<HourListAdapter.VH>() {
+) : RecyclerView.Adapter<ItemHourAdapter.VH>() {
 
     private var selectedPos = RecyclerView.NO_POSITION
 
@@ -36,7 +36,4 @@ class HourListAdapter(
     }
 
     override fun getItemCount(): Int = items.size
-
-    fun getSelectedItem(): ItemHour? =
-        selectedPos.takeIf { it != RecyclerView.NO_POSITION }?.let(items::get)
 }

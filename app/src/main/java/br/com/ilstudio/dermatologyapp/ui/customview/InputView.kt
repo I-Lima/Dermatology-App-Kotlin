@@ -41,7 +41,6 @@ class InputView<TextWatcher> @JvmOverloads constructor (
                 "2" -> { input.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS }
                 "3" -> { input.inputType = InputType.TYPE_CLASS_PHONE }
                 "4" -> {
-                    val scale = resources.displayMetrics.density
                     input.inputType = InputType.TYPE_CLASS_TEXT
                 }
             }
@@ -54,5 +53,7 @@ class InputView<TextWatcher> @JvmOverloads constructor (
         input.setText(text) //TODO: Não tá adicionando o texto no input.
     }
 
-    fun addTextChangedListener(formTextWatcher: TextWatcher) {}
+    fun addTextChangedListener(formTextWatcher: TextWatcher) {
+        //TODO: Verificar se tá funcionando
+    }
 }

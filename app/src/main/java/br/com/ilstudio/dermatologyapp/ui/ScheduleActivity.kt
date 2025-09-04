@@ -8,7 +8,7 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import br.com.ilstudio.dermatologyapp.adapter.HourListAdapter
+import br.com.ilstudio.dermatologyapp.adapter.ItemHourAdapter
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryAppointments
 import br.com.ilstudio.dermatologyapp.databinding.ActivityScheduleBinding
@@ -26,9 +26,12 @@ import java.time.temporal.ChronoUnit
 
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
-    private lateinit var firestoreRepositoryAppointments: FirestoreRepositoryAppointments
-    private lateinit var sharedPreferencesDoctor: SharedPreferences
-    private lateinit var sharedPreferencesUser: SharedPreferences
+    private lateinit var firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
+    private var sharedPreferencesDoctor = getSharedPreferences("doctorData", Context.MODE_PRIVATE)
+    private var sharedPreferencesUser = getSharedPreferences("userData", Context.MODE_PRIVATE)
+    private val doctorId = sharedPreferencesDoctor.getString("doctor-id", "")
+    private val doctorName = sharedPreferencesDoctor.getString("doctor-name", "")
+    private val userUid = sharedPreferencesUser.getString("userId", "")
     private var appointmentList: List<AppointmentsData>? = null
     private var isMale = false
     private var selectedDate: LocalDate = LocalDate.now()
@@ -49,7 +52,7 @@ class ScheduleActivity : AppCompatActivity() {
     )
 
     private val adapter by lazy {
-        HourListAdapter(listHours) { selectedHour ->
+        ItemHourAdapter(listHours) { selectedHour ->
             hour = selectedHour
         }
     }
@@ -58,13 +61,6 @@ class ScheduleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
-        sharedPreferencesDoctor = getSharedPreferences("doctorData", Context.MODE_PRIVATE)
-        val doctorId = sharedPreferencesDoctor.getString("doctor-id", "")
-        val doctorName = sharedPreferencesDoctor.getString("doctor-name", "")
-        sharedPreferencesUser = getSharedPreferences("userData", Context.MODE_PRIVATE)
-        val userUid = sharedPreferencesUser.getString("userId", "")
         val serviceId = "teste"
         val spanCount = 3
         val spacing = (6 * resources.displayMetrics.density).toInt()
@@ -72,7 +68,6 @@ class ScheduleActivity : AppCompatActivity() {
 
         binding.recyclerHours.layoutManager = GridLayoutManager(this, 3)
         binding.recyclerHours.adapter = adapter
-
         binding.recyclerHours.addItemDecoration(
             AdapterLayout.GridSpacingItemDecoration(
                 spanCount,
@@ -85,7 +80,6 @@ class ScheduleActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             if (doctorId.isNullOrBlank()) return@launch
-
             updateTimeList(listHours, selectedDate, doctorId)
         }
 
@@ -96,40 +90,17 @@ class ScheduleActivity : AppCompatActivity() {
             }
         }
 
-        binding.buttonYourself.setOnButtonClickListener {
-            updatePatientDetailButtons(true)
-
-//            if (!userName.isNullOrBlank()) {
-//                binding.fullName.setTextInput(userName) //TODO: Não tá adicionando o texto no input.
-//                binding.fullName.isActivated = false
-//            }
-        }
-
-        binding.buttonAnother.setOnButtonClickListener {
-            updatePatientDetailButtons(false)
-
-            binding.fullName.setTextInput("")
-            binding.fullName.isActivated = true
-        }
-
         binding.fullName.addTextChangedListener(formTextWatcher)
         binding.age.addTextChangedListener(formTextWatcher)
         binding.description.addTextChangedListener(formTextWatcher)
 
-        binding.buttonMale.setOnButtonClickListener {
-            isMale = true
-            binding.buttonMale.setTypeTag(true)
-            binding.buttonFemale.setTypeTag(false)
-        }
+        binding.buttonYourself.setOnButtonClickListener { setYourselfData() }
+        binding.buttonAnother.setOnButtonClickListener { setAnotherData() }
 
-        binding.buttonFemale.setOnButtonClickListener {
-            isMale = false
-            binding.buttonMale.setTypeTag(false)
-            binding.buttonFemale.setTypeTag(true)
-        }
+        binding.buttonMale.setOnButtonClickListener { changeGender(true) }
+        binding.buttonFemale.setOnButtonClickListener { changeGender(true) }
 
         binding.buttonBack.setOnClickListener { finish() }
-
         binding.buttonSaveAppoint.setOnButtonClickListener {
             lifecycleScope.launch {
                 val startTime = DateUtils.toTimestamp(selectedDate.toString(), hour?.hour ?: "")
@@ -237,5 +208,27 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         adapter.notifyDataSetChanged()
+    }
+
+    private fun setYourselfData() {
+        updatePatientDetailButtons(true)
+
+//            if (!userName.isNullOrBlank()) {
+//                binding.fullName.setTextInput(userName) //TODO: Não tá adicionando o texto no input.
+//                binding.fullName.isActivated = false
+//            }
+    }
+
+    private fun setAnotherData() {
+        updatePatientDetailButtons(false)
+
+        binding.fullName.setTextInput("")
+        binding.fullName.isActivated = true
+    }
+
+    private fun changeGender(isMale: Boolean) {
+        this@ScheduleActivity.isMale = isMale
+        binding.buttonMale.setTypeTag(isMale)
+        binding.buttonFemale.setTypeTag(!isMale)
     }
 }

@@ -16,20 +16,20 @@ class CalendarItemView @JvmOverloads constructor (
     context: Context,
     attrs: AttributeSet? = null,
 ): ConstraintLayout(context, attrs) {
-    private var date_number: TextView
-    private var date_name: TextView
+    private var dateNumber: TextView
+    private var dateName: TextView
     private var container: LinearLayout
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_calendar_item, this, true)
-        date_number = findViewById(R.id.date_number)
-        date_name = findViewById(R.id.date_name)
+        dateNumber = findViewById(R.id.date_number)
+        dateName = findViewById(R.id.date_name)
         container = findViewById(R.id.container)
     }
 
     fun bind(item: CalendarItem) {
-        date_number.text = item.date
-        date_name.text = item.day
+        dateNumber.text = item.date
+        dateName.text = item.day
         setState(item)
     }
 
@@ -63,8 +63,8 @@ class CalendarItemView @JvmOverloads constructor (
         val bgColor = getColor(context, bgRes)
         val txtColor = getColor(context, textColorRes)
         container.backgroundTintList = ColorStateList.valueOf(bgColor)
-        date_number.setTextColor(txtColor)
-        date_name.setTextColor(txtColor)
+        dateNumber.setTextColor(txtColor)
+        dateName.setTextColor(txtColor)
     }
 
     fun setOnButtonClickListener(listener: (View) -> Unit) {
