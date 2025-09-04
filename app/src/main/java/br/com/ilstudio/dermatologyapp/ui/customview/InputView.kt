@@ -3,6 +3,7 @@ package br.com.ilstudio.dermatologyapp.ui.customview
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.EditText
@@ -10,7 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import br.com.ilstudio.dermatologyapp.R
 
-class InputView<TextWatcher> @JvmOverloads constructor (
+class InputView @JvmOverloads constructor (
     context: Context,
     attrs: AttributeSet? = null,
 ): ConstraintLayout(context, attrs) {
@@ -29,10 +30,8 @@ class InputView<TextWatcher> @JvmOverloads constructor (
 
             val labelTitle = typedArray.getString(R.styleable.InputView_titleInput)
             title.text = labelTitle ?: ""
-
             val labelPlace = typedArray.getString(R.styleable.InputView_placeholder)
             input.hint = labelPlace ?: ""
-
 
             val type = typedArray.getString(R.styleable.InputView_typeInput) ?: "text"
             when(type) {
@@ -40,9 +39,7 @@ class InputView<TextWatcher> @JvmOverloads constructor (
                 "1" -> { input.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD }
                 "2" -> { input.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS }
                 "3" -> { input.inputType = InputType.TYPE_CLASS_PHONE }
-                "4" -> {
-                    input.inputType = InputType.TYPE_CLASS_TEXT
-                }
+                "4" -> { input.inputType = InputType.TYPE_CLASS_TEXT }
             }
 
             typedArray.recycle()
@@ -53,7 +50,7 @@ class InputView<TextWatcher> @JvmOverloads constructor (
         input.setText(text) //TODO: Não tá adicionando o texto no input.
     }
 
-    fun addTextChangedListener(formTextWatcher: TextWatcher) {
-        //TODO: Verificar se tá funcionando
+    fun addTextChangedListener(watcher: TextWatcher) {
+        input.addTextChangedListener(watcher)
     }
 }
