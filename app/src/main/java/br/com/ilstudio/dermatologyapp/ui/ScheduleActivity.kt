@@ -27,11 +27,11 @@ import java.time.temporal.ChronoUnit
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
     private var firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
-    private var sharedPreferencesDoctor = getSharedPreferences("doctorData", Context.MODE_PRIVATE)
-    private var sharedPreferencesUser = getSharedPreferences("userData", Context.MODE_PRIVATE)
-    private val doctorId = sharedPreferencesDoctor.getString("doctor-id", "")
-    private val doctorName = sharedPreferencesDoctor.getString("doctor-name", "")
-    private val userUid = sharedPreferencesUser.getString("userId", "")
+    private lateinit var sharedPreferencesDoctor: SharedPreferences
+    private lateinit var sharedPreferencesUser: SharedPreferences
+    private var doctorId: String? = null
+    private var doctorName: String? = null
+    private var userUid: String? = null
     private var appointmentList: List<AppointmentsData>? = null
     private var isMale = false
     private var selectedDate: LocalDate = LocalDate.now()
@@ -42,6 +42,7 @@ class ScheduleActivity : AppCompatActivity() {
         "gender" to "",
     )
     private var description = ""
+    private var anotherType = false
 
     private val listHours = listOf(
         ItemHour("09:00", AmPm.AM, true), ItemHour("09:30", AmPm.AM, true), ItemHour("10:00", AmPm.AM, true),
@@ -66,6 +67,11 @@ class ScheduleActivity : AppCompatActivity() {
         val spacing = (6 * resources.displayMetrics.density).toInt()
         val includeEdge = true
 
+        sharedPreferencesDoctor = getSharedPreferences("doctorData", Context.MODE_PRIVATE)
+        sharedPreferencesUser = getSharedPreferences("userData", Context.MODE_PRIVATE)
+        doctorId = sharedPreferencesDoctor.getString("doctor-id", "")
+        doctorName = sharedPreferencesDoctor.getString("doctor-name", "")
+        userUid = sharedPreferencesUser.getString("userId", "")
         binding.recyclerHours.layoutManager = GridLayoutManager(this, 3)
         binding.recyclerHours.adapter = adapter
         binding.recyclerHours.addItemDecoration(
@@ -80,13 +86,13 @@ class ScheduleActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             if (doctorId.isNullOrBlank()) return@launch
-            updateTimeList(listHours, selectedDate, doctorId)
+            updateTimeList(listHours, selectedDate, doctorId!!)
         }
 
         binding.calendar.setOnDayClickListener {
             lifecycleScope.launch {
                 if (doctorId.isNullOrBlank()) return@launch
-                updateTimeList(listHours, it.searchDate, doctorId)
+                updateTimeList(listHours, it.searchDate, doctorId!!)
             }
         }
 
@@ -94,8 +100,8 @@ class ScheduleActivity : AppCompatActivity() {
         binding.age.addTextChangedListener(formTextWatcher)
         binding.description.addTextChangedListener(formTextWatcher)
 
-        binding.buttonYourself.setOnButtonClickListener { setYourselfData() }
-        binding.buttonAnother.setOnButtonClickListener { setAnotherData() }
+        binding.buttonYourself.setOnButtonClickListener { setYourself() }
+        binding.buttonAnother.setOnButtonClickListener { setAnother() }
 
         binding.buttonMale.setOnButtonClickListener { changeGender(true) }
         binding.buttonFemale.setOnButtonClickListener { changeGender(true) }
@@ -108,17 +114,34 @@ class ScheduleActivity : AppCompatActivity() {
 
                 if (startTime == null || endTime == null) return@launch
 
-                val data = Appointment(
-                    doctorUid = doctorId ?: "",
-                    userUid =  userUid ?: "",
-                    servicesUid = serviceId ?: "",
-                    startTime = startTime,
-                    endTime = endTime,
-                    description = description,
-                    status = 0
-                )
+                val data: Appointment
+                if (anotherType) {
+                    data = Appointment(
+                        doctorUid = doctorId ?: "",
+                        userUid =  userUid ?: "",
+                        servicesUid = serviceId ?: "",
+                        startTime = startTime,
+                        endTime = endTime,
+                        description = description,
+                        status = 0,
+                    )
+                } else {
+                    data = Appointment(
+                        doctorUid = doctorId ?: "",
+                        userUid = "",
+                        servicesUid = serviceId ?: "",
+                        startTime = startTime,
+                        endTime = endTime,
+                        description = description,
+                        status = 0,
+                        fullName = user["fullName"] ?: "",
+                        gender = user["gender"] ?: "",
+                        age = user["age"] ?: "",
+                    )
+                }
 
-                saveAppointmentData(data)
+                println("DATA $data")
+//                saveAppointmentData(data)
             }
         }
     }
@@ -210,7 +233,7 @@ class ScheduleActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    private fun setYourselfData() {
+    private fun setYourself() {
         updatePatientDetailButtons(true)
 
 //            if (!userName.isNullOrBlank()) {
@@ -219,7 +242,7 @@ class ScheduleActivity : AppCompatActivity() {
 //            }
     }
 
-    private fun setAnotherData() {
+    private fun setAnother() {
         updatePatientDetailButtons(false)
 
         binding.fullName.setTextInput("")
