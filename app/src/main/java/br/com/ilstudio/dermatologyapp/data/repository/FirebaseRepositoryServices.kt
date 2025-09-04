@@ -17,6 +17,4 @@ class FirebaseRepositoryServices {
             ServicesResponse(success = false, message = "Error fetching services.")
         }
     }
-
-
 }
