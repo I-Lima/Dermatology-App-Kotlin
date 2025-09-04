@@ -8,7 +8,7 @@ data class AppointmentsData(
     @get:PropertyName("doctor_uid") @set:PropertyName("doctor_uid")
     var doctorUid: String = "",
     @get:PropertyName("user_uid") @set:PropertyName("user_uid")
-    var userUid: String = "",
+    var userUid: String? = "",
     @get:PropertyName("services_uid") @set:PropertyName("services_uid")
     var servicesUid: String = "",
     @get:PropertyName("start_time") @set:PropertyName("start_time")
@@ -16,6 +16,10 @@ data class AppointmentsData(
     @get:PropertyName("end_time") @set:PropertyName("end_time")
     var endTime: Timestamp = Timestamp.now(),
     val description: String = "",
-    val status: Int = 0
+    val status: Int = 0,
+    @get:PropertyName("full_name") @set:PropertyName("full_name")
+    var fullName: String? = null,
+    val gender: String? = null,
+    val age: Timestamp? = null,
 )
 
