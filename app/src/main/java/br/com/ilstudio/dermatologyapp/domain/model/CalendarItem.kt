@@ -7,4 +7,5 @@ data class CalendarItem(
     val day: String,
     var type: Int,
     val searchDate: LocalDate,
+    var isSelected: Boolean = false
 )

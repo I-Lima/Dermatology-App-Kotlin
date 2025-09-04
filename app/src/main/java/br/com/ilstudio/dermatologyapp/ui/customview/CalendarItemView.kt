@@ -25,61 +25,46 @@ class CalendarItemView @JvmOverloads constructor (
         date_number = findViewById(R.id.date_number)
         date_name = findViewById(R.id.date_name)
         container = findViewById(R.id.container)
-
-        attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, R.styleable.CalendarItemView, 0, 0)
-            date_number.text = typedArray.getString(R.styleable.CalendarItemView_day_number) ?: ""
-            date_name.text   = typedArray.getString(R.styleable.CalendarItemView_day_name) ?: ""
-            val type = typedArray.getInt(R.styleable.CalendarItemView_type, 0)
-
-            when (type) {
-                0 -> {
-                    container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
-                    date_number.setTextColor(getColor(context, R.color.secondary))
-                    date_name.setTextColor(getColor(context, R.color.secondary))
-                    container.isActivated = false
-                }
-                1 -> {
-                    container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
-                    date_number.setTextColor(getColor(context, R.color.black))
-                    date_name.setTextColor(getColor(context, R.color.black))
-                    container.isActivated = false
-                }
-                2 -> {
-                    container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.primary))
-                    date_number.setTextColor(getColor(context, R.color.white))
-                    date_name.setTextColor(getColor(context, R.color.white))
-                }
-            }
-            typedArray.recycle()
-        }
     }
 
     fun bind(item: CalendarItem) {
         date_number.text = item.date
         date_name.text = item.day
+        setState(item)
+    }
 
-        when(item.type) {
-            0 -> {
-                container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
-                date_number.setTextColor(getColor(context, R.color.secondary))
-                date_name.setTextColor(getColor(context, R.color.secondary))
-                container.isActivated = false
-                container.isClickable = false
-            }
-            1 -> {
-                container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.white))
-                date_number.setTextColor(getColor(context, R.color.black))
-                date_name.setTextColor(getColor(context, R.color.black))
-                container.isActivated = false
-                container.isClickable = false
-            }
-            2 -> {
-                container.backgroundTintList = ColorStateList.valueOf(getColor(context, R.color.primary))
-                date_number.setTextColor(getColor(context, R.color.white))
-                date_name.setTextColor(getColor(context, R.color.white))
-            }
+    fun setState(item: CalendarItem) {
+        when {
+            item.type == 1 -> showInactive()
+            item.isSelected -> showSelected()
+            else -> showAvailable()
         }
+    }
+
+    private fun showInactive() {
+        applyColors(R.color.white, R.color.secondary)
+        container.isActivated = false
+        container.isClickable = false
+    }
+
+    private fun showAvailable() {
+        applyColors(R.color.white, R.color.black)
+        container.isActivated = false
+        container.isClickable = false
+    }
+
+    private fun showSelected() {
+        applyColors(R.color.primary, R.color.white)
+        container.isActivated = true
+        container.isClickable = true
+    }
+
+    private fun applyColors(bgRes: Int, textColorRes: Int) {
+        val bgColor = getColor(context, bgRes)
+        val txtColor = getColor(context, textColorRes)
+        container.backgroundTintList = ColorStateList.valueOf(bgColor)
+        date_number.setTextColor(txtColor)
+        date_name.setTextColor(txtColor)
     }
 
     fun setOnButtonClickListener(listener: (View) -> Unit) {

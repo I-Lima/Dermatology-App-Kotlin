@@ -9,23 +9,26 @@ class CalendarItemAdapter(
     private val items: List<CalendarItem>,
     private val onItemClick: (CalendarItem) -> Unit
 ) : RecyclerView.Adapter<CalendarItemAdapter.MyViewHolder>() {
-
-    class MyViewHolder(private val view: CalendarItemView) : RecyclerView.ViewHolder(view) {
-        fun bind(item: CalendarItem, onClick: (CalendarItem) -> Unit) {
+    inner class MyViewHolder(val view: CalendarItemView) : RecyclerView.ViewHolder(view) {
+        fun bind(item: CalendarItem) {
             view.bind(item)
+
             view.setOnButtonClickListener {
-                onClick(item)
+                if (item.type == 1) return@setOnButtonClickListener
+                items.forEach { it.isSelected = false }
+                item.isSelected = true
+                onItemClick(item)
+                notifyDataSetChanged()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = CalendarItemView(parent.context)
-        return MyViewHolder(view)
+        return MyViewHolder(CalendarItemView(parent.context))
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(items[position], onItemClick)
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int = items.size

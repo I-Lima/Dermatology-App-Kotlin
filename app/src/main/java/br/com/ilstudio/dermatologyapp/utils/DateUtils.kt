@@ -95,16 +95,17 @@ object DateUtils {
             val date = startOfWeek.plusDays(i.toLong())
 
             val type = when {
-                date.isBefore(today) -> 0
+                date.isBefore(today) -> 1
                 date.isEqual(today) -> 2
-                else -> 1
+                else -> 0
             }
 
             CalendarItem(
                 day = date.format(formatterDay),
                 date = date.format(formatterDate),
                 type = type,
-                searchDate = date
+                searchDate = date,
+                isSelected = type == 2
             )
         }
     }
