@@ -6,7 +6,7 @@ import br.com.ilstudio.dermatologyapp.domain.model.CalendarItem
 import br.com.ilstudio.dermatologyapp.ui.customview.CalendarItemView
 
 class CalendarItemAdapter(
-    private val items: List<CalendarItem>,
+    private var items: List<CalendarItem>,
     private val onItemClick: (CalendarItem) -> Unit
 ) : RecyclerView.Adapter<CalendarItemAdapter.MyViewHolder>() {
     inner class MyViewHolder(val view: CalendarItemView) : RecyclerView.ViewHolder(view) {
@@ -32,4 +32,9 @@ class CalendarItemAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateItems(newItems: List<CalendarItem>) {
+        this.items = newItems
+        notifyDataSetChanged()
+    }
 }

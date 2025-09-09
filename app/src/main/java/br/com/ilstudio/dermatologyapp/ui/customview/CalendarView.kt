@@ -21,6 +21,7 @@ class CalendarView @JvmOverloads constructor (
     private var nextButton: ImageView
     private var recyclerView: RecyclerView
     private var listener: ((CalendarItem) -> Unit)? = null
+    private var items: List<CalendarItem>
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_calendar, this, true)
@@ -28,20 +29,23 @@ class CalendarView @JvmOverloads constructor (
         nextButton = findViewById(R.id.next_button_component)
         recyclerView = findViewById(R.id.day_recycle)
 
-        backButton.setOnClickListener {
-            //TODO: Add logic to the previous week
-        }
-        nextButton.setOnClickListener {
-            //TODO: Add logic to the next week
-        }
-
-        val items = DateUtils.getCurrentWeekDays()
+        items = DateUtils.getCurrentWeekDays()
         val adapter = CalendarItemAdapter(items) { item ->
             listener?.invoke(item)
         }
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.addItemDecoration(AdapterLayout.HorizontalSpaceItemDecoration(12))
         recyclerView.adapter = adapter
+
+        backButton.setOnClickListener {
+            items = DateUtils.subtractWeekDays(items[0].searchDate)
+            adapter.updateItems(items)
+        }
+
+        nextButton.setOnClickListener {
+            items = DateUtils.addWeekDays(items[4].searchDate)
+            adapter.updateItems(items)
+        }
     }
 
     fun setOnDayClickListener(listener: (CalendarItem) -> Unit) {

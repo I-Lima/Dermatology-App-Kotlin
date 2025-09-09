@@ -15,6 +15,9 @@ import java.util.Date
 import java.util.Locale
 
 object DateUtils {
+    var formatterDay = DateTimeFormatter.ofPattern("EEE")
+    var formatterDate = DateTimeFormatter.ofPattern("dd")
+
     /**
      * Converts a date string in the format "dd/MM/yyyy" to a [Timestamp].
      *
@@ -83,8 +86,6 @@ object DateUtils {
         var today = LocalDate.now()
         var startOfWeek = today.with(DayOfWeek.MONDAY)
         val endOfWeek = today.with(DayOfWeek.FRIDAY)
-        val formatterDay = DateTimeFormatter.ofPattern("EEE")
-        val formatterDate = DateTimeFormatter.ofPattern("dd")
 
         if (today.isAfter(endOfWeek)) {
             today = today.plusWeeks(1).with(DayOfWeek.MONDAY)
@@ -95,8 +96,53 @@ object DateUtils {
             val date = startOfWeek.plusDays(i.toLong())
 
             val type = when {
+                date.isBefore(startOfWeek) -> 1
+                date.isEqual(startOfWeek) -> 2
+                else -> 0
+            }
+
+            CalendarItem(
+                day = date.format(formatterDay),
+                date = date.format(formatterDate),
+                type = type,
+                searchDate = date,
+                isSelected = type == 2
+            )
+        }
+    }
+
+    /**
+     * Add the next week's days to a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the next week's days.
+    * */
+    fun addWeekDays(date: LocalDate): List<CalendarItem> {
+        var startOfWeek = date.with(DayOfWeek.MONDAY).plusDays(7)
+        return handleDate(startOfWeek)
+    }
+
+    /**
+    * Subtract the previous week's days from a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the previous week's days.
+    * */
+    fun subtractWeekDays(date: LocalDate): List<CalendarItem> {
+        var startOfWeek = date.with(DayOfWeek.MONDAY).minusDays(7)
+        return handleDate(startOfWeek)
+    }
+
+    /**
+     * Handle the date and return a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the current week's days.
+    * */
+    private fun handleDate(date: LocalDate): List<CalendarItem> {
+        return (0..4).map { i ->
+            val today = LocalDate.now()
+            val date = date.plusDays(i.toLong())
+
+            val type = when {
                 date.isBefore(today) -> 1
-                date.isEqual(today) -> 2
                 else -> 0
             }
 

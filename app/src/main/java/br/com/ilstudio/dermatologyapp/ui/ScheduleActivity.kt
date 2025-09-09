@@ -189,10 +189,15 @@ class ScheduleActivity : AppCompatActivity() {
         if (doctorId.isBlank()) return
 
         appointmentList = getAppointments(doctorId, selectedDate)
-        if (appointmentList == null) return
+        if (appointmentList == null) {
+            listHours.forEach { itemHour ->
+                itemHour.available = true
+            }
+            adapter.notifyDataSetChanged()
+            return
+        }
 
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
-        println("selectedDate: $selectedDate")
 
         val appointmentsToday = appointmentList!!.filter { ap ->
             val apDate = ap.startTime
