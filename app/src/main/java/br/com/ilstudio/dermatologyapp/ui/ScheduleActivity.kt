@@ -5,11 +5,15 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import br.com.ilstudio.dermatologyapp.adapter.ItemHourAdapter
 import br.com.ilstudio.dermatologyapp.data.model.appointments.AppointmentsData
+import br.com.ilstudio.dermatologyapp.data.model.services.ServicesData
+import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryServices
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryAppointments
 import br.com.ilstudio.dermatologyapp.databinding.ActivityScheduleBinding
 import br.com.ilstudio.dermatologyapp.domain.model.AmPm
@@ -26,9 +30,11 @@ import java.time.temporal.ChronoUnit
 
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
-    private var firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
+    private val firestoreRepositoryAppointments = FirestoreRepositoryAppointments()
+    private val firestoreRepositoryServices = FirestoreRepositoryServices()
     private lateinit var sharedPreferencesDoctor: SharedPreferences
     private lateinit var sharedPreferencesUser: SharedPreferences
+    private var services: List<ServicesData>? = null
     private var doctorId: String? = null
     private var doctorName: String? = null
     private var userUid: String? = null
@@ -87,6 +93,8 @@ class ScheduleActivity : AppCompatActivity() {
         lifecycleScope.launch {
             if (doctorId.isNullOrBlank()) return@launch
             updateTimeList(listHours, selectedDate, doctorId!!)
+
+            getServices()
         }
 
         binding.calendar.setOnDayClickListener {
@@ -259,4 +267,33 @@ class ScheduleActivity : AppCompatActivity() {
         binding.buttonMale.setTypeTag(isMale)
         binding.buttonFemale.setTypeTag(!isMale)
     }
+
+    private suspend fun getServices() {
+        val servicesResponse = firestoreRepositoryServices.getAllServices()
+        if (servicesResponse.success && servicesResponse.data != null) {
+            services = servicesResponse.data!!
+
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                services!!.map {
+                    "${it.name} - R$ ${it.price}"
+                }
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.mySpinner.adapter = adapter
+
+            binding.mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: android.view.View?,
+                    position: Int,
+                    id: Long
+                ) { val selected = services!![position] }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+        }
+    }
+
 }
