@@ -20,6 +20,7 @@ import br.com.ilstudio.dermatologyapp.databinding.ActivityScheduleBinding
 import br.com.ilstudio.dermatologyapp.domain.model.AmPm
 import br.com.ilstudio.dermatologyapp.domain.model.Appointment
 import br.com.ilstudio.dermatologyapp.domain.model.ItemHour
+import br.com.ilstudio.dermatologyapp.storage.SessionManager
 import br.com.ilstudio.dermatologyapp.utils.AdapterLayout
 import br.com.ilstudio.dermatologyapp.utils.DateUtils
 import kotlinx.coroutines.launch
@@ -75,6 +76,7 @@ class ScheduleActivity : AppCompatActivity() {
         binding = ActivityScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setYourself()
         initSharedPrefs()
         setupRecycler()
         setupListeners()
@@ -83,7 +85,7 @@ class ScheduleActivity : AppCompatActivity() {
             doctorId?.let {
                 updateTimeList(listHours, selectedDate, it)
             }
-            getServices() // busca serviços e atualiza spinner
+            getServices()
         }
     }
 
@@ -191,7 +193,7 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         println("DATA $appointment")
-        // firestoreRepositoryAppointments.createAppointment(appointment)
+        firestoreRepositoryAppointments.createAppointment(appointment)
     }
 
     private suspend fun updateTimeList(
@@ -246,7 +248,14 @@ class ScheduleActivity : AppCompatActivity() {
 
     private fun setYourself() {
         updatePatientDetailButtons(true)
-        // binding.fullName.setTextInput(userName ?: "")
+
+        val user = SessionManager.currentUser
+
+        if  (user != null) {
+            binding.fullName.setTextInput(user.name)
+            changeGender(user.gender == "Male")
+            binding.age.setTextInput(DateUtils.timestampToAge(user.dateBirth).toString())
+        }
     }
 
     private fun setAnother() {
