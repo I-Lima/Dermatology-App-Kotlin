@@ -74,6 +74,7 @@ class FirestoreRepositoryUsers(private val context: Activity) {
                  data["mobileNumber"] as? String ?: "",
                  data["dateBirth"] as? Timestamp ?: Timestamp(167234),
                  data["profilePicture"] as? String ?: "",
+                 data["gender"] as? String ?: "",
                  data["createdAt"] as? String ?: "",
                  data["updatedAt"] as? String ?: "",
              ))
