@@ -17,7 +17,9 @@ class SplashScreenActivity: AppCompatActivity() {
 
         val user = firestoreServiceAuth.getCurrentUser()
         if (user != null) {
-            startActivity(Intent(this, MainActivity::class.java))
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("userId", user.uid)
+            startActivity(intent)
         } else {
             startActivity(Intent(this, LogInActivity::class.java))
         }

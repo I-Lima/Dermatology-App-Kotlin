@@ -184,4 +184,28 @@ object DateUtils {
 
         return FirebaseTimestamp(Date.from(newInstant))
     }
+
+    /**
+    * Convert a [FirebaseTimestamp] to an age in years.
+    * */
+    fun timestampToAge(timestamp: String?): Int {
+        if (timestamp == null) {
+            return 0
+        }
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val birthDate = dateFormat.parse(timestamp)
+        val today = LocalDate.now()
+        val birthDateLocal = birthDate?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
+            ?: return 0
+
+        var age = today.year - birthDateLocal.year
+
+        if (today.monthValue < birthDateLocal.monthValue ||
+            (today.monthValue == birthDateLocal.monthValue && today.dayOfMonth < birthDateLocal.dayOfMonth)) {
+            age--
+        }
+
+        return age
+    }
 }
