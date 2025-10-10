@@ -234,8 +234,8 @@ class ScheduleActivity : AppCompatActivity() {
 
     private val formTextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            user["fullName"] = binding.fullName.text.toString()
-            user["age"] = binding.age.text.toString()
+            user["fullName"] = binding.fullName.getText()
+            user["age"] = binding.age.getText()
             user["gender"] = if (isMale) "Male" else "Female"
             description = binding.description.text.toString()
 
