@@ -47,7 +47,11 @@ class InputView @JvmOverloads constructor (
     }
 
     fun setTextInput(text: String) {
-        input.setText(text) //TODO: Não tá adicionando o texto no input.
+        input.setText(text)
+    }
+
+    fun getText(): String {
+        return input.text.toString()
     }
 
     fun addTextChangedListener(watcher: TextWatcher) {
