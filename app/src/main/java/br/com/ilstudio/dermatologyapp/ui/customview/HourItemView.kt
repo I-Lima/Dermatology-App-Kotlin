@@ -39,7 +39,7 @@ class HourItemView @JvmOverloads constructor (
         container.setOnClickListener(listener)
     }
 
-    fun setState(available: Boolean, selected: Boolean) {
+    private fun setState(available: Boolean, selected: Boolean) {
         when {
             !available -> showUnavailable()
             selected -> showSelected()

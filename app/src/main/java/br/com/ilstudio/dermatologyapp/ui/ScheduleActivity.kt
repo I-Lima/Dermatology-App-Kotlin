@@ -68,6 +68,7 @@ class ScheduleActivity : AppCompatActivity() {
     private val adapter by lazy {
         ItemHourAdapter(listHours) { selectedHour ->
             hour = selectedHour
+            activeButton()
         }
     }
 
@@ -156,6 +157,7 @@ class ScheduleActivity : AppCompatActivity() {
                 id: Long
             ) {
                 selectedService = services[position]
+                activeButton()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -239,7 +241,7 @@ class ScheduleActivity : AppCompatActivity() {
             user["gender"] = if (isMale) "Male" else "Female"
             description = binding.description.text.toString()
 
-            binding.buttonSaveAppoint.setActive(user.values.all { it.isNotBlank() })
+            activeButton()
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -249,12 +251,14 @@ class ScheduleActivity : AppCompatActivity() {
     private fun setYourself() {
         updatePatientDetailButtons(true)
 
-        val user = SessionManager.currentUser
-
-        if  (user != null) {
-            binding.fullName.setTextInput(user.name)
-            changeGender(user.gender == "Male")
-            binding.age.setTextInput(DateUtils.timestampToAge(user.dateBirth).toString())
+        val userSession = SessionManager.currentUser
+        if  (userSession != null) {
+            binding.fullName.setTextInput(userSession.name)
+            changeGender(userSession.gender == "Male")
+            binding.age.setTextInput(DateUtils.timestampToAge(userSession.dateBirth).toString())
+            user["fullName"] = userSession.name
+            user["age"] = DateUtils.timestampToAge(userSession.dateBirth).toString()
+            user["gender"] = userSession.gender ?: ""
         }
     }
 
@@ -272,5 +276,11 @@ class ScheduleActivity : AppCompatActivity() {
     private fun updatePatientDetailButtons(isYourself: Boolean) {
         binding.buttonYourself.setTypeTag(isYourself)
         binding.buttonAnother.setTypeTag(!isYourself)
+    }
+
+    private fun activeButton() {
+        val inputIsValid = user.values.all { it.isNotBlank() }
+        val isSelectedHour = hour != null
+        binding.buttonSaveAppoint.setActive(inputIsValid && isSelectedHour)
     }
 }
