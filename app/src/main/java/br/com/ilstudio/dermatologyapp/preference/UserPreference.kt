@@ -1,7 +1,8 @@
 package br.com.ilstudio.dermatologyapp.preference
 
 import android.content.Context
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import br.com.ilstudio.dermatologyapp.domain.model.User
 import kotlinx.coroutines.flow.Flow
