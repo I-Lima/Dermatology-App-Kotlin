@@ -193,9 +193,17 @@ class ScheduleActivity : AppCompatActivity() {
                 age = user["age"].orEmpty(),
             )
         }
+        val result = firestoreRepositoryAppointments.createAppointment(appointment)
+        if (!result.success) {
+            Toast
+                .makeText(baseContext, "Error in the appointment creation", Toast.LENGTH_SHORT)
+                .show()
+        }
 
-        println("DATA $appointment")
-        firestoreRepositoryAppointments.createAppointment(appointment)
+        Toast
+            .makeText(baseContext, "Appointment created successfully", Toast.LENGTH_SHORT)
+            .show()
+        finish()
     }
 
     private suspend fun updateTimeList(

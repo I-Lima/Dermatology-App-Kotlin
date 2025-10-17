@@ -162,7 +162,7 @@ object DateUtils {
      * @return A [Timestamp] object representing the formatted date and time.
     * */
     fun toTimestamp(date: String, time: String): FirebaseTimestamp {
-        val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
         val localDate = LocalDate.parse(date, dateFormatter)

@@ -50,12 +50,7 @@ class FirestoreRepositoryAppointments {
 
     suspend fun createAppointment(data: Appointment): AppointmentsResponse {
         return try {
-            val response = firestoreServiceAppointments.createAppointment(data)
-
-            println(response);
-
-            //TODO: Add the logic
-
+            firestoreServiceAppointments.createAppointment(data)
             AppointmentsResponse(true, null, null, false)
         } catch (e: Exception) {
             AppointmentsResponse(false, null, "Set appointments error")
