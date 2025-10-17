@@ -1,70 +1,84 @@
 # Dermatology App (Em desenvolvimento)
 
-<br/>
-
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=bugs)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
 
-## Sumário
+---
+
+## 📋 Sumário
 
 - [Dermatology App (Em desenvolvimento)](#dermatology-app-em-desenvolvimento)
-  - [Sumário](#sumário)
-  - [Introdução](#introdução)
-  - [Protótipo](#protótipo)
-  - [Funcionalidades](#funcionalidades)
-  - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-  - [Créditos](#créditos)
-  
-<br/> <br/>
+  - [📋 Sumário](#-sumário)
+  - [📱 Sobre o Projeto](#-sobre-o-projeto)
+  - [🖼 Protótipo](#-protótipo)
+  - [🚀 Funcionalidades](#-funcionalidades)
+  - [🛠 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+  - [🗃 Modelagem do Banco de Dados](#-modelagem-do-banco-de-dados)
+  - [👤 Créditos](#-créditos)
 
-## Introdução
+---
 
-Um projeto desenvolvido em Kotlin para uma aplicação nativa Android que representa um aplicativo para uma clínica de dermatologia, proporcionando aos pacientes diversas funcionalidades práticas, tais como:
+## 📱 Sobre o Projeto
 
- 1. Visualizar a lista de médicos disponíveis para atendimentos;
- 2. Consultar os agendamentos de consultas;
- 3. Acessar o histórico completo de atendimentos realizados;
- 4. Adicionar avaliações sobre o atendimento recebido.
+O **Dermatology App** é um aplicativo Android nativo desenvolvido em **Kotlin**, voltado para clínicas de dermatologia. Ele visa oferecer uma experiência moderna e intuitiva para pacientes, permitindo:
 
-Os componentes que possuem tempo de carregamento utilizam o Skeleton Loading para proporcionar uma experiência mais fluida e agradável ao usuário durante esse processo.
-<br/>
+- Visualização de médicos disponíveis
+- Consulta de agendamentos
+- Acesso ao histórico de atendimentos
+- Avaliação dos serviços prestados
 
-## Protótipo
+Além disso, o app utiliza o **Skeleton Loading** para suavizar a experiência durante o carregamento de dados.
 
-O projeto foi desenvolvido com base no design do [Template Castle](https://www.figma.com/@templatecastle)
+---
 
-<img src="./public/prototype_01.png" width="70%" />
+## 🖼 Protótipo
 
-<br/>
+O design foi baseado no projeto [Template Castle no Figma](https://www.figma.com/@templatecastle).
 
-[Link do protótipo](https://www.figma.com/design/LUtWhPWvqktkQyL72fonjX/Medical-Health-Mobile-App-Dermatology-App-Ui-Kit-Doctor-Mobile-App-(Community)?node-id=0-1&t=tj6L1xRXixSHWKi1-1)
+<p align="center">
+  <img src="./public/prototype_01.png" width="70%" alt="Protótipo da aplicação"/>
+</p>
 
-<br/>
+🔗 [Acesse o protótipo completo no Figma](https://www.figma.com/design/LUtWhPWvqktkQyL72fonjX/Medical-Health-Mobile-App-Dermatology-App-Ui-Kit-Doctor-Mobile-App-(Community)?node-id=0-1&t=tj6L1xRXixSHWKi1-1)
 
-## Funcionalidades
+---
 
-- Login
-- Criar conta
-- Login com Google
-- Atualizar dados do usuário
+## 🚀 Funcionalidades
 
-<br/>
+- [x] Autenticação com e-mail e senha
+- [x] Cadastro de novos usuários
+- [x] Login via Google
+- [x] Atualização de dados do perfil
 
-## Tecnologias Utilizadas
+---
 
-- Kotlin
-- Android Studio
-- Firebase Authentication
-- Firestore
-- Figma
-- Github Actions
-- Detekt
+## 🛠 Tecnologias Utilizadas
 
-<br/>
+- **Kotlin**
+- **Android Studio**
+- **Firebase Authentication**
+- **Cloud Firestore**
+- **Github Actions**
+- **Detekt**
+- **Figma** (para design UI/UX)
 
-## Créditos
+---
 
-O aplicativo foi desenvolvido por mim e o design foi baseado no projeto do [Template Castle](https://www.figma.com/@templatecastle).
+## 🗃 Modelagem do Banco de Dados
+
+<p align="center">
+  <img src="./public/db.png" width="80%" alt="Modelo de banco de dados"/>
+</p>
+
+🔗 [Visualizar modelo no dbdiagram.io](https://dbdiagram.io/d/Dermatology-app-685b44a4f413ba3508b6706d)
+
+---
+
+## 👤 Créditos
+
+Desenvolvido por mim ([@I-Lima](https://github.com/I-Lima)).
+
+Design baseado no trabalho de [Template Castle no Figma](https://www.figma.com/@templatecastle) e adaptado por mim ([@I-Lima](https://github.com/I-Lima)).

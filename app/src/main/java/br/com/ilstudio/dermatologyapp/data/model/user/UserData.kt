@@ -9,6 +9,7 @@ class UserData(
     val mobileNumber: String,
     val dateBirth: Timestamp?,
     val profilePicture: String?,
+    val gender: String,
     val createdAt: String,
     val updatedAt: String
 ) {
@@ -30,6 +31,8 @@ class UserData(
             "email" to email,
             "mobileNumber" to mobileNumber,
             "dateBirth" to dateBirth,
+            "profilePicture" to profilePicture,
+            "gender" to gender,
             "createdAt" to createdAt,
             "updatedAt" to updatedAt
         )

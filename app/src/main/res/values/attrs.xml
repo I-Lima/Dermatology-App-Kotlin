@@ -20,4 +20,43 @@
         <attr name="labelTextButton" format="string" />
         <attr name="active" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="CalendarItemView">
+        <attr name="day_number" format="string" />
+        <attr name="day_name" format="string" />
+        <attr name="type" format="string">
+            <enum name="active" value="0" />
+            <enum name="inactive" value="1" />
+            <enum name="selected" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="HourItemView">
+        <attr name="hour" format="string" />
+        <attr name="expedient" format="string">
+            <enum name="am" value="0" />
+            <enum name="pm" value="1" />
+        </attr>
+        <attr name="typeTime" format="string">
+            <enum name="inactive" value="0" />
+            <enum name="active" value="1" />
+            <enum name="selected" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="ButtonTagView">
+        <attr name="titleTag" format="string" />
+        <attr name="typeTag" format="string">
+            <enum name="inactive" value="0" />
+            <enum name="active" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="InputView">
+        <attr name="titleInput" format="string" />
+        <attr name="placeholder" format="string" />
+        <attr name="typeInput" format="string">
+            <enum name="text" value="0" />
+            <enum name="password" value="1" />
+            <enum name="email" value="2" />
+            <enum name="phone" value="3" />
+            <enum name="large" value="4" />
+        </attr>
+    </declare-styleable>
 </resources>

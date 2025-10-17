@@ -23,6 +23,7 @@ import kotlinx.coroutines.withContext
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var name: String
+    private var isMale = false
     private lateinit var pass: String
     private lateinit var email: String
     private lateinit var number: String
@@ -37,37 +38,43 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuthRepository = FirebaseAuthRepository(this)
         userRepository = UserRepository(this)
 
-        binding.header.setOnBackButtonClickListener {
+        setupListeners(Intent(this, LogInActivity::class.java))
+    }
+
+    private fun setupListeners(intent: Intent) = with(binding) {
+        header.setOnBackButtonClickListener {
             finish()
         }
-
-        binding.editName.addTextChangedListener(loginTextWatcher)
-        binding.editPass.addTextChangedListener(loginTextWatcher)
-        binding.editEmail.addTextChangedListener(loginTextWatcher)
-        binding.editNumber.addTextChangedListener(numberTextWatcher)
-        binding.editBirth.addTextChangedListener(dateTextWatcher)
-
-        binding.buttonHidden.setOnClickListener {
+        buttonHidden.setOnClickListener {
             val isHidden = binding.editPass.inputType == 129
             val icon = if (isHidden) R.drawable.icon_eye else R.drawable.icon_eye_close
             val type = if (isHidden) InputType.TYPE_CLASS_TEXT else 129
 
-            binding.buttonHidden.setImageResource(icon)
-            binding.editPass.inputType= type
+            buttonHidden.setImageResource(icon)
+            editPass.inputType= type
         }
 
-        binding.buttonSignIn2.setOnButtonClickListener {
+        buttonSignIn2.setOnButtonClickListener {
             signUp()
         }
 
-        binding.buttonGoogle.setOnClickListener {
-            binding.buttonSignIn2.showLoading(true)
+        buttonGoogle.setOnClickListener {
+            buttonSignIn2.showLoading(true)
             firebaseAuthRepository.signInWithGoogle()
         }
 
-        binding.buttonLogIn.setOnClickListener {
-            startActivity(Intent(this, LogInActivity::class.java))
+        buttonLogIn.setOnClickListener {
+            startActivity(intent)
         }
+
+        buttonMale.setOnButtonClickListener { changeGender(true) }
+        buttonFemale.setOnButtonClickListener { changeGender(false) }
+
+        editName.addTextChangedListener(loginTextWatcher)
+        editPass.addTextChangedListener(loginTextWatcher)
+        editEmail.addTextChangedListener(loginTextWatcher)
+        editNumber.addTextChangedListener(numberTextWatcher)
+        editBirth.addTextChangedListener(dateTextWatcher)
     }
 
     @Deprecated("Deprecated in Java")
@@ -88,6 +95,12 @@ class SignUpActivity : AppCompatActivity() {
                 binding.textError.text = it.message
             })
         }
+    }
+
+    private fun changeGender(isMale: Boolean) {
+        this.isMale = isMale
+        binding.buttonMale.setTypeTag(isMale)
+        binding.buttonFemale.setTypeTag(!isMale)
     }
 
     private fun signUp() {
@@ -112,13 +125,13 @@ class SignUpActivity : AppCompatActivity() {
                     "letters and special characters."
         }
 
-
         val emailError = binding.editEmail.error
         val dateError = binding.editBirth.error
         val passError = binding.editPass.error
 
         if(emailError.isNullOrEmpty() && dateError.isNullOrEmpty() && passError.isNullOrEmpty()) {
             binding.buttonSignIn2.showLoading(true)
+            var gender = if (isMale) "Male" else "Female"
             lifecycleScope.launch {
                 var result: Result<Boolean>
                 withContext(Dispatchers.IO) {
@@ -127,7 +140,8 @@ class SignUpActivity : AppCompatActivity() {
                         email,
                         pass,
                         number,
-                        birth
+                        birth,
+                        gender
                     ))
                 }
 

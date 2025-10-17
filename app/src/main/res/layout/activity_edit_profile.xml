@@ -67,7 +67,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/john_doe"
                 android:inputType="text"
-                android:textColorHint="@color/blue_light_200"
+                android:textColorHint="@color/blue_200"
                 android:textSize="18sp"
                 android:paddingHorizontal="16dp"
                 android:maxLines="1"/>
@@ -103,7 +103,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/example_example_com"
                 android:inputType="textEmailAddress"
-                android:textColorHint="@color/blue_light_200"
+                android:textColorHint="@color/blue_200"
                 android:textSize="18sp"
                 android:paddingHorizontal="16dp"
                 android:maxLines="1"/>
@@ -139,7 +139,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/xx_xxxxx_xxxx"
                 android:inputType="number"
-                android:textColorHint="@color/blue_light_200"
+                android:textColorHint="@color/blue_200"
                 android:textSize="18sp"
                 android:paddingHorizontal="16dp"
                 android:maxLines="1"/>
@@ -176,7 +176,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/dd_mm_yyyy"
                 android:inputType="date"
-                android:textColorHint="@color/blue_light_200"
+                android:textColorHint="@color/blue_200"
                 android:textSize="18sp"
                 android:paddingHorizontal="16dp"
                 android:maxLines="1"

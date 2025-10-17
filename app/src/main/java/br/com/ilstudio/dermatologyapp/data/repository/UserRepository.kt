@@ -38,7 +38,8 @@ class UserRepository(private val context: Activity) {
                 user.email,
                 user.mobileNumber,
                 user.dateBirth,
-                null
+                null,
+                user.gender
             )
 
             val resultStore = firestoreRepositoryUsers.saveUser(registeredUser)

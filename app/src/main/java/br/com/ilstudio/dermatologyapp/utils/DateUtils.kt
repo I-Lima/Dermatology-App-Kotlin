@@ -1,13 +1,23 @@
 package br.com.ilstudio.dermatologyapp.utils
 
+
+import br.com.ilstudio.dermatologyapp.domain.model.CalendarItem
 import java.sql.Timestamp
+import com.google.firebase.Timestamp as FirebaseTimestamp
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
 object DateUtils {
+    var formatterDay = DateTimeFormatter.ofPattern("EEE")
+    var formatterDate = DateTimeFormatter.ofPattern("dd")
+
     /**
      * Converts a date string in the format "dd/MM/yyyy" to a [Timestamp].
      *
@@ -54,5 +64,148 @@ object DateUtils {
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(timestamp)
+    }
+
+    /**
+     * Converts a [Timestamp] to a formatted hour string.
+     *
+     * @param timestamp The [Timestamp] to be converted to a hour string.
+     * @return A formatted hour string in the format "HH:mm", or `null` if the timestamp is `null`.
+    */
+    fun timestampToHourString(timestamp: FirebaseTimestamp): String {
+        val dateTime = LocalDateTime.ofInstant(timestamp.toDate().toInstant(), ZoneId.systemDefault())
+        return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+    }
+
+    /**
+     * Get the current week's days as a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the current week's days.
+    * */
+    fun getCurrentWeekDays(): List<CalendarItem> {
+        var today = LocalDate.now()
+        var startOfWeek = today.with(DayOfWeek.MONDAY)
+        val endOfWeek = today.with(DayOfWeek.FRIDAY)
+
+        if (today.isAfter(endOfWeek)) {
+            today = today.plusWeeks(1).with(DayOfWeek.MONDAY)
+            startOfWeek = today
+        }
+
+        return (0..4).map { i ->
+            val date = startOfWeek.plusDays(i.toLong())
+
+            val type = when {
+                date.isBefore(startOfWeek) -> 1
+                date.isEqual(startOfWeek) -> 2
+                else -> 0
+            }
+
+            CalendarItem(
+                day = date.format(formatterDay),
+                date = date.format(formatterDate),
+                type = type,
+                searchDate = date,
+                isSelected = type == 2
+            )
+        }
+    }
+
+    /**
+     * Add the next week's days to a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the next week's days.
+    * */
+    fun addWeekDays(date: LocalDate): List<CalendarItem> {
+        var startOfWeek = date.with(DayOfWeek.MONDAY).plusDays(7)
+        return handleDate(startOfWeek)
+    }
+
+    /**
+    * Subtract the previous week's days from a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the previous week's days.
+    * */
+    fun subtractWeekDays(date: LocalDate): List<CalendarItem> {
+        var startOfWeek = date.with(DayOfWeek.MONDAY).minusDays(7)
+        return handleDate(startOfWeek)
+    }
+
+    /**
+     * Handle the date and return a list of [CalendarItem] objects.
+     *
+     * @return A list of [CalendarItem] objects representing the current week's days.
+    * */
+    private fun handleDate(date: LocalDate): List<CalendarItem> {
+        return (0..4).map { i ->
+            val today = LocalDate.now()
+            val date = date.plusDays(i.toLong())
+
+            val type = when {
+                date.isBefore(today) -> 1
+                else -> 0
+            }
+
+            CalendarItem(
+                day = date.format(formatterDay),
+                date = date.format(formatterDate),
+                type = type,
+                searchDate = date,
+                isSelected = type == 2
+            )
+        }
+    }
+
+    /**
+     * Format a date and time string to a [Timestamp].
+     *
+     * @return A [Timestamp] object representing the formatted date and time.
+    * */
+    fun toTimestamp(date: String, time: String): FirebaseTimestamp {
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
+        val localDate = LocalDate.parse(date, dateFormatter)
+        val localTime = LocalTime.parse(time, timeFormatter)
+
+        val localDateTime = LocalDateTime.of(localDate, localTime)
+
+        return FirebaseTimestamp(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant().epochSecond, 0)
+    }
+
+    /**
+    * Add minutes to a [Timestamp].
+     *
+     * @return A [Timestamp] object representing the original timestamp with the added minutes.
+    * */
+    fun addMinutesIntoTimestamp(timestamp: FirebaseTimestamp, minutes: Long): FirebaseTimestamp {
+        val instant = timestamp.toDate().toInstant()
+        val newInstant = instant.plusSeconds(minutes * 60)
+
+        return FirebaseTimestamp(Date.from(newInstant))
+    }
+
+    /**
+    * Convert a [FirebaseTimestamp] to an age in years.
+    * */
+    fun timestampToAge(timestamp: String?): Int {
+        if (timestamp == null) {
+            return 0
+        }
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val birthDate = dateFormat.parse(timestamp)
+        val today = LocalDate.now()
+        val birthDateLocal = birthDate?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
+            ?: return 0
+
+        var age = today.year - birthDateLocal.year
+
+        if (today.monthValue < birthDateLocal.monthValue ||
+            (today.monthValue == birthDateLocal.monthValue && today.dayOfMonth < birthDateLocal.dayOfMonth)) {
+            age--
+        }
+
+        return age
     }
 }

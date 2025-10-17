@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- HEADING   -->
+    <style name="H1" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+
+    <style name="H2" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+
+    <style name="H3" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+
+    <style name="H4" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+
+    <!--  BODY   -->
+    <style name="body_12_light" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/league_spartan_light</item>
+    </style>
+    <style name="body_12_regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/league_spartan</item>
+    </style>
+
+    <style name="body_14_light" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/league_spartan_light</item>
+    </style>
+    <style name="body_14_regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/league_spartan</item>
+    </style>
+
+
+    <!-- LABELS   -->
+    <style name="label_12_regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/league_spartan</item>
+    </style>
+    <style name="label_12_medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+
+    <style name="label_14_regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/league_spartan</item>
+    </style>
+    <style name="label_14_medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+
+    <style name="label_16_regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/league_spartan</item>
+    </style>
+    <style name="label_16_medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+
+    <style name="label_20_regular" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/league_spartan</item>
+    </style>
+    <style name="label_20_medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/league_spartan_semibold</item>
+    </style>
+</resources>

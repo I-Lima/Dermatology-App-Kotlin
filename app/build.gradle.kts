@@ -67,4 +67,6 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     // Skeleton Loading
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation ("androidx.datastore:datastore-preferences:1.1.1")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
 }
