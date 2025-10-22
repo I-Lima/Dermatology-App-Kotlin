@@ -24,10 +24,6 @@ class SettingsActivity : AppCompatActivity() {
 
         userRepository = UserRepository(this)
 
-        binding.header.setOnBackButtonClickListener {
-            finish()
-        }
-
         binding.itemNotification.setOnClickListener {
             startActivity(Intent(this, NotificationSettingActivity::class.java))
         }

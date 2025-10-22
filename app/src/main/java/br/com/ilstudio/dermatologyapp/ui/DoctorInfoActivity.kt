@@ -43,7 +43,6 @@ class DoctorInfoActivity : AppCompatActivity() {
 
             data.data?.let { setData(it) }
         }
-        binding.header.setOnBackButtonClickListener { finish() }
         binding.fav.setOnClickListener {
             doctor.favorite = !doctor.favorite
             changeFavColor(doctor.favorite, binding)

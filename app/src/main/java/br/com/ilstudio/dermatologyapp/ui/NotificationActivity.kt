@@ -31,10 +31,6 @@ class NotificationActivity : AppCompatActivity() {
                 ).show()
             }
         }
-
-        binding.header.setOnBackButtonClickListener {
-            finish()
-        }
     }
 
     private suspend fun setList(userId: String){

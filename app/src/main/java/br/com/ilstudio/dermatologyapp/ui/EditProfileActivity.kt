@@ -51,10 +51,9 @@ class EditProfileActivity : AppCompatActivity() {
         binding.editNumber.addTextChangedListener(numberTextWatcher)
         binding.editBirth.addTextChangedListener(dateTextWatcher)
 
-        binding.header.setOnBackButtonClickListener {
+        binding.header.setOnBackButtonClickListener = {
             if (!isIgual(userSave, userData!!.toMap())) {
                 showMaterialDialog()
-                return@setOnBackButtonClickListener
             }
 
             finish()

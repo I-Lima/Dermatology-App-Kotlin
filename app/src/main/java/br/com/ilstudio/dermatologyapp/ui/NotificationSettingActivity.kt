@@ -1,6 +1,5 @@
 package br.com.ilstudio.dermatologyapp.ui
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,10 +19,6 @@ class NotificationSettingActivity : AppCompatActivity() {
         editor = sharedPreferences.edit()
 
         getAndSetSwitchState()
-
-        binding.header.setOnBackButtonClickListener {
-            finish()
-        }
 
         binding.switch1.setOnCheckedChangeListener { _, isChecked ->
             editor.putBoolean("switch_1", isChecked)
