@@ -42,9 +42,6 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun setupListeners(intent: Intent) = with(binding) {
-        header.setOnBackButtonClickListener {
-            finish()
-        }
         buttonHidden.setOnClickListener {
             val isHidden = binding.editPass.inputType == 129
             val icon = if (isHidden) R.drawable.icon_eye else R.drawable.icon_eye_close

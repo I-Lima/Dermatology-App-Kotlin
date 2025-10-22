@@ -1,9 +1,9 @@
 package br.com.ilstudio.dermatologyapp.ui.customview
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +16,7 @@ class HeaderView @JvmOverloads constructor (
 ): ConstraintLayout(context, attrs, defStyleAttr) {
     private var title: TextView
     private var button: ImageView
+    var setOnBackButtonClickListener: (() -> Unit)? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_header, this, true)
@@ -34,9 +35,10 @@ class HeaderView @JvmOverloads constructor (
 
             typedArray.recycle()
         }
-    }
-    fun setOnBackButtonClickListener(listener: (View) -> Unit) {
-        val buttonBack = findViewById<ImageView>(R.id.button_back)
-        buttonBack.setOnClickListener(listener)
+
+        button.setOnClickListener {
+            setOnBackButtonClickListener?.invoke() ?: (context as? Activity)?.finish()
+        }
+
     }
 }

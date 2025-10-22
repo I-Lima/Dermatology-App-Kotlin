@@ -40,7 +40,6 @@ class DoctorActivity : AppCompatActivity() {
             getAllDoctorsData()
         }
 
-        binding.header.setOnBackButtonClickListener { finish() }
         binding.aToZFilter.setOnClickListener { toggleSorting() }
         binding.favoriteFilter.setOnClickListener { toggleFilter(FilterType.FAVORITE, binding.favoriteFilter) }
         binding.maleFilter.setOnClickListener { toggleFilter(FilterType.MALE, binding.maleFilter) }

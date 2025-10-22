@@ -27,7 +27,7 @@ class ProfileActivity : AppCompatActivity() {
 
         setProfileData()
 
-        binding.header.setOnBackButtonClickListener {
+        binding.header.setOnBackButtonClickListener = {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
