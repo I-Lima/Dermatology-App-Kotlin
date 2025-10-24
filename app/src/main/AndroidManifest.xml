@@ -16,6 +16,15 @@
         android:theme="@style/Theme.DermatologyApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DoctorInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DoctorActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.NotificationActivity"
             android:exported="false" />
         <activity

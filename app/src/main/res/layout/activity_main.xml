@@ -64,24 +64,22 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Hi,"
-                                android:fontFamily="@font/league_spartan"
-                                android:textSize="16sp"
                                 android:textColor="@color/primary"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/img_user"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginStart="12dp"/>
+                                android:layout_marginStart="12dp"
+                                style="@style/label_16_regular"/>
 
                             <TextView
                                 android:id="@id/user_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="John Doe"
-                                android:fontFamily="@font/league_spartan_bold"
-                                android:textSize="18sp"
                                 app:layout_constraintTop_toBottomOf="@id/hi"
                                 app:layout_constraintStart_toEndOf="@id/img_user"
-                                android:layout_marginStart="12dp"/>
+                                android:layout_marginStart="12dp"
+                                style="@style/H3"/>
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <com.facebook.shimmer.ShimmerFrameLayout
@@ -102,7 +100,7 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     android:background="@drawable/shape_view_user_picture"
-                                    android:backgroundTint="@color/blue_light_200"
+                                    android:backgroundTint="@color/blue_200"
                                     android:layout_marginTop="8dp"
                                     />
 
@@ -110,7 +108,7 @@
                                     android:id="@+id/hi_skeleton"
                                     android:layout_width="20dp"
                                     android:layout_height="15dp"
-                                    android:background="@color/blue_light_200"
+                                    android:background="@color/blue_200"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/img_skeleton"
                                     android:layout_marginTop="10dp"
@@ -119,7 +117,7 @@
                                 <View
                                     android:layout_width="100dp"
                                     android:layout_height="15dp"
-                                    android:background="@color/blue_light_200"
+                                    android:background="@color/blue_200"
                                     app:layout_constraintTop_toBottomOf="@id/hi_skeleton"
                                     app:layout_constraintStart_toEndOf="@id/img_skeleton"
                                     android:layout_marginTop="10dp"

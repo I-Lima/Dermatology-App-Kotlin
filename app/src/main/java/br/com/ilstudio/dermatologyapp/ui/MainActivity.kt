@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import br.com.ilstudio.dermatologyapp.R
+import br.com.ilstudio.dermatologyapp.data.model.user.UserData
 import br.com.ilstudio.dermatologyapp.data.repository.FirestoreRepositoryUsers
 import br.com.ilstudio.dermatologyapp.databinding.ActivityMainBinding
-import br.com.ilstudio.dermatologyapp.ui.shared.UserSharedViewModel
+import br.com.ilstudio.dermatologyapp.domain.model.User
+import br.com.ilstudio.dermatologyapp.preference.UserPreference
+import br.com.ilstudio.dermatologyapp.storage.SessionManager
 import br.com.ilstudio.dermatologyapp.utils.DateUtils.timestampToDate
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
@@ -20,7 +22,6 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private val userSharedViewModel: UserSharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,25 +31,10 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("userData", Context.MODE_PRIVATE)
 
         lifecycleScope.launch {
-            if (userSharedViewModel.userData.value?.uid != null) {
-                userSharedViewModel.userData.value?.let {
-                    return@launch setUserData(it.name, it.profilePicture)
-                }
-            }
-
             fetchUserData()
         }
 
-        binding.iconNotifi.setOnClickListener {
-            val intent = Intent(this, NotificationActivity::class.java)
-            intent.putExtra("userId", userSharedViewModel.userData.value?.uid)
-            startActivity(intent)
-        }
-        binding.iconConfig.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
-        binding.iconDoctor.setOnClickListener {}
-        binding.iconFav.setOnClickListener {}
+        setClick(binding)
     }
 
     private fun setUserData(userName: String, profilePicture: String?) {
@@ -72,24 +58,46 @@ class MainActivity : AppCompatActivity() {
         val firestoreRepositoryUsers = FirestoreRepositoryUsers(this)
 
         if (userId != null) {
-            val userData = firestoreRepositoryUsers.getUser(userId)
-            if (userData.data == null) {
+            val userData = firestoreRepositoryUsers.getUser(userId)?.data
+            if (userData == null) {
                 Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
                 return
             }
 
-            setUserData(userData.data.name, userData.data.profilePicture)
+            setUserData(userData.name, userData.profilePicture)
+            saveDataSession(userData)
 
-            userSharedViewModel.userData.value = userData.data
-
+            // Remove after
             val editor = sharedPreferences.edit()
-            editor.putString("name", userData.data.name)
-            editor.putString("email", userData.data.email)
-            editor.putString("mobileNumber", userData.data.mobileNumber)
-            editor.putString("dateBirth", timestampToDate(userData.data.dateBirth))
-            editor.putString("profilePicture", userData.data.profilePicture)
+            editor.putString("name", userData.name)
+            editor.putString("email", userData.email)
+            editor.putString("mobileNumber", userData.mobileNumber)
+            editor.putString("dateBirth", timestampToDate(userData.dateBirth))
+            editor.putString("profilePicture", userData.profilePicture)
             editor.apply()
         }
+    }
+
+    private suspend fun saveDataSession(data: UserData){
+        UserPreference.saveUser(
+            context = this@MainActivity,
+            id = data.uid,
+            name = data.name ?: "",
+            birthdate = data.dateBirth,
+            email = data.email ?: "",
+            phone = data.mobileNumber ?: "",
+            profilePicture = data.profilePicture,
+            gender = data.gender
+        )
+        SessionManager.currentUser = User(
+            id = data.uid,
+            name = data.name ?: "",
+            email = data.email ?: "",
+            mobileNumber = data.mobileNumber ?: "",
+            dateBirth = data.dateBirth.toString(),
+            profilePicture = data.profilePicture,
+            gender = data.gender
+        )
     }
 
     private fun dataLoading(value: Boolean) {
@@ -103,5 +111,21 @@ class MainActivity : AppCompatActivity() {
             binding.shimmerFrame.visibility = View.GONE
             binding.userData.visibility = View.VISIBLE
         }
+    }
+
+    private fun setClick(binding: ActivityMainBinding) {
+        binding.iconNotifi.setOnClickListener {
+            val userId = intent.getStringExtra("userId")
+            val intent = Intent(this, NotificationActivity::class.java)
+            intent.putExtra("userId", userId)
+            startActivity(intent)
+        }
+        binding.iconConfig.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        binding.iconDoctor.setOnClickListener {
+            startActivity(Intent(this, DoctorActivity::class.java))
+        }
+        binding.iconFav.setOnClickListener {}
     }
 }

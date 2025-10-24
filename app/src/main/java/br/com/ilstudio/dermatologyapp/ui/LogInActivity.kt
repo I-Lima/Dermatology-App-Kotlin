@@ -31,10 +31,6 @@ class LogInActivity : AppCompatActivity() {
         firebaseAuthRepository = FirebaseAuthRepository(this)
         userRepository = UserRepository(this)
 
-        binding.header.setOnBackButtonClickListener {
-            finish()
-        }
-
         binding.editUser.addTextChangedListener(loginTextWatcher)
         binding.editPass.addTextChangedListener(loginTextWatcher)
 
@@ -105,6 +101,7 @@ class LogInActivity : AppCompatActivity() {
                     startActivity(Intent(baseContext, NewAccountGoogleActivity::class.java))
                 } else {
                     startActivity(Intent(baseContext, MainActivity::class.java))
+                    finish()
                 }
             }, {
                 binding.textError.text = it.message

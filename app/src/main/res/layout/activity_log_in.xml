@@ -26,22 +26,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/league_spartan_semibold"
             android:text="@string/welcome"
             android:textColor="@color/primary"
-            android:textSize="26sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            style="@style/H1"/>
 
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/league_spartan"
             android:text="@string/log_in_desc"
-            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            tools:layout_editor_absoluteX="24dp" />
+            tools:layout_editor_absoluteX="24dp"
+            style="@style/label_16_regular"/>
 
         <LinearLayout
             android:id="@+id/contentUser"
@@ -57,9 +55,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/email"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <EditText
                 android:id="@+id/editUser"
@@ -72,7 +69,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/example_example_com"
                 android:inputType="text"
-                android:textColorHint="@color/blue_light_200"
+                android:textColorHint="@color/blue_200"
                 android:textSize="18sp"
                 android:paddingHorizontal="16dp"
                 android:maxLines="1"/>
@@ -92,9 +89,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/password"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -109,7 +105,7 @@
                     android:fontFamily="@font/league_spartan"
                     android:hint="@string/pass_login"
                     android:inputType="textPassword"
-                    android:textColorHint="@color/blue_light_200"
+                    android:textColorHint="@color/blue_200"
                     android:textSize="18sp"
                     android:paddingStart="16dp"
                     android:paddingEnd="40dp"
@@ -140,12 +136,11 @@
                 android:layout_height="46dp"
                 android:layout_gravity="end"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/forget_password"
                 android:textColor="@color/primary"
-                android:textSize="18sp"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                style="@style/label_16_medium"/>
         </LinearLayout>
 
         <TextView
@@ -155,9 +150,8 @@
             app:layout_constraintTop_toBottomOf="@id/contentPass"
             android:layout_marginTop="8dp"
             android:textColor="@color/error"
-            android:fontFamily="@font/league_spartan"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            style="@style/label_16_regular"/>
 
         <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
             android:id="@+id/button_log_in_2"
@@ -174,13 +168,12 @@
             android:id="@+id/textWith"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/league_spartan"
             android:text="@string/or_sign_in_with"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_log_in_2"
-            android:textSize="16sp"/>
+            style="@style/label_16_regular"/>
 
         <LinearLayout
             android:id="@+id/iconsContainer"
@@ -217,18 +210,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan"
                 android:text="@string/don_t_have_an_account"
                 android:layout_marginEnd="2dp"
-                android:textSize="16sp"/>
+                style="@style/label_16_regular"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/sign_up"
                 android:textColor="@color/primary"
-                android:textSize="16sp" />
+                style="@style/label_16_medium" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

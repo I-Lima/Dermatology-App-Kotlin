@@ -11,29 +11,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="16dp"
-        android:fontFamily="@font/league_spartan_semibold"
         android:gravity="center"
         android:text="@string/dermatology_center"
         android:textColor="@color/primary"
-        android:textSize="14sp"
         android:layout_marginBottom="72dp"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:drawableTopCompat="@drawable/img_app_logo_2" />
+        app:drawableTopCompat="@drawable/img_app_logo_2"
+        style="@style/label_14_medium"/>
 
     <TextView
         android:id="@+id/description"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/league_spartan_light"
         android:text="@string/description_launch"
         android:textAlignment="center"
-        android:textSize="18sp"
         android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toTopOf="@+id/button_log_in"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/body_14_light"/>
 
     <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
         android:id="@+id/button_log_in"
@@ -51,7 +49,7 @@
         android:layout_width="230dp"
         android:layout_height="60dp"
         android:layout_marginBottom="72dp"
-        android:backgroundTint="@color/blue_light"
+        android:backgroundTint="@color/secondary"
         android:fontFamily="@font/league_spartan_medium"
         android:gravity="center"
         android:text="@string/sign_up"

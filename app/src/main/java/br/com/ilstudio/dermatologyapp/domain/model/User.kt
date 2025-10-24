@@ -10,7 +10,8 @@ class User(
     val email: String,
     val mobileNumber: String,
     val dateBirth: String? = null,
-    val profilePicture: String? = null
+    val profilePicture: String? = null,
+    val gender: String? = "Male"
 ) {
     fun toUserDataCreate(): UserData {
         return UserData(
@@ -20,6 +21,7 @@ class User(
             mobileNumber = this.mobileNumber,
             dateBirth = if (!this.dateBirth.isNullOrEmpty()) dateToTimestamp(this.dateBirth) else null,
             profilePicture = this.profilePicture,
+            gender = gender ?: "Male",
             createdAt = localDate(),
             updatedAt = localDate()
         )
@@ -33,6 +35,7 @@ class User(
             "mobileNumber" to this.mobileNumber,
             "dateBirth" to if (!this.dateBirth.isNullOrEmpty()) dateToTimestamp(this.dateBirth) else null,
             "profilePicture" to this.profilePicture,
+            "gender" to gender
         )
     }
 }
