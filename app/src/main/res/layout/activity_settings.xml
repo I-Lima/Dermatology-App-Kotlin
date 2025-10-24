@@ -53,9 +53,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/notification_settings"
-                    android:fontFamily="@font/league_spartan_medium"
-                    android:textSize="24sp"
-                    android:layout_marginStart="26dp"/>
+                    android:layout_marginStart="26dp"
+                    style="@style/label_20_medium"/>
 
                 <View
                     android:layout_width="0dp"
@@ -97,9 +96,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/delete_account"
-                    android:fontFamily="@font/league_spartan_medium"
-                    android:textSize="24sp"
-                    android:layout_marginStart="26dp"/>
+                    android:layout_marginStart="26dp"
+                    style="@style/label_20_medium" />
 
                 <View
                     android:layout_width="0dp"

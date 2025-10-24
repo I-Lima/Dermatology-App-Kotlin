@@ -94,9 +94,9 @@
                         android:id="@+id/experienceText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/league_spartan_light"
                         android:text="15 years experience"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        style="@style/body_14_light" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -115,17 +115,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
-                        android:fontFamily="@font/league_spartan_medium"
                         android:text="Focus:"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        style="@style/label_14_medium"/>
 
                     <TextView
                         android:id="@+id/focusText"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/league_spartan_light"
                         android:text="@string/texto_teste"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        style="@style/body_14_light"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -147,18 +147,16 @@
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/league_spartan_medium"
                         android:text="Dr. Alexander Bennet, Ph.D."
                         android:textColor="@color/primary"
-                        android:textSize="16sp" />
+                        style="@style/label_16_medium" />
 
                     <TextView
                         android:id="@+id/expertise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/league_spartan_light"
                         android:text="Dermato-Genetics"
-                        android:textSize="14sp" />
+                        style="@style/body_14_light" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -241,13 +239,15 @@
                             android:id="@+id/schedule_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mon-Sat" />
+                            android:text="Mon-Sat"
+                            style="@style/body_14_regular"/>
 
                         <TextView
                             android:id="@+id/schedule_hour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="9:00AM - 5:00PM" />
+                            android:text="9:00AM - 5:00PM"
+                            style="@style/body_14_regular"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -273,9 +273,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/league_spartan_light"
                         android:text="Schedule"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        style="@style/body_14_light"/>
                 </LinearLayout>
 
                 <ImageView
@@ -304,9 +304,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/league_spartan_bold"
                     android:text="Profile"
-                    android:textColor="@color/primary" />
+                    android:textColor="@color/primary"
+                    style="@style/H2"/>
 
                 <TextView
                     android:id="@+id/profile"
@@ -325,9 +325,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/league_spartan_bold"
                     android:text="Career Path"
-                    android:textColor="@color/primary" />
+                    android:textColor="@color/primary"
+                    style="@style/H2" />
 
                 <TextView
                     android:id="@+id/carrer_path"
@@ -346,9 +346,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/league_spartan_bold"
                     android:text="Highlights"
-                    android:textColor="@color/primary" />
+                    android:textColor="@color/primary"
+                    style="@style/H2" />
 
                 <TextView
                     android:id="@+id/highlidghts"

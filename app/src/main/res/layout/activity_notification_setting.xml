@@ -37,8 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="General Notification"
-                android:fontFamily="@font/league_spartan_medium"
-                android:textSize="24sp"
+                style="@style/label_20_medium"
                 />
 
             <View
@@ -68,8 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sound"
-                android:fontFamily="@font/league_spartan_medium"
-                android:textSize="24sp"
+                style="@style/label_20_medium"
                 />
 
             <View
@@ -99,8 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vibrate"
-                android:fontFamily="@font/league_spartan_medium"
-                android:textSize="24sp"
+                style="@style/label_20_medium"
                 />
 
             <View
@@ -130,8 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Special Offers"
-                android:fontFamily="@font/league_spartan_medium"
-                android:textSize="24sp"
+                style="@style/label_20_medium"
                 />
 
             <View
@@ -161,8 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Payments"
-                android:fontFamily="@font/league_spartan_medium"
-                android:textSize="24sp"
+                style="@style/label_20_medium"
                 />
 
             <View

@@ -35,8 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/sort_by"
-                android:fontFamily="@font/league_spartan"
-                android:textSize="20sp"/>
+                style="@style/label_20_regular"/>
 
             <LinearLayout
                 android:id="@+id/aToZ_filter"
@@ -51,9 +50,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A"
-                    android:fontFamily="@font/league_spartan_medium"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    style="@style/label_20_medium" />
 
                 <ImageView
                     android:layout_width="36dp"
@@ -65,9 +63,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Z"
-                    android:fontFamily="@font/league_spartan_medium"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    style="@style/label_20_medium"/>
             </LinearLayout>
 
             <ImageView

@@ -23,7 +23,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-
         <ImageView
             android:id="@+id/img_user"
             android:layout_width="120dp"
@@ -52,9 +51,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/full_name"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <EditText
                 android:id="@+id/editName"
@@ -88,9 +86,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/email"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <EditText
                 android:id="@+id/editEmail"
@@ -99,7 +96,6 @@
                 android:layout_marginTop="8dp"
                 android:autofillHints="username"
                 android:background="@drawable/shape_view_edit_text"
-                android:fontFamily="@font/league_spartan"
                 android:gravity="center_vertical"
                 android:hint="@string/example_example_com"
                 android:inputType="textEmailAddress"
@@ -124,9 +120,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/mobile_number"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <EditText
                 android:id="@+id/editNumber"
@@ -161,9 +156,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/date_of_birth"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <EditText
                 android:id="@+id/editBirth"
