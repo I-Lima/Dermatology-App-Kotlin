@@ -26,13 +26,12 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/league_spartan"
             android:text="@string/new_account_description"
             android:layout_marginTop="16dp"
-            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            style="@style/label_16_regular"/>
 
 
         <LinearLayout
@@ -50,9 +49,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/mobile_number"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <EditText
                 android:id="@+id/editNumber"
@@ -87,9 +85,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/league_spartan_semibold"
                 android:text="@string/date_of_birth"
-                android:textSize="22sp" />
+                style="@style/label_20_medium" />
 
             <EditText
                 android:id="@+id/editBirth"
@@ -116,9 +113,8 @@
             app:layout_constraintTop_toBottomOf="@id/contentBirth"
             android:layout_marginTop="8dp"
             android:textColor="@color/error"
-            android:fontFamily="@font/league_spartan"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            style="@style/label_16_regular"/>
 
         <br.com.ilstudio.dermatologyapp.ui.customview.LargeCustomButtonView
             android:id="@+id/button_sign_in_2"

@@ -81,7 +81,7 @@
                 android:text="@string/available_time"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/label_16_medium"
+                style="@style/H3"
                 android:textColor="@color/primary"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -113,7 +113,7 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/line"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/label_16_medium" />
+                style="@style/H3" />
 
             <Spinner
                 android:id="@+id/mySpinner"
@@ -144,7 +144,7 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/line_2"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/label_16_medium" />
+                style="@style/H3" />
 
             <br.com.ilstudio.dermatologyapp.ui.customview.ButtonTagView
                 android:id="@+id/button_yourself"

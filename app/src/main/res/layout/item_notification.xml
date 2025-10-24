@@ -28,10 +28,9 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="adfadfadsf"
-                android:fontFamily="@font/league_spartan_bold"
-                android:textSize="20sp"
                 android:ellipsize="end"
                 android:singleLine="true"
+                style="@style/H2"
                 />
 
             <TextView
@@ -42,8 +41,7 @@
                 android:ellipsize="end"
                 android:text="adfadfadfadfadfadfadsfadsfadfljhadfljkahdflkjahdsfljahdf"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/league_spartan"
-                android:textSize="16sp"
+                style="@style/label_16_regular"
                 />
     </LinearLayout>
 
@@ -52,9 +50,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="3D"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/body_14_light"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

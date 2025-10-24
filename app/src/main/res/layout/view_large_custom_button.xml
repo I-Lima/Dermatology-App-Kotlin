@@ -13,11 +13,10 @@
             android:layout_height="60dp"
             android:gravity="center"
             android:text="@string/log_in"
-            android:textSize="27sp"
-            android:fontFamily="@font/league_spartan_medium"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/label_20_medium"/>
 
         <ProgressBar
             android:id="@+id/loadingSpinner"

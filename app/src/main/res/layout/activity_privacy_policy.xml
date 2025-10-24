@@ -28,22 +28,20 @@
             android:layout_height="wrap_content"
             android:text="@string/last_update"
             android:layout_marginEnd="2dp"
-            android:textSize="14sp"
-            android:fontFamily="@font/league_spartan_light"
             app:layout_constraintTop_toBottomOf="@id/header"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            style="@style/body_14_light"/>
 
         <TextView
             android:id="@+id/text_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/league_spartan"
-            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/update_date"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="@string/policy_1"/>
+            android:text="@string/policy_1"
+            style="@style/body_14_regular"/>
 
         <TextView
             android:id="@+id/text_2"
@@ -53,8 +51,7 @@
             app:layout_constraintTop_toBottomOf="@id/text_1"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:fontFamily="@font/league_spartan"
-            android:textSize="16sp"
+            style="@style/body_14_regular"
             android:text="@string/policy_2"/>
 
         <TextView
@@ -62,13 +59,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/terms_amp_conditions"
-            android:fontFamily="@font/league_spartan_medium"
-            android:textSize="24sp"
             android:textColor="@color/primary"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/text_2"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            style="@style/H2"/>
 
         <LinearLayout
             android:id="@+id/topic_1"
@@ -91,10 +87,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:fontFamily="@font/league_spartan"
-                android:text="@string/topic_1"/>
+                android:text="@string/topic_1"
+                style="@style/body_14_regular"/>
         </LinearLayout>
 
         <LinearLayout
@@ -118,10 +113,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:fontFamily="@font/league_spartan"
-                android:text="@string/topic_1"/>
+                android:text="@string/topic_1"
+                style="@style/body_14_regular" />
         </LinearLayout>
 
         <LinearLayout
@@ -145,10 +139,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:fontFamily="@font/league_spartan"
-                android:text="@string/topic_3"/>
+                android:text="@string/topic_3"
+                style="@style/body_14_regular" />
         </LinearLayout>
 
         <LinearLayout
@@ -172,10 +165,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:fontFamily="@font/league_spartan"
-                android:text="@string/topic_4"/>
+                android:text="@string/topic_4"
+                style="@style/body_14_regular" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
