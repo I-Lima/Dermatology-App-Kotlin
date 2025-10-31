@@ -69,4 +69,11 @@ dependencies {
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
     implementation ("androidx.datastore:datastore-preferences:1.1.1")
     implementation ("androidx.security:security-crypto:1.1.0-alpha06")
+    //Tests
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("org.robolectric:robolectric:4.10.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    testImplementation("androidx.datastore:datastore-preferences:1.1.1")
 }
