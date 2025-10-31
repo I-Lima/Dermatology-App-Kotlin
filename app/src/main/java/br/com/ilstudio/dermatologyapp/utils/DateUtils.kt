@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Date
 import java.util.Locale
 
@@ -189,23 +190,14 @@ object DateUtils {
     * Convert a [FirebaseTimestamp] to an age in years.
     * */
     fun timestampToAge(timestamp: String?): Int {
-        if (timestamp == null) {
-            return 0
+        if (timestamp == null) return 0
+        return try {
+            val birthDateLocal = LocalDate.parse(timestamp, DateTimeFormatter.ISO_LOCAL_DATE)
+            var age = LocalDate.now().year - birthDateLocal.year
+            if (LocalDate.now().isBefore(birthDateLocal.plusYears(age.toLong()))) age--
+            age
+        } catch (e: DateTimeParseException) {
+            0
         }
-
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val birthDate = dateFormat.parse(timestamp)
-        val today = LocalDate.now()
-        val birthDateLocal = birthDate?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
-            ?: return 0
-
-        var age = today.year - birthDateLocal.year
-
-        if (today.monthValue < birthDateLocal.monthValue ||
-            (today.monthValue == birthDateLocal.monthValue && today.dayOfMonth < birthDateLocal.dayOfMonth)) {
-            age--
-        }
-
-        return age
     }
 }
