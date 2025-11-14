@@ -1,4 +1,6 @@
-# Dermatology App (Em desenvolvimento)
+[Read this page in English](./README-en.md)
+
+# Dermatology App
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=I-Lima_Dermatology-App-Kotlin&metric=bugs)](https://sonarcloud.io/summary/new_code?id=I-Lima_Dermatology-App-Kotlin)
@@ -10,7 +12,7 @@
 
 ## 📋 Sumário
 
-- [Dermatology App (Em desenvolvimento)](#dermatology-app-em-desenvolvimento)
+- [Dermatology App](#dermatology-app)
   - [📋 Sumário](#-sumário)
   - [📱 Sobre o Projeto](#-sobre-o-projeto)
   - [🖼 Protótipo](#-protótipo)
